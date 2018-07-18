@@ -1,0 +1,44 @@
+---
+title: "rstudio-server-tlt"
+author: "Rick Gilmore"
+date: "`Sys.time()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Purpose
+
+This document describes how to log-on and use RStudio Server from a web browser.
+
+## Prerequisites
+
+1. A Penn State access ID (e.g. rog1).
+2. A web browser.
+3. A computer that is connected to the Penn State network
+    - *psu* wifi, or
+    - a physical network connection, or
+    - a connection to Penn State via a Virtual Private Network (VPN) application like Cisco AnyConnect.
+    
+## Procedure
+
+1. Connect to the Penn State network.
+
+2. Start your web browser.
+
+3. Connect to [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788).
+    - You should see the following login page:
+    
+<img src="img/rstudio-login.jpg"/>
+
+4. Enter your PSU access ID (e.g., rog1) in the `Username` field (Do **not** add `@psu.edu`), and enter your PSU password in the `Password` field. 
+    - The use of a password manager like LastPass, 1Password, or DashLane is highly recommended.
+
+5. Hit the `Sign In` button or press return on your keyboard.
+    - You should see an RStudio window that looks very much like this one.
+
+<img src="img/rstudio-server-startup.jpg">
+
+You are now ready to use RStudio Server!
