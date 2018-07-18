@@ -1,7 +1,7 @@
 ---
 title: "rstudio-server-tlt"
 author: "Rick Gilmore"
-date: "`Sys.time()`"
+date: "2018-07-18"
 output: html_document
 ---
 
@@ -15,12 +15,12 @@ This document describes how to log-on and use RStudio Server from a web browser.
 
 ## Prerequisites
 
-1. A Penn State access ID (e.g. rog1).
+1. A Penn State [Access Account](http://www.identity.psu.edu/services/authentication-services/access-accounts/) user ID (e.g. rog1).
 2. A web browser.
-3. A computer that is connected to the Penn State network
-    - *psu* wifi, or
+3. A computer that is connected to the Penn State network via
+    - [PSU wifi](http://wireless.psu.edu/wireless.html), or
     - a physical network connection, or
-    - a connection to Penn State via a Virtual Private Network (VPN) application like Cisco AnyConnect.
+    - a connection to Penn State's network via a [Virtual Private Network (VPN)](http://kb.its.psu.edu/article/891) application like Cisco AnyConnect.
     
 ## Procedure
 
@@ -42,3 +42,26 @@ This document describes how to log-on and use RStudio Server from a web browser.
 <img src="img/rstudio-server-startup.jpg">
 
 You are now ready to use RStudio Server!
+
+## RStudio Server and PASS space
+
+The RStudio Server application uses your PASS space for file storage.
+
+To access your PASS space and upload files to it (like data),
+
+1. Visit [https://webfiles.psu.edu/](https://webfiles.psu.edu/).
+    - You will see a login window like this:
+    
+<img src="img/webfiles.psu.edu-login.jpg"/>
+    
+2. Enter your Penn State Access ID (e.g. rog1) and password.
+    - You should see the webfiles interface:
+    
+<img src="img/webfiles-window.jpg"/>
+
+3. Click on the `PASS Personal (X)` text or the `+` icon in the left panel.
+    - This will open a window on the right that shows the contents of your PASS space.
+    
+4. You may create new folders, upload and download files using the webfiles application.
+
+5. Press the `logout` button in the upper right to logout.
