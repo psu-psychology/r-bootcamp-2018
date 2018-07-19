@@ -27,26 +27,18 @@ title: "2018 R Bootcamp Schedule"
 
 **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).
 
-## Friday, August 17, 2018, 9:00 am - 4:00 pm, XXX Mateer.
+## Friday, August 17, 2018, 9:00 am - 4:00 pm
+### XXX Mateer
 
-| Plenary, XXX Mateer |
-|---------------------|
+| Plenary                                   |
+|-------------------------------------------------------|
 | 09:00 am • Welcome back |
 | 09:15 am • Data wrangling & pipelines
-    + Hallquist data wrangling slides,  [PPTX](talks/Hallquist_Data_Wrangling.pptx), 
-    + tidyr and dplyr walkthrough,  [HTML](tutorials/dplyr_walkthrough.html),  [Rmd](tutorials/dplyr_walkthrough.Rmd), 
-    + joins walkthrough | [HTML](tutorials/joins_tutorial.html),  [Rmd](tutorials/joins_tutorial.Rmd)
 | 10:30 am • Break |
 | 10:45 am • Data visualization (primarily ggplot2) |
-    + Hallquist R and ggplot2 graphics overview | [PPTX](talks/Hallquist_ggplot2_overview.pptx) |
-    + Simple graphics for our bootcamp survey | [R](tutorials/ggplot_walkthrough.R) |
-    + Jenny Bryan ggplot2 tutorial | [Download](https://github.com/jennybc/ggplot2-tutorial/archive/master.zip) |
-    + [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
 | 11:45 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
-- 01:00 pm • Best practices in R programming: script management, comments, versioning, legible flow | [Wickham style guide](http://adv-r.had.co.nz/Style.html) |
-    + Hallquist best practices in R | [PPTX](talks/Hallquist_Best_Practices.pptx) |
-    + Example of highly modularized code | See [rs_initialize_pipeline.R](https://github.com/PennStateDEPENdLab/bpd_rest) |
-- 02:45 pm • Break
-- 03:00 pm • 
-- 04:30 pm • End
-- 05:00 pm • Optional Happy Hour @ Whisker's
+| 01:00 pm • Best practices in R programming |
+| 02:45 pm • Break |
+| 03:00 pm • Something awesome | 
+| 04:30 pm • End |
+| 05:00 pm • Optional Happy Hour @ Whisker's |
