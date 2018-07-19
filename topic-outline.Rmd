@@ -102,7 +102,8 @@ knitr::opts_chunk$set(echo = TRUE)
             - `height_ft <- 6`
             - `shoe_size <- 9`
             - `(1/sin(height_ft))*sqrt(shoe_size)`
-            - **Use human-readable and meaningful names for things**. Be kind to your future self.
+            - **Use human-readable and meaningful names for things.** Be kind to your future self.
+            - **Name functions with action words/verbs.** This helps you distinguish objects/variables from commands/functions.
         - Summing up: Talking to R at the command line or console
             - Command R to do something (it already knows how to do)
                 - `mean(1:436)`
@@ -122,3 +123,17 @@ knitr::opts_chunk$set(echo = TRUE)
                 - All the commands you've issued (but not the results)
             - Environment tab
                 - What names you've assigned to things (not the names R already knows)
+    - From single commands to sequences (aka, programming or algorithmic thinking)
+        - Most of the time, we want to do a sequence of things
+            - A program or script is just a sequence of commands, a recipe
+                - Saved so we can reuse it.
+                - What are the ingredients? What do we do with them? In what order? What's the final product?
+            - Example 1: Compute [Body Mass Index (BMI)](https://www.cdc.gov/healthyweight/assessing/bmi/index.html)
+                - bmi <- wt_kg/(ht_m^2)
+                - wt_kg <- 80
+                - ht_m <- 2
+                - Example 1.1: Command line
+                - Example 1.2: Put in a script
+                - Example 1.3: Write a function
+                    - `calculate_bmi <- function(wt_kg, ht_m){wt_kg/(mt_m^2)}`
+                    - `calculate_bmi(80, 2)`
