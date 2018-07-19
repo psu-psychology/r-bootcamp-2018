@@ -55,13 +55,13 @@ To access your PASS space and upload files to it (like data),
 <img src="img/webfiles.psu.edu-login.jpg"/>
     
 2. Enter your Penn State Access ID (e.g. rog1) and password.
-    - You should see the webfiles interface:
+    - You should see the WebFiles interface:
     
 <img src="img/webfiles-window.jpg"/>
 
 3. Click on the `PASS Personal (X)` text or the `+` icon in the left panel.
     - This will open a window on the right that shows the contents of your PASS space.
     
-4. You may create new folders, upload and download files using the webfiles application.
+4. You may create new folders, upload, and download files using the WebFiles application.
 
-5. Press the `logout` button in the upper right to logout.
+5. Press the `logout` button in the upper right to logout when you are finished.
