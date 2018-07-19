@@ -1,0 +1,35 @@
+---
+title: "Resources"
+---
+
+## Cheatsheets
+- [Base R](http://github.com/rstudio/cheatsheets/raw/master/source/pdfs/base-r.pdf)
+- [RStudio](https://www.rstudio.com/wp-content/uploads/2016/01/rstudio-IDE-cheatsheet.pdf)
+- [Data import](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf)
+- [Data transformation](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
+- [Visualization with ggplot2](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
+- [R Markdown](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+## Websites
+
+- [WeR User Group](http://sites.psu.edu/werclub/2016/10/09/the-goal-of-we-r-penn-state-r-users-group/)
+- [Jenny Bryan R course](http://stat545.com/topics.html)
+- [Jenny Bryan graphics tutorials](http://stat545.com/graph00_index.html)
+- [ggplot2 graphics catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
+- [R bloggers](https://www.r-bloggers.com/)
+- [RStudio](http://rstudio.com)
+- [Tidyverse curriculum](https://dcl-2017-04.github.io/curriculum/)
+- [R for Data Science](http://r4ds.had.co.nz/)
+- Complete [manuscript](https://github.com/methexp/subliminal-EC) in `papaja`.
+- [Using R Markdown for Class Reports](http://www.stat.cmu.edu/~cshalizi/rmarkdown/)
+
+## Online learning
+
+- [DataCamp](http://datacamp.com)
+- [Data science Coursera](https://www.coursera.org/specializations/jhu-data-science)
+
+## Books
+
+- Gandrud, C. (2015). Reproducible Research with R and R Studio, Second Edition. CRC Press. https://www.crcpress.com/Reproducible-Research-with-R-and-R-Studio-Second-Edition/Gandrud/p/book/9781498715379.
+- Wickham, H. & Grolemund, G. (2016). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media. http://shop.oreilly.com/product/0636920034407.do.
+- Muenchen, R. (2009). R for SAS and SPSS Users. http://www.springer.com/us/book/9780387094182. Mentioned by Michael Hallquist at 2017-01-12 meeting.

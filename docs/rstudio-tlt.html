@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Rick Gilmore" />
+
+<meta name="date" content="2018-07-18" />
+
+<title>rstudio-server-tlt</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Bootcamp</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="schedule.html">Schedule</a>
+</li>
+<li>
+  <a href="resources.html">Resources</a>
+</li>
+<li>
+  <a href="site-info.html">Site info</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">rstudio-server-tlt</h1>
+<h4 class="author"><em>Rick Gilmore</em></h4>
+<h4 class="date"><em>2018-07-18</em></h4>
+
+</div>
+
+
+<div id="purpose" class="section level2">
+<h2>Purpose</h2>
+<p>This document describes how to log-on and use RStudio Server from a web browser.</p>
+</div>
+<div id="prerequisites" class="section level2">
+<h2>Prerequisites</h2>
+<ol style="list-style-type: decimal">
+<li>A Penn State <a href="http://www.identity.psu.edu/services/authentication-services/access-accounts/">Access Account</a> user ID (e.g. rog1).</li>
+<li>A web browser.</li>
+<li>A computer that is connected to the Penn State network via
+<ul>
+<li><a href="http://wireless.psu.edu/wireless.html">PSU wifi</a>, or</li>
+<li>a physical network connection, or</li>
+<li>a connection to Penn State’s network via a <a href="http://kb.its.psu.edu/article/891">Virtual Private Network (VPN)</a> application like Cisco AnyConnect.</li>
+</ul></li>
+</ol>
+</div>
+<div id="procedure" class="section level2">
+<h2>Procedure</h2>
+<ol style="list-style-type: decimal">
+<li><p>Connect to the Penn State network.</p></li>
+<li><p>Start your web browser.</p></li>
+<li>Connect to <a href="https://lxclusterapps.tlt.psu.edu:8788" class="uri">https://lxclusterapps.tlt.psu.edu:8788</a>.
+<ul>
+<li>You should see the following login page:</li>
+</ul></li>
+</ol>
+<p><img src="img/rstudio-login.jpg"/></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Enter your PSU access ID (e.g., rog1) in the <code>Username</code> field (Do <strong>not</strong> add <code>@psu.edu</code>), and enter your PSU password in the <code>Password</code> field.
+<ul>
+<li>The use of a password manager like LastPass, 1Password, or DashLane is highly recommended.</li>
+</ul></li>
+<li>Hit the <code>Sign In</code> button or press return on your keyboard.
+<ul>
+<li>You should see an RStudio window that looks very much like this one.</li>
+</ul></li>
+</ol>
+<p><img src="img/rstudio-server-startup.jpg"></p>
+<p>You are now ready to use RStudio Server!</p>
+</div>
+<div id="rstudio-server-and-pass-space" class="section level2">
+<h2>RStudio Server and PASS space</h2>
+<p>The RStudio Server application uses your PASS space for file storage.</p>
+<p>To access your PASS space and upload files to it (like data),</p>
+<ol style="list-style-type: decimal">
+<li>Visit <a href="https://webfiles.psu.edu/" class="uri">https://webfiles.psu.edu/</a>.
+<ul>
+<li>You will see a login window like this:</li>
+</ul></li>
+</ol>
+<p><img src="img/webfiles.psu.edu-login.jpg"/></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Enter your Penn State Access ID (e.g. rog1) and password.
+<ul>
+<li>You should see the webfiles interface:</li>
+</ul></li>
+</ol>
+<p><img src="img/webfiles-window.jpg"/></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Click on the <code>PASS Personal (X)</code> text or the <code>+</code> icon in the left panel.
+<ul>
+<li>This will open a window on the right that shows the contents of your PASS space.</li>
+</ul></li>
+<li><p>You may create new folders, upload and download files using the webfiles application.</p></li>
+<li><p>Press the <code>logout</code> button in the upper right to logout.</p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

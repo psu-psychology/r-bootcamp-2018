@@ -1,0 +1,48 @@
+---
+title: "2018 PSU Psychology R Bootcamp"
+---
+
+![](https://www.r-project.org/Rlogo.png)
+
+Welcome to the R Bootcamp for PSU Psychology researchers. The goal of this two-day workshop is to provide a broad introduction to the use of R for social science research. Participants are not expected to have prior experience with R or another programming language. The scope and schedule of the course is provided [here](https://psu-psychology.github.io/r-bootcamp/schedule.html).
+
+**Note**: If possible, please bring a laptop, preferably with [R](https://cran.r-project.org) and [RStudio](https://www.rstudio.com/products/rstudio/download/) already installed. We will be walking through a number of demonstrations during the course and it may be useful to follow along on your own machine.
+
+To download all course materials, you can clone the entire Github repository using the command ```git clone https://github.com/psu-psychology/r-bootcamp.git```. If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <https://github.com/psu-psychology/r-bootcamp/archive/master.zip>
+
+## Instructors
+
+Michael Hallquist, Ph.D.</br>
+Assistant Professor of Psychology</br>
+michael.hallquist AT-SIGN psu PERIOD edu</br>
+[http://dependpsu.weebly.com/](http://dependpsu.weebly.com/)</br>
+
+Rick O. Gilmore, Ph.D.</br>
+Associate Professor of Psychology</br>
+rogilmore AT-SIGN psu PERIOD edu</br>
+[http://gilmore-lab.github.io](http://gilmore-lab.github.io)</br>
+
+## Student Coaches
+
+<!-- Daniel Albohn</br> -->
+<!-- dna5021 AT-SIGN psu PERIOD edu</br> -->
+
+<!-- Alicia Vallorani</br> -->
+<!-- auv27 AT-SIGN psu PERIOD edu</br> -->
+
+## Meeting times and location
+
+Thursday, August 16, 2017, 9:00 am - 4:00 pm</br>
+Friday, August 17, 2017, 9:00 am - 4:30 pm</br>
+XXX Mateer Building</br>
+127 [Moore Building](http://www.psumap.com/#Moore)
+
+## About this course
+
+R is one of the core languages in data science. It's free and fun to use. Join us in learning how to use this tool to accelerate your research.
+
+Here is the [GitHub repo](https://github.com/psu-psychology/r-bootcamp/) where the course files are shared.
+
+## Acknowledgments
+
+We thank the [Department of Psychology](http://psych.la.psu.edu) and the [Social, Life, & Engineering Sciences Imaging Center (SLEIC)](http://imaging.psu.edu) for support.

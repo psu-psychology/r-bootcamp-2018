@@ -1,0 +1,17 @@
+name: "R Bootcamp"
+navbar:
+  title: "R Bootcamp"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Schedule"
+      href: schedule.html
+    - text: "Resources"
+      href: resources.html
+    - text: "Site info"
+      href: site-info.html
+output_dir: "docs"
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
