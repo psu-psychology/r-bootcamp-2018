@@ -13,7 +13,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > We're not slow; we're not fast. We're half-fast. 
 
-(Joke my Dad didn't think I got as a kid. Actually I didn't until I was a teenager.)
+(Joke my Dad didn't think I got as a kid.)
+
+This tutorial is intended as a very slow introduction to using R.
+If we're going too slow for you, that's ok.
+But if we're going too fast, please say so!
+We think that by going slow at the start, it will be easier to speed up later.
 
 ## Talking to the computer
 
@@ -149,6 +154,9 @@ sum(1, 4, 7)
 ```
 This command says 'calculate and print the sum of the numbers 1, 4, and 7'.
 R responds with the answer: 12.
+Notice that there are two parts to the command: the 'what to do' part (`sum`) and the 'what to do it with or on' part inside the parentheses, here `(1,4,7)`.
+We'll return to this later, but many, many things we want to do or say in life (and R life) have two parts, the 'verb' or action we want to do and the 'noun' or objects/people we want to involve in that action.
+The parentheses tell R which is which when it reads the command from the console.
 
 Here's another useful command: `my_age <- 55`
 ```{r}
@@ -178,8 +186,13 @@ your_age <- 25
 your_age # Print the value assigned to 'your_age' 
 ```
 So, if you want to be consistent in commanding R, you can always use the `command()` syntax.
+And by the way, this works, too:
 
-By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right).
+```
+`->`('your_age', 25) # Wonky way to show that the assignment operator is a command
+```
+
+By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right), just like the convention in math.
 **Don't use `=`. You can, but don't. Use `<-`**. 
 It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. 
 **Avoid flame wars**.
@@ -249,7 +262,9 @@ That tells R that we are talking about the command 'sum' not giving R the comman
 
 ### Summing up
 
-These are the basic building blocks.
-We type commands or questions into the Console, and R does our bidding...as long as we follow the rules that R requires for us to understand one another.
-We can talk about numbers, strings, and commands.
+These are the basic building blocks:
+
+- We type commands or questions into the Console, and R does our bidding...as long as we follow the rules that R requires for us to understand one another.
+- We can talk about numbers, strings, and commands.
+
 And very soon, we'll see how we can talk about collections of numbers and strings (e.g., data) and sequences of commands (scripts or programs).
