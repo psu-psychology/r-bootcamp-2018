@@ -11,6 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Slow Track
 
+- Prerequisites (or cover later?)
+    - Understand that computers store data and instructions (programs, scripts etc.) in files.
+    - Files are organised in directories (folders). 
+    - Know how to access files not in the working directory by specifying the path.
 - What is R?
     - A programming language
         - People telling computers what to do and how
@@ -133,7 +137,13 @@ knitr::opts_chunk$set(echo = TRUE)
                 - wt_kg <- 80
                 - ht_m <- 2
                 - Example 1.1: Command line
-                - Example 1.2: Put in a script
-                - Example 1.3: Write a function
+                - Example 1.3 Put in a script
+                    - That big panel in RStudio we haven't used yet!
+                    - Type commands, functions here.
+                    - Save and name the file `my_script.R`
+                    - At console simply `source("my_script.R")`
+                        - `help("source")` to see what the `source()` command does.
+                -  Example 1.2: Write a function
                     - `calculate_bmi <- function(wt_kg, ht_m){wt_kg/(mt_m^2)}`
                     - `calculate_bmi(80, 2)`
+                - **If you repeat the same code 2 or 3 times, write a function.**
