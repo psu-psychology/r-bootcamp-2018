@@ -9,7 +9,7 @@ output: html_notebook
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## The slow-R tutorial
+## The slow-R tutorial - Part I
 
 > We're not slow; we're not fast. We're half-fast. 
 
@@ -268,3 +268,274 @@ These are the basic building blocks:
 - We can talk about numbers, strings, and commands.
 
 And very soon, we'll see how we can talk about collections of numbers and strings (e.g., data) and sequences of commands (scripts or programs).
+
+## Slow-R -- Part II
+
+Let's pick up the pace.
+In this section, we'll talk more about the various types of objects R can store, and how to manipulate them.
+
+### Types of things
+
+At the deepest level, everything, and I mean _everything_ in a computer is represented by sequences of 1's and 0's, data, programs, images, sounds, videos, _everything_.
+So, the computer needs to know what *type* of thing a given sequence of 1's and 0's is defined to be in order to know how to do computations on it.
+Does the sequence of binary digits (bits) "0011000" mean the number 48 (in binary or base 2), or the [ASCII character](https://en.wikipedia.org/wiki/ASCII) "0", or the "address" in the computer's memory where a given piece of data is stored, or a SUM() function or command?
+It could be any of these.
+The computer doesn't know, but working with R and your operating system (Mac OS, Windows, *nix), the computer can figure this out.
+
+Why should you care?
+Remember we said that computers are super-literal?
+That's why the computer returns `FALSE` when we say `'1' == 1`, or when we try to add things that can't be added.
+```{r}
+'1' + 1
+```
+
+The character `'1'` is a completely *different* thing (different type) to the computer than the number `1`.
+So, when humans interact with the computer, we sometimes forget this, and that can cause errors and to humans grief.
+
+#### (Optional aside) Why 1's and 0's?
+One reason is pragmatic: It's relatively easy to make electronic circuits that are either "on" or "off".
+If we decide that "on" means 1, and "off" means 0, then we can do computations with these states.
+
+#### (Optional aside) What sort of computations?
+Algebraic computations (addition, subraction, multiplication, division, etc.) and [Boolean algebra](https://en.wikipedia.org/wiki/Boolean_algebra) sorts of computations
+Boolean algebra (or Boolean logic) takes as input the logical values of `TRUE` or `FALSE` and combines them using combinations of three basic operations: AND, OR, and NOT.
+R has operators--simple programs or functions (`&`, `|`, and `!`--that implement Boolean algebra.
+```{r}
+TRUE & TRUE # & is the AND operator
+TRUE & FALSE
+
+TRUE | FALSE # The pipe '|' is the OR operator
+FALSE | FALSE
+
+!TRUE        # the exclamation point '!' is the NOT operator
+```
+It turns out that these simple operations are **incredibly powerful** when combined together.
+
+#### Classes
+
+There could be a lot more to say about types, but we won't here.
+Instead, we'll say that R does a lot of checking 'under the hood' to make sure we don't try to do things that don't make sense, like adding a character and a number.
+R does this by creating "classes" of things that obey certain rules.
+```{r}
+is.numeric(99)
+
+is.numeric('99')
+is.character('99')
+
+ten_number <- 10
+ten_character <- '10'
+
+is.numeric(ten_number)
+is.numeric(ten_character)
+is.character(ten_number)
+is.character(ten_character)
+```
+The `is.numeric()` command tells R to the inputs are 'numeric', and the `is.character()` command tells it to report whether the input contains a set of characters.
+
+R implements lots of different object classes.
+To see some of them, type `is.` then pause or type the 'tab' character.
+This will show you a scrollable list of all of the `is.` commands you can try out on a given object.
+
+<img src="img/is-help.jpg"/>
+The first item on the list tests to see if the input is an 'array'.
+That is what we turn to next.
+
+### Groups of things
+
+You'll often want to make or compute over groups of things.
+
+#### Combine `c()` command
+
+The 'combine' or `c()` command is just for this purpose.
+```{r}
+my_numbers <- c(1,2,3,4,5)
+my_numbers
+```
+You can also combine characters.
+```{r}
+(my_initials <- c("R", "O", "G"))
+# Surround an expression with parentheses to print it
+(my_name <- c("Rick", "Owen", "Gilmore"))
+```
+But if you mix numbers and characters, the `c()` command will force the outputs to be characters.
+```{r}
+(lyrics <- c("It's easy as", 123))
+```
+We'll show you how to mix numbers and characters in a bit.
+
+Notice that the combine (`c()`) command puts things in a long row.
+How long is that row?
+```{r}
+my_name
+length(my_name)
+```
+Notice that the `length()` command reports the number of individual components, not the number of letters.
+```{r}
+# The colon ':' operator tells R to generate a sequence from a to b
+(more_numbers <- c(-6:15))
+length(more_numbers)
+
+# The sequence 'seq()' command can also do this
+(more_numbers_alt <- seq(from = -6, to = 15))
+(just_evens <- seq(from = -6, to = 15, by = 2))
+```
+
+These commands create a vector or 1 dimensional set of items--they have one length.
+But what about other types of structures with more than one dimension?
+
+#### Matrices and Arrays
+
+You can create a 2-dimensional array of numbers or *matrix*.
+```{r}
+(square_matrix <- matrix(1:16, nrow = 4))
+(not_square_matrix <- matrix(1:16, ncol = 2))
+```
+Notice that the `nrow` and `ncol` values tell R what shape the matrix would have.
+What happens if `nrow * ncol` is not equal to the length of the input?
+```{r}
+bad_matrix <- matrix(1:25, nrow = 5)
+```
+
+You probably won't make many matrices on your own.
+
+A 'matrix-like' object with more than 2 dimensions  is called an *array*.
+```{r}
+(my_array <- array(1:24, dim = c(2,3,4)))
+```
+Notice that the `dim` parameter tells R how to build the array.
+It tells R that there will be 4 'rows' of matrices, with 3 columns and 2 rows in each.
+You may find yourself with data like this, but I find it easy to get confused about what the different dimensions mean and what order they are produced.
+
+It's possible to give the dimensions some plausible meanings using the `dimnames` parameter.
+```{r}
+# dimnames must be a list with each component a vector of labels that has the same length as the dimensions
+my_named_array <- array(1:24, dim = c(2,3,4), dimnames = list(c("M", "F"), c("Mon", "Wed", "Fri"), c("ht", "wt", "shoe", "IQ")))
+my_named_array
+```
+
+#### Data frames
+
+R has a powerful way of organizing data that makes it both human- and machine-friendly: *data frames*.
+Data frames are like arrays and matrices, but much more useful for humans because they can contain mixtures of numbers and character strings.
+Under the hood, data frames can contain many dimensions like arrays
+```{r}
+my_df <- data.frame(data = 1:24, gender = c("M", "F"), day = c("Mon", "Wed", "Fri"), measure = c("ht", "wt", "shoe", "IQ"))
+my_df
+```
+Notice that R has turned our 3 dimensional data (gender, day, measure) into a 2 dimensional table.
+The rows contain complete observations; the columns the variables.
+This 'rectangular' data shape is called 'tidy'.
+It may seem wasteful to repeat 'M' and 'F' in each row, but it's crystal clear what we mean.
+We'll talk more about the virtues of tidy data tomorrow, but keeping your data tidy is a best practice you'll want to adopt.
+
+#### Lists
+
+Data frames are one way to combine numbers and character strings.
+They work great for data, but no so much for other, less well-structured, sorts of information.
+Lists are just what you'd expect: flexible aggregations of things.
+```{r}
+(my_list <- list('donald', 72, '1600 Pennsylvania Ave'))
+
+# Can give names to the components
+(my_list_wnames <- list(first_name = 'donald', age = 72, address = '1600 Pennsylvania Ave'))
+```
+
+R uses lists extensively, especially when reporting various sort of statistical tests.
+
+```{r}
+# Take a random (normally distributed) sample of numbers with a mean = 3
+r_100 <- rnorm(n = 100, mean = 3, sd = 1)
+(t_test_r_100 <- t.test(r_100))
+
+is.list(t_test_r_100)
+names(t_test_r_100)
+```
+So, it turns out that that nice print out is made up of a list with different named components.
+That will come in handy soon.
+
+### Indexing (getting parts out)
+
+We've talked about how to put things into vectors, arrays, matrices, data frames, and lists.
+How do we get things out?
+Easy.
+We just tell R the index (or 'address') of the item.
+```{r}
+(one_to_ten <- 1:10)
+one_to_ten[5]
+```
+Notice that we put the index in square brackets `[]`, not parentheses.
+Again, square brackets are for indexing.
+Parentheses are for commands and functions.
+You'll make this mistake a lot.
+I still do.
+Don't worry.
+R will tell you.
+```{r}
+one_to_ten(5)
+```
+What about matrices or arrays?
+They have more than one dimension.
+Yes, so you'll need more than one index.
+```{r}
+my_array
+my_array[2,3,4] # The last item in each dim
+```
+Of course, you have to keep track of how to map the indices to the row/column/table values.
+If you label your matrices and arrays, you can do something slick.
+```{r}
+my_named_array['M', 'Fri', 'IQ']
+```
+
+#### Indexing data frames
+
+You can pull data our of data frames using numeric indices, but you have to remember that your data frame is now 2 dimensional, e.g., you need to use something like this: `my_df[row_indices, col_indices]`.
+```{r}
+my_df
+my_df[1,4]     # row 1, column 4
+my_df[1:3,3:4] # rows 1-3, and columns 3-4
+my_df[,2:3]    # All of the rows
+my_df[1,]      # All of the columns
+```
+An often more useful way to index data in data frames is to use the values.
+We can extract entire columns using the dollar sign `$` or extract operator.
+```{r}
+names(my_df)   # What are the column names?
+my_df$data
+my_df$gender
+```
+Knowing this, we can use Boolean (true/false) expressions to create a vector of TRUE/FALSE values that correspond to some condition.
+```{r}
+(only_males <- (my_df$gender == 'M'))
+```
+Remember, we're selecting all of the `gender` values from `my_df` with `$`, then asking R to test (`==`) which of those are `'M'`.
+R returns a vector of `TRUE/FALSE` values based on the test.
+Now, we can tell R to give us the male data.
+```{r}
+my_df[only_males,] # All rows with TRUE values for only_males
+```
+What about the females?
+```{r}
+only_females <- !(only_males)
+my_df[only_females,]
+
+my_df[!(only_males),] # Equivalent
+```
+
+#### Indexing lists
+
+Remember our $t$ test from a bit ago?
+```{r}
+(t_test_r_100)
+```
+What if we want to use these data without having to copy and paste?
+```{r}
+(names(t_test_r_100))
+t_test_r_100$statistic # t value
+t_test_r_100$parameter # df value
+t_test_r_100$p.value   # p value
+```
+So, using this information along with some syntax we'll learn later, we can retrieve the information we need from R **without error-prone copying and pasting**!:
+
+Our randomly generated set of numbers has a mean value of `r t_test_r_100$estimate`, $t$(`r t_test_r_100$parameter`) = `r t_test_r_100$statistic`, $p$<`r t_test_r_100$p.value`.
+
+
