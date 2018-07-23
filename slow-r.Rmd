@@ -301,7 +301,7 @@ Algebraic computations (addition, subraction, multiplication, division, etc.) an
 Boolean algebra (or Boolean logic) takes as input the logical values of `TRUE` or `FALSE` and combines them using combinations of three basic operations: AND, OR, and NOT.
 R has operators--simple programs or functions (`&`, `|`, and `!`--that implement Boolean algebra.
 ```{r}
-TRUE & TRUE # & is the AND operator
+TRUE & TRUE # Ampersand '&' is the AND operator
 TRUE & FALSE
 
 TRUE | FALSE # The pipe '|' is the OR operator
@@ -310,6 +310,10 @@ FALSE | FALSE
 !TRUE        # the exclamation point '!' is the NOT operator
 ```
 It turns out that these simple operations are **incredibly powerful** when combined together.
+Basically, you can create simple arithmetic operations (addition, multiplication) from Boolean (AND, OR, NOT) elements.
+And from there, we can make any 'computable' function.
+What's computable and what's not?
+That is a deep and unresolved question we won't touch.
 
 #### Classes
 
@@ -393,7 +397,7 @@ You can create a 2-dimensional array of numbers or *matrix*.
 Notice that the `nrow` and `ncol` values tell R what shape the matrix would have.
 What happens if `nrow * ncol` is not equal to the length of the input?
 ```{r}
-bad_matrix <- matrix(1:25, nrow = 5)
+(bad_matrix <- matrix(1:25, nrow = 4))
 ```
 
 You probably won't make many matrices on your own.
@@ -404,6 +408,13 @@ A 'matrix-like' object with more than 2 dimensions  is called an *array*.
 ```
 Notice that the `dim` parameter tells R how to build the array.
 It tells R that there will be 4 'rows' of matrices, with 3 columns and 2 rows in each.
+
+By the way, if your data is a matrix, the `length()` command may not always work the way you want it to.
+```{r}
+length(my_array)
+dim(my_array)    # Usually what you actually want
+```
+
 You may find yourself with data like this, but I find it easy to get confused about what the different dimensions mean and what order they are produced.
 
 It's possible to give the dimensions some plausible meanings using the `dimnames` parameter.
@@ -471,7 +482,7 @@ I still do.
 Don't worry.
 R will tell you.
 ```{r}
-one_to_ten(5)
+(one_to_ten(5))
 ```
 What about matrices or arrays?
 They have more than one dimension.
@@ -537,5 +548,235 @@ t_test_r_100$p.value   # p value
 So, using this information along with some syntax we'll learn later, we can retrieve the information we need from R **without error-prone copying and pasting**!:
 
 Our randomly generated set of numbers has a mean value of `r t_test_r_100$estimate`, $t$(`r t_test_r_100$parameter`) = `r t_test_r_100$statistic`, $p$<`r t_test_r_100$p.value`.
+
+#### Wrap-up on indexing
+
+Here are some rules of thumb:
+
+- If you know the actual index numbers, use square brackets `[]`.
+- If you want to pick a subset of your data that meets some specific criterion you can define, then create a new Boolean variable for that criterion and use it as an index.
+    - You can embed the Boolean expression in your index, but that makes for hard-to-read code.
+- Many things in R (data frames, lists) can be extracted using the extract `$` operator.
+
+## Playing with confidence
+
+### Use the keyboard
+
+Train your fingers to limit mousing.
+Press `ctrl-2` to switch to the console.
+Press `up arrow` to see the recent history of your console commands.
+Use the left and right arrow keys to move within/edit a prior command.
+Press `ctrl-a` to go to the beginning of a line in the console; `ctrl-e` to go to the end.
+Type the first few characters of a variable or command and then i) wait a bit or ii) press tab to see a list of possible completions. 
+Hit up and down arrows to scroll through the list.
+Hit `enter` to select an item.
+Hit `escape` to clear the current line of the console.
+
+If you want to see a window of your recent commands, go to the `History` pane by pressing `ctrl-4`.
+You can use the up and down arrow keys to scroll through your previous commands.
+Hitting `enter` immediately copies that command to the console and executes it.
+I find it somewhat less useful than just the up/down arrow functions in the console, but YMMV.
+
+There will be other keyboard commands.
+For example, if you're not already using `(command/ctrl)+c` for copying, `(command/ctrl)+v` for pasting, and `(command/ctrl)+x` for cutting, start now.
+Also, I use `(command/ctrl)+` (enlarge text) and `(command/ctrl)-` (shrink text).
+
+### Getting help
+
+Press `ctrl-3` to go to the help pane.
+
+### Control/view the local environment
+
+Press `ctrl-8` to go to the 'Environment' pane.
+This shows us all of the Data, Variables, and Functions we have defined in the current session.
+Some of the items can be expanded by clicking on the small arrow, the data frame for example.
+
+## From single commands to sequences
+The real power of R, or really any programming language, stems from the combination of single steps to form more complex and useful wholes.
+
+### Source pane
+
+While it can be fun and instructive to work solely in the Console, for most real work, you'll want and need to put commands in a place you can easily reuse them.
+That place is called the 'Source' pane.
+It's `ctrl-1` on your keyboard.
+
+Why is it called source?
+It's the source of inspiration, the source of your soon-to-be-realized statistical genius.
+And the term comes from the computer world where every project starts out as 'source code'.
+
+### Scripts and functions
+
+Let's make some source code.
+Press `shift-(command or control)-n` (that's 3 keys at one time) to create a new R script file called `Untitled1`.
+Press `ctrl-1` to make sure that you are typing in the Source pane in the `Untitled1` window.
+
+You can type in this window now, but I urge you to get in the habit of doing two things:
+1.  Typing in a comment line so you know what's to come.
+    - Comments require a `#` in the first column.
+    - So something like `# Rick's R Bootcamp work 2018-08-16` might be a good name.
+    - Why the weird date format? It's unambiguous across the world, and it sorts nicely.
+2. Saving the file.
+    - Where to save it and with what name can get very...personal.
+    - I strongly suggest you start and maintain your own file directory structure so that you can find things in the future.
+    - My suggestion would be to have a structure like this:
+        - `courses/2018_r_bootcamp/`
+    - And then save the file as `2018_08_16_script.R` under that directory.
+
+Later today, I'm going to sharpen and modify this recommendation slightly by adding a step that takes advantage of RStudio's project management functionality.
+For now, this will be okay.
+
+Now you can type R code and comments in the Source pane.
+Let's try something (modestly) useful.
+```{r}
+# Generate 0-centered, and non-zero-centered normally distributed data
+data_mean_zero <- rnorm(n = 100, mean = 0, sd = 1)
+data_mean_nonzero <- rnorm(n = 100, mean = 3, sd = 1)
+
+
+# Run t-tests
+(t.test(data_mean_zero))
+(t.test(data_mean_nonzero))
+```
+When you've typed this, press `(command/control)-s` to save it.
+
+
+Now, type in two additional rows of commands plus a comment.
+```{r}
+# Plot histograms
+hist(data_mean_zero)
+hist(data_mean_nonzero)
+```
+Hit `(command/control)-s` to save.
+
+What is this new `hist()` command?
+Let's ask R to tell us.
+Hit `ctrl-2` to go to the Console.
+Type `help('hist')` and hit enter.
+You can also type `??hist` to see a broader search of R's help pages for other commands that start with these letters.
+
+So, this script is going to generate some data and plot histograms. 
+Let's run the `hist()` commands.
+Move up or down arrow into the line with the `hist(data_mean_zero)` command.
+Hit the `Run` button at the top of the Source panel.
+**Notice** that R moves the highlighted line down by one each time you press the `Run` button.
+
+What if you don't want to take your hands off the keyboard to do this?
+Good for you!
+You can run the current line by pressing `shift+enter`.
+Try that.
+
+Now, let's add two more lines to our script.
+```{r}
+# Run t-tests
+(t.test(data_mean_zero))
+(t.test(data_mean_nonzero))
+```
+You can predict what these will do.
+Confirm it by running the lines.
+
+If you didn't save the file, the name will be highlighted in red.
+Save it now.
+
+#### 'Sourcing' a script
+
+Now that you've saved a sequence of commands, you can run the whole (saved) sequence from the console.
+Switch to the console with `ctrl-2`.
+
+Enter `source('bootcamp_2018_08_16.R')` but do not press enter yet.
+Let's see what the `source()` command does.
+Press `esc` to clear the console.
+Type `help('source')` to view the documentation about `source()`.
+Now, we know that it will take the source file we provide and send it to the R console.
+Make sure you're still in the console by pressing `ctrl-2`.
+Type `source(file = "` and hit `tab` to see a list of files in your local directory.
+If you see the script file you created and saved, hit return to select it.
+Then press the right arrow key to the end of the line, and type `)` to close the command and `enter` to run it.
+
+You may also run the script from the Source panel.
+Press `ctrl-1` to switch to the Source.
+Press `ctrl-s` to make sure the file is saved.
+Press the `Source` button in the right corner of the Source panel.
+
+Why do the plot shapes change each time?
+
+#### Parameterize your (R) life
+
+So, this script is fine, but it could be better.
+What if we want to try different values for the means or the standard deviations or the number of samples?
+
+Add this text to the top of your script file.
+```{r}
+# Parameters
+mean_1 <- 0
+mean_2 <- 3
+sd_1 <- 1
+sd_2 <- 1
+samples_1 <- 100
+samples_2 <- 100
+```
+Then, edit the next few lines as follows
+```{r}
+# Generate 0-centered, and non-zero-centered normally distributed data
+(data_mean_zero <- rnorm(n = samples_1, mean = mean_1, sd = sd_1))
+(data_mean_nonzero <- rnorm(n = samples_2, mean = mean_2, sd = sd_2))
+```
+See how we've substituted the new parameters for specific values?
+Save the script and source it.
+
+If you want to see different plots, switch to the Plots panel (`ctrl-6`) and press the left or right arrow buttons.
+
+The virtue of this approach is that we can edit the parameters in the script and see the effects of the changes pretty quickly.
+The downside of this approach is that we still have a lot of duplicate typing.
+
+#### A simple function
+
+Let's make our own R command.
+It can live (for now) in the same script file.
+The basic function will look like this:
+```
+my_hist_t <- function() {}
+```
+So, we'll assign the function a name--here `my_hist_t`.
+It will have some input parameters--not specified yet--entered inside the parentheses `()`.
+And then there are the squiggly braces `{}`.
+Those are new.
+That's where the meat of the function goes, the commands we want to execute.
+
+What parameters will we want to enter?
+The number of samples, mean, and standard deviation, of course.
+```
+my_hist_t <- function(my_samples, my_mean, my_sd) {}
+```
+Notice that I called the parameters `my_samples`, etc.
+This is to make it easier to see what's going on inside the function.
+It's often good practice to give some default values for the parameters so that your function runs even if you forget to give it input.
+```
+my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {}
+```
+If we forget (or choose not) to enter a value for one of the parameters, our function will use the defaults.
+Now we type the code.
+```{r}
+my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {
+  my_data <- rnorm(n = my_samples, mean = my_mean, sd = my_sd)
+  hist(my_data)
+  t.test(my_data)
+}
+```
+Let's make sure we understand what's going on.
+Inside the function (inside the curly brackets), we compute a random normal data set and assign it to `my_data`.
+Then we calculate the histogram and $t$ test.
+
+Let's save the script and source it.
+
+Now switch to the `Environment` pane (`ctrl-8`).
+See how there is now a function called my_hist_t listed?
+We can now go back to the console (`ctrl-2`) and run our function with all sorts of parameter combinations:
+```{r}
+# Run these in the Console
+my_hist_t()
+my_hist_t(my_mean = 10)
+my_hist_t(my_samples = 200, my_sd=5)
+```
+Because we've specified defaults and are naming our parameters when we call the function, R will just use the defaults when we don't specify a parameter.
 
 
