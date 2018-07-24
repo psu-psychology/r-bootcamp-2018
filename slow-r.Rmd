@@ -1052,7 +1052,7 @@ Imagine a future for yourself where you rarely do any manipulation or visualizat
 Work to realize that future as soon as possible.
 
 Why?
-Because you want to produce open, transparent, and reproducible scientific workflows using data and processing pipelines that are findable, accessible, interoperable, and reusable (FAIR).
+Because you want to produce open, transparent, and reproducible scientific workflows using data and processing pipelines that are findable, accessible, interoperable, and reusable (FAIR) [^1].
 
 Comma-separated value (CSV) files are text files with items separated by commas, and rows separated by new line or return characters.
 CSV files have the file extension `.csv`.
@@ -1116,3 +1116,6 @@ hist(mtcars$mpg[guzzlers],
      xlab = "Miles Per Gallon (mpg)")
 ```
 
+# Notes
+
+[^1]: Wilkinson, M. D., Dumontier, M., Aalbersberg, I. J. J., Appleton, G., Axton, M., Baak, A., Blomberg, N., et al. (2016). The FAIR guiding principles for scientific data management and stewardship. *Scientific Data*, *3*, 160018. Retrieved from http://dx.doi.org/10.1038/sdata.2016.18
