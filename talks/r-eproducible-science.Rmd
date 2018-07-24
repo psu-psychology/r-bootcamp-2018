@@ -16,6 +16,12 @@ output:
     toc_depth: 3
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
 ## Themes
 
 1. Is there a reproducibility crisis?
@@ -75,6 +81,24 @@ output:
 <div class="notes">
 Here are the data from the Nature survey.
 </div>
+
+## Results from our own poll
+
+```{r load-2018-Bootcamp-survey, include=FALSE}
+survey <- read.csv("../data/survey_clean.csv")
+survey$Crisis <- factor(survey$Crisis, 
+                        levels = c("Yes, significant", "Yes, slight", "No", "Don't know"))
+survey_plot <- survey %>%
+  ggplot() +
+  aes(x=Crisis, fill=Crisis) +
+  geom_bar() +
+  xlab("Response") +
+  ggtitle("Is there a reproducibility crisis in psychology?")
+```
+
+```{r plot-survey, echo=FALSE}
+survey_plot
+```
 
 ## [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021) manifesto
 
@@ -139,7 +163,7 @@ This makes them easy to share.
 
 # How R can make my science more reproducible
 
-## Using R scripts for reproducible workflows
+<!-- ## Using R scripts for reproducible workflows -->
 
 <!-- - **Option 1**: All commands in an R script: e.g., `project_analysis.R` -->
 <!-- - **Option 2a**: Mix R code, output, comments in an [R Markdown](http://rmarkdown.rstudio.com/) document -->
@@ -286,11 +310,11 @@ ggplot2::qplot(rnorm(100))
 ggplot2::qplot(rnorm(100))
 ```
 
-## Structure of an [R Markdown .Rmd](R-Workshop-James.Rmd) file
+<!-- ## Structure of an [R Markdown .Rmd](R-Workshop-James.Rmd) file -->
 
-- header info in [YAML Ain't Markup Language (YAML) format](http://www.yaml.org/start.html)
-- Markdown for formating text (headers, **boldface**/*italics*, `code`, bulleted or numbered lists, [web links](http://www.psu.edu), etc.
-- R code "chunks"
+<!-- - header info in [YAML Ain't Markup Language (YAML) format](http://www.yaml.org/start.html) -->
+<!-- - Markdown for formating text (headers, **boldface**/*italics*, `code`, bulleted or numbered lists, [web links](http://www.psu.edu), etc. -->
+<!-- - R code "chunks" -->
 
 ## One R to rule them all and in the console bind them...
 
@@ -299,48 +323,7 @@ ggplot2::qplot(rnorm(100))
     - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
     - Cool interactive web-apps in Shiny
     - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
-
-<!-- ## Your turn -->
-
-<!-- 1. Open "File/New File/R Notebook" -->
-<!-- 2. Change `title: "R Notebook"` to something else, like `title: "Rick's R Notebook"` -->
-<!-- 3. Save the file (default name is `Untitled`) with an `.Rmd` extension. -->
-<!-- 4. Look at the `*.Rmd` code. -->
-<!-- 5. Look at the `*.nb.html` file in a browser. -->
-
-<!-- ## Things to try if you like -->
-
-<!-- ``` -->
-<!-- # Big idea -->
-
-<!-- ## Smaller idea in service of bigger -->
-
-<!-- - Supporting point -->
-<!-- - Another suppporting point -->
-
-<!-- 1. an enumerated **bold** point -->
-<!-- 1. an enumerated *italicized* point -->
-
-<!-- - a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp -->
-<!-- - an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG) -->
-<!-- - an equation: $e = mc^2$ -->
-<!-- ``` -->
-
-<!-- # Big idea -->
-
-<!-- ## Smaller idea in service of bigger -->
-
-<!-- - Supporting point -->
-<!-- - Another suppporting point -->
-<!-- - a **bold** point -->
-<!-- - an *italicized* point -->
-
-<!-- --- -->
-
-<!-- - a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp -->
-<!-- - an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG) -->
-<!-- - an equation: $e = mc^2$ -->
-
+    
 ## Let's try it with some data
 
 - [bootcamp-survey.Rmd](bootcamp-survey.Rmd)
@@ -387,7 +370,6 @@ ggplot2::qplot(rnorm(100))
 
 - Write papers in R Markdown using [`papaja`](https://github.com/crsh/papaja)
     - Make [this](../papaja_demo/gilmore-lebreton-hallquist.pdf) from [this](../papaja_demo/gilmore-lebreton-hallquist.Rmd)
-- Use R Studio [projects](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)
 - Version control with git and [GitHub](http://github.com)
 - Scriptable analysis workflows
     - Reports for each participant, e.g. [PEEP-II project](https://github.com/gilmore-lab/peep-II-ratings-analysis)

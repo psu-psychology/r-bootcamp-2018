@@ -761,6 +761,13 @@ Because some packages use the same names for very similar functions.
 If you load both into memory, R won't know which package you want, and so it will choose for you.
 This problem is magnified when you start to share your code with other researchers who don't have all of the same packages installed as you do.
 
+## Summing up
+
+We've learned about keyboard combinations we should try to train our fingers to use through regular practice.
+We learned about the Help pane and the power of internet searching.
+We learned about the Environment pane to view what's in active memory, and how to do the same with the `ls()` command.
+We learned about packages and how to install them with `install.packages()` and how to call them using the `package_name::package_function()` syntax and how to 'activate' them using `library()`.
+
 # Slow-R -- Part IV (Scripts and functions)
 
 The real power of R, or really any programming language, stems from the combination of single steps to form more complex and useful wholes.
@@ -974,8 +981,9 @@ Because we've specified defaults and are naming our parameters when we call the 
 
 ## Summing up
 
-We've learned how to type sequences of assignments and commands into the Source pane to create scripts, and we've learned how to execute those commands.
-We've also seen how to make a function that encapsulates these sequences into easily reproducible units.
+We've learned how to type sequences of assignments and commands into the Source pane to create scripts, and we've learned how to execute those commands using the `source()` command.
+We've also seen how to make a function that encapsulates these sequences into easily reproducible units, using the `function_name <- function(...arguments...) {...function commands...}` syntax.
+
 There is much more to say and learn about functions (e.g., see this [Software Carpentry lesson](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/index.html)), but this is a good start on why they're so important and useful.
 
 # Slow R -- Part V (Getting data in)
@@ -1084,6 +1092,7 @@ We'll use the `mtcars` dataset since it's part of base R.
 ```{r}
 data(mtcars)
 class(mtcars)
+str(mtcars)   # What is the structure of mtcars?
 names(mtcars)
 ```
 
@@ -1115,6 +1124,16 @@ hist(mtcars$mpg[guzzlers],
      main = "Gas Guzzling Cars in the mtcars dataset",
      xlab = "Miles Per Gallon (mpg)")
 ```
+
+## Summing up
+
+- Use `read.csv()` to read comma-separated value text files
+- Use other commands as needed
+- Goal is to import a data frame
+    - `str()` to show structure of data frame
+    - `names()` to show column names
+    - `summary()` produces summary statistics
+    - `plot()` creates a matrix of plots, pitting each variable against the other
 
 # Notes
 
