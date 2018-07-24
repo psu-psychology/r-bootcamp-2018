@@ -1,0 +1,448 @@
+---
+title: "R-eproducible Psychological Science"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+css: gilmore.css
+bibliography: bootcamp.bib
+logo: ../img/psu-logo.png
+output: 
+  ioslides_presentation:
+    widescreen: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+## Themes
+
+1. Is there a reproducibility crisis?
+2. What does reproducible psychological science look like?
+3. How can R & RStudio make my science more transparent, open, and reproducible?
+    - Scripting workflows
+    - RStudio projects
+    - RMarkdown documents
+        - websites, slides, reports, manuscripts
+        
+# Is there a reproducibility crisis?
+
+---
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/66oNv_DJuPc" frameborder="0" allowfullscreen></iframe>
+
+## Is there a reproducibility crisis?
+
+- Yes, a significant crisis
+- Yes, a slight crisis
+- No crisis
+- Don't know
+
+---
+
+<div class="centered">
+<a href="http://www.nature.com/polopoly_fs/7.36716.1469695923!/image/reproducibility-graphic-online1.jpeg_gen/derivatives/landscape_630/reproducibility-graphic-online1.jpeg" height=450px>
+<img src="http://www.nature.com/polopoly_fs/7.36716.1469695923!/image/reproducibility-graphic-online1.jpeg_gen/derivatives/landscape_630/reproducibility-graphic-online1.jpeg" height=500px>
+</a>
+
+[Baker 2016](http://doi.org/10.1038/533452a)
+</div>
+
+## Not just in psychology
+
+<div class="centered">
+<a href="http://www.nature.com/polopoly_fs/7.36718.1464174471!/image/reproducibility-graphic-online3.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online3.jpg">
+<img src="http://www.nature.com/polopoly_fs/7.36718.1464174471!/image/reproducibility-graphic-online3.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online3.jpg"" height=500px>
+</a>
+
+---
+
+<div class="centered">
+<img src="https://cdn.shopify.com/s/files/1/0877/5762/products/Rigor_Mortis_1024x1024.jpg?v=1491240110" height=500px/>
+</div>
+
+---
+
+<div class="centered">
+<a href="http://www.nature.com/polopoly_fs/7.36719.1464174488!/image/reproducibility-graphic-online4.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online4.jpg">
+<img src="http://www.nature.com/polopoly_fs/7.36719.1464174488!/image/reproducibility-graphic-online4.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online4.jpg" height=500px>
+</a>
+
+[Baker 2016](http://doi.org/10.1038/533452a)
+</div>
+
+<div class="notes">
+Here are the data from the Nature survey.
+</div>
+
+## [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021) manifesto
+
+<div class="centered">
+<a href="http://www.nature.com/articles/s41562-016-0021/figures/1">
+<img src="http://www.nature.com/article-assets/npg/nathumbehav/2017/s41562-016-0021/images_hires/w926/s41562-016-0021-f1.jpg" height=500px>
+</a>
+</div>
+
+<div class="notes">
+This recent manifesto from Nature Human Behavior describes the risks to reproducible science at every step of the process.
+I urge you to read it.
+</div>
+
+# What does reproducible psychological science look like?
+
+## What am I trying to reproduce?
+
+- My own workflow
+    - Data collection
+    - Cleaning
+    - Visualization
+    - Analysis
+    - Reporting
+    - Manuscript generation?
+- "Hit by a truck" scenario
+
+<div class="notes">
+But today I want us to think more parochially about our own workflows.
+How can using R make our own data collection, cleaning, visualization, and analysis workflows more reproducible.
+Ask yourself this: Can you pick up where you left off on a project you were working on yesterday? Last week? Last month? Six months ago?
+Put it this way: If you were hit by a truck tomorrow, could your adviser and collaborators pick up where you left off?
+</div>
+
+## Reproducible workflows
+
+- Scripted, automated = minimize human-dependent steps.
+- Well-documented
+- Be kind to your future (forgetful) self
+- Transparent to me & colleagues == transparent to others
+
+<div class="notes">
+Reproducible workflows are scripted.
+They minimize human contact with your data files.
+They are well-documented.
+And it turns out that workflows that are transparent to you and your colleagues are transparent to others.
+This makes them easy to share.
+</div>
+
+## Reproducible workflows (the future)
+
+- Data, materials openly shared with researchers
+    - Procedure videos
+- Data, materials (displays, code) stored in central repository
+    - Open Science Framework (OSF)
+    - Databrary
+    
+## Reproducible workflows (the future)
+
+- Access/analyze data through APIs to repositories
+- A 'cumulative' science
+
+# How R can make my science more reproducible
+
+## Using R scripts for reproducible workflows
+
+<!-- - **Option 1**: All commands in an R script: e.g., `project_analysis.R` -->
+<!-- - **Option 2a**: Mix R code, output, comments in an [R Markdown](http://rmarkdown.rstudio.com/) document -->
+<!-- - **Option 2b**: Use R scripts with some [special formatting](http://rmarkdown.rstudio.com/articles_report_from_r_script.html), [(more info)](https://github.com/jennybc/happy-git-with-r/blob/master/31_workflow-first-use-r-script-and-github.Rmd). -->
+
+<!-- <div class="notes"> -->
+<!-- We've already shown you in this bootcamp how writing R scripts and functions can let you import, clean, munge, reorganize, plot, and analyze data. -->
+<!-- We've already seen how commenting code fragments makes it easier to read and understand. -->
+<!-- An extension to R called R Markdown lets us mix R code, analyses, text, tables, and other formatting to make all sorts of products. -->
+<!-- R Markdown files are just text files. -->
+<!-- But with this one text file, it's easy to produce multiple output types: PDF or Word formatted documents; HTML for blogs, web sites, or even slide presentation. -->
+<!-- </div> -->
+
+## Using R scripts for reproducible workflows
+
+```
+# Import data
+
+# Clean data
+
+# Visualize data
+
+# Analyze data
+
+# Report findings
+```
+
+---
+
+```
+# Import data
+my_data <- read.csv("path/2/data_file.csv")
+
+# Clean data
+my_data$gender <- tolower(my_data$gender) # make lower case
+...
+```
+
+## Script calls sequence of R commands or functions
+
+```
+# Import data
+source("R/Import_data.R") # source() runs scripts, loads functions
+
+# Clean data
+source("R/Clean_data.R")
+
+# Visualize data
+source("R/Visualize_data.R")
+...
+```
+
+## Strengths & Weaknesses
+
+- R commands in files that can be re-run
+- Separate pieces of workflow kept separate
+- "Master.R" script that can be run to regenerate full sequence of results
+    - Error in raw data file?
+    - No problem; fix data file and re-run "Master.R"
+- How to save results or share with collaborators?
+
+## RStudio projects
+
+- Create using 'File/New Project'
+- Store in new directory with sensible name ('projects/1st_year_proj')
+- Creates *.Rproj file
+- Turn-off saving data to the .RData file
+- 'File/Open Project...' command opens 'fresh' workspace
+
+## RStudio Projects
+
+- Keep files, settings, organized
+- Easy to switch between projects
+- Reduces mental effort (what directory am I in?)
+- Integrates with version control (e.g., GitHub)
+
+---
+
+<div class="centered">
+<img src="../img/ricks-recent-projects.jpg" height=550/>
+</div>
+
+## R Markdown
+
+- Combine text, R code, images, comments, videos into one document.
+- Render as web page (or site), PDF, MS Word (.docx), slides, etc.
+
+## Structure of an [R Markdown .Rmd](R-Workshop-James.Rmd) file
+
+- header info in [YAML Ain't Markup Language (YAML) format](http://www.yaml.org/start.html)
+- Markdown for formating text (headers, **boldface**/*italics*, `code`, bulleted or numbered lists, [web links](http://www.psu.edu), etc.
+- R code "chunks"
+
+## One R to rule them all and in the console bind them...
+
+- One file, many possible outputs
+    - [pdf_document](http://rmarkdown.rstudio.com/pdf_document_format.html), [word_document](http://rmarkdown.rstudio.com/word_document_format.html), or [github_document](http://rmarkdown.rstudio.com/github_document_format.html)
+    - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
+    - Cool interactive web-app like Dan's tutorial
+    - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
+
+## Your turn
+
+1. Open "File/New File/R Notebook"
+2. Change `title: "R Notebook"` to something else, like `title: "Rick's R Notebook"`
+3. Save the file (default name is `Untitled`) with an `.Rmd` extension.
+4. Look at the `*.Rmd` code.
+5. Look at the `*.nb.html` file in a browser.
+
+## Things to try if you like
+
+```
+# Big idea
+
+## Smaller idea in service of bigger
+
+- Supporting point
+- Another suppporting point
+
+1. an enumerated **bold** point
+1. an enumerated *italicized* point
+
+- a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
+- an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
+- an equation: $e = mc^2$
+```
+
+# Big idea
+
+## Smaller idea in service of bigger
+
+- Supporting point
+- Another suppporting point
+- a **bold** point
+- an *italicized* point
+
+---
+
+- a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
+- an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
+- an equation: $e = mc^2$
+
+## Let's try it with some data
+
+- [bootcamp-survey.Rmd](bootcamp-survey.Rmd)
+- [bootcamp-survey.md](bootcamp-survey.md)
+
+## One file, many output options
+
+- 'Default' for the file: `rmarkdown::render("talks/bootcamp-survey.Rmd")`
+- **PDF document**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "pdf_document")`
+- **Word document**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "word_document")`
+
+---
+
+- **HTML slides**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "ioslides_presentation")`
+- **Multiple outputs**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = c("pdf_document", "word_document", "github_document", "ioslides_presentation")`
+
+## Key points
+
+- Use R scripts to capture & reproduce workflows and/or
+- Use R Markdown files for documents, reports, presentations.
+    - One or more output formats from the same file.
+    - Analysis/lab notebook.
+    
+---
+
+- Use R scripts or functions to automate different pieces of the pipeline.
+- Make README files to explain how to put pieces together.
+
+---
+
+<div class="centered">
+<img src="https://am23.akamaized.net/tms/cnt/uploads/2017/05/1491990205555-1.jpg" height=500px>
+</div>
+
+## Toward a reproducible psychological science...
+
+- Transparent, reproducible, open workflows pre-publication
+- Openly shared materials + data + code
+- [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021): reproducible practices across the workflow
+    - Where to share and when? Lots of options. Let's talk.
+- [[@Gilmore2017-eh]](http://dx.doi.org/10.1038/s41562-017-0128): video and reproducibility
+
+## Advanced topics
+
+- Write papers in R Markdown using [`papaja`](https://github.com/crsh/papaja)
+    - Make [this](../papaja_demo/gilmore-lebreton-hallquist.pdf) from [this](../papaja_demo/gilmore-lebreton-hallquist.Rmd)
+- Use R Studio [projects](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)
+- Version control with git and [GitHub](http://github.com)
+- Scriptable analysis workflows
+    - Reports for each participant, e.g. [PEEP-II project](https://github.com/gilmore-lab/peep-II-ratings-analysis)
+    - This bootcamp's [`Make_site.R`](../R/Make_site.R)
+- [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), [blogs](https://bookdown.org/yihui/blogdown/), (even [books](https://bookdown.org/)) with R Markdown
+    
+## Version control
+
+- Keep track of your past
+- Back to the Future
+- **git**: a system for software version control
+- [**GitHub**](http://github.com): a website for managing projects that use git
+
+## My GitHub workflow
+
+1. Create a repo on GitHub
+2. Copy repo URL
+3. `File/New Project.../`
+4. Version Control, Git
+5. Paste repo URL
+6. Select local name for repo and directory where it lives.
+7. Open project within R Studio `File/Open Project...`
+8. Commit early & often
+
+---
+
+<div class="centered">
+<video height="440" width="720" controls>
+  <source src="../mov/rstudio-project-on-github-1.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+</div>
+
+---
+
+<div class="centered">
+<video height="440" width="720" controls>
+  <source src="../mov/edit-save-commit-push-1.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+
+## Scripting the pipeline
+
+```
+# Get_bootcamp_googlesheet.R
+# 
+# Script to authenticate to Google, extract R bootcamp survey data
+
+library(googlesheets)
+library(tidyverse)
+
+survey_url <- "https://docs.google.com/spreadsheets/d/1Ay56u6g4jyEEdlmV2NHxTLBlcjI2gHavta-Ik0kGrpg/edit?usp=sharing"
+
+bootcamp_by_url <- survey_url %>%
+  extract_key_from_url() %>%
+  gs_key()
+
+bootcamp_sheets <- gs_ws_ls(bootcamp_by_url)
+```
+
+---
+
+```
+boot_data <- bootcamp_by_url %>%
+  gs_read(bootcamp_sheets[1])
+          
+names(boot_data) <- c("Timestamp",
+                      "R_exp",
+                      "GoT",
+                      "Age_yrs",
+                      "Sleep_hrs",
+                      "Fav_date",
+                      "Tidy_data")
+
+write_csv(boot_data, path = "data/survey.csv")
+```
+
+---
+
+```
+# Update_survey.R
+#
+# Updates Googlesheet survey data and generates new R Markdown report
+#
+
+source("R/Get_bootcamp_googlesheet.R")
+rmarkdown::render("talks/bootcamp-survey.Rmd", 
+                  output_format = c("github_document",
+                                    "pdf_document",
+                                    "word_document",
+                                    "ioslides_presentation"))
+```
+
+## [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html)
+
+- [`_site.yml`](../_site.yml): site configuration parameters
+- [`index.Rmd`](../index.Rmd): home page for site
+- other `*.Rmd` files: other pages
+- other directories for files
+- `rmarkdown::render_site()`
+- [GitHub pages](https://pages.github.com/) or other web site hosting service
+
+## Learn from my mistakes
+
+- Script **everything** you possibly can
+    - If you have to repeat something, make a function or write a parameterized script
+- Document **all the time**
+    - Comments in code
+    - Update README files
+- Don't be afraid to ask
+- Don't be afraid to work in the open
+- Learn from others
+- Just do it!
+
+## References {.smaller}
+
