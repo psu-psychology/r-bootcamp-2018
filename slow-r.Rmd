@@ -1024,6 +1024,25 @@ Then we can plot it using `plot(hr_mit$HR)`
 plot(hr_mit$HR)
 ```
 
+### Public data from the Open Science Framework (OSF)
+
+Samuel Mehr et al. (2018) have provided some data files using the Open Science Framework:
+
+Mehr, S. A., Singh, M., York, H., Glowacki, L., & Krasnow, M. (2018, January 9) Datasets. https://doi.org/10.17605/OSF.IO/M9RXV
+
+Let's download the survey data.
+
+```{r}
+mehr_etal_survey <- read.csv(file = "https://osf.io/etg8z/download")
+names(mehr_etal_survey)
+```
+
+This will produce a cross tabulated table about the sex and tenure status of the respondents:
+
+```{r}
+xtabs(formula = ~ sex + tenure, data = mehr_etal_survey)
+```
+
 ## An aside about comma-separated value (CSV) files
 
 Spreadsheets are incredibly powerful computational tools.
