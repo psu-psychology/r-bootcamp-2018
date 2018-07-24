@@ -23,7 +23,7 @@ output:
 3. How can R & RStudio make my science more transparent, open, and reproducible?
     - Scripting workflows
     - RStudio projects
-    - RMarkdown documents
+    - R Markdown documents
         - websites, slides, reports, manuscripts
         
 # Is there a reproducibility crisis?
@@ -130,11 +130,11 @@ This makes them easy to share.
     - Procedure videos
 - Data, materials (displays, code) stored in central repository
     - Open Science Framework (OSF)
-    - Databrary
+    - [Databrary](http://databrary.org)
     
 ## Reproducible workflows (the future)
 
-- Access/analyze data through APIs to repositories
+- Access/analyze via repository APIs
 - A 'cumulative' science
 
 # How R can make my science more reproducible
@@ -214,42 +214,28 @@ source("R/Visualize_data.R")
 - Keep files, settings, organized
 - Easy to switch between projects
 - Reduces mental effort (what directory am I in?)
+    - Avoid `setwd()` commands that only work on *your* computer
 - Integrates with version control (e.g., GitHub)
 
 ---
 
 <div class="centered">
-<img src="../img/ricks-recent-projects.jpg" height=550/>
+<img src="../img/ricks_recent_projects.jpg" height=550/>
 </div>
 
 ## R Markdown
 
-- Combine text, R code, images, comments, videos into one document.
+- Combine text, R code, images, comments, videos into one document
 - Render as web page (or site), PDF, MS Word (.docx), slides, etc.
 
-## Structure of an [R Markdown .Rmd](R-Workshop-James.Rmd) file
+## What is R Markdown?
 
-- header info in [YAML Ain't Markup Language (YAML) format](http://www.yaml.org/start.html)
-- Markdown for formating text (headers, **boldface**/*italics*, `code`, bulleted or numbered lists, [web links](http://www.psu.edu), etc.
-- R code "chunks"
+- Markdown is a scripting 'language' used in lots of blogging engines and wikis
+    - Simple commands to format documents
+- Human & machine readable
+- R Markdown extends Markdown with commands specialized for R code
 
-## One R to rule them all and in the console bind them...
-
-- One file, many possible outputs
-    - [pdf_document](http://rmarkdown.rstudio.com/pdf_document_format.html), [word_document](http://rmarkdown.rstudio.com/word_document_format.html), or [github_document](http://rmarkdown.rstudio.com/github_document_format.html)
-    - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
-    - Cool interactive web-app like Dan's tutorial
-    - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
-
-## Your turn
-
-1. Open "File/New File/R Notebook"
-2. Change `title: "R Notebook"` to something else, like `title: "Rick's R Notebook"`
-3. Save the file (default name is `Untitled`) with an `.Rmd` extension.
-4. Look at the `*.Rmd` code.
-5. Look at the `*.nb.html` file in a browser.
-
-## Things to try if you like
+---
 
 ```
 # Big idea
@@ -261,10 +247,6 @@ source("R/Visualize_data.R")
 
 1. an enumerated **bold** point
 1. an enumerated *italicized* point
-
-- a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
-- an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
-- an equation: $e = mc^2$
 ```
 
 # Big idea
@@ -278,9 +260,86 @@ source("R/Visualize_data.R")
 
 ---
 
+```
 - a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
 - an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
 - an equation: $e = mc^2$
+```
+
+---
+
+- a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
+- an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
+- an equation: $e = mc^2$
+
+---
+
+```
+# Some R code
+ggplot2::qplot(rnorm(100))
+```
+
+---
+
+```{r}
+# Some R code
+ggplot2::qplot(rnorm(100))
+```
+
+## Structure of an [R Markdown .Rmd](R-Workshop-James.Rmd) file
+
+- header info in [YAML Ain't Markup Language (YAML) format](http://www.yaml.org/start.html)
+- Markdown for formating text (headers, **boldface**/*italics*, `code`, bulleted or numbered lists, [web links](http://www.psu.edu), etc.
+- R code "chunks"
+
+## One R to rule them all and in the console bind them...
+
+- One file, many possible outputs
+    - [pdf_document](http://rmarkdown.rstudio.com/pdf_document_format.html), [word_document](http://rmarkdown.rstudio.com/word_document_format.html), or [github_document](http://rmarkdown.rstudio.com/github_document_format.html)
+    - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
+    - Cool interactive web-apps in Shiny
+    - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
+
+<!-- ## Your turn -->
+
+<!-- 1. Open "File/New File/R Notebook" -->
+<!-- 2. Change `title: "R Notebook"` to something else, like `title: "Rick's R Notebook"` -->
+<!-- 3. Save the file (default name is `Untitled`) with an `.Rmd` extension. -->
+<!-- 4. Look at the `*.Rmd` code. -->
+<!-- 5. Look at the `*.nb.html` file in a browser. -->
+
+<!-- ## Things to try if you like -->
+
+<!-- ``` -->
+<!-- # Big idea -->
+
+<!-- ## Smaller idea in service of bigger -->
+
+<!-- - Supporting point -->
+<!-- - Another suppporting point -->
+
+<!-- 1. an enumerated **bold** point -->
+<!-- 1. an enumerated *italicized* point -->
+
+<!-- - a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp -->
+<!-- - an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG) -->
+<!-- - an equation: $e = mc^2$ -->
+<!-- ``` -->
+
+<!-- # Big idea -->
+
+<!-- ## Smaller idea in service of bigger -->
+
+<!-- - Supporting point -->
+<!-- - Another suppporting point -->
+<!-- - a **bold** point -->
+<!-- - an *italicized* point -->
+
+<!-- --- -->
+
+<!-- - a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp -->
+<!-- - an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG) -->
+<!-- - an equation: $e = mc^2$ -->
 
 ## Let's try it with some data
 
