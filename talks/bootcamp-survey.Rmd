@@ -3,6 +3,7 @@ title: "Analysis of 2018 bootcamp survey"
 author: "Rick Gilmore"
 date: '`r Sys.time()`'
 output:
+  html_document: default
   html_notebook: default
   github_document:
     toc: yes
@@ -14,8 +15,8 @@ output:
     toc: yes
     toc_depth: 3
 params:
-  data_file_in: ../data/survey_test.csv
-  data_file_out: ../data/survey_2018.csv
+  data_file_in: '../data/survey_test.csv'
+  data_file_out: '../data/survey_2018.csv'
 ---
 
 ```{r setup, include=FALSE}

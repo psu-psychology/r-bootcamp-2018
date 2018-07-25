@@ -1,0 +1,224 @@
+---
+title             : "R you ready for some data?"
+shorttitle        : "R you ready"
+author: 
+  - name          : "Rick O. Gilmore"
+    affiliation   : "1,2"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Department of Psychology, The Pennsylvania State University, University Park, PA 16802 USA"
+    email         : "rogilmore@psu.edu"
+  - name          : "Michael Hallquist"
+    affiliation   : "1"
+affiliation:
+  - id            : "1"
+    institution   : "The Pennsylvania State University"
+  - id            : "2"
+    institution   : "Databrary.org"
+author_note: |
+  The authors are with the Department of Psychology at The Pennsylvania State University.
+  The authors acknowledge support from the Department of Psychology, and the Social, Life, & Engineering Sciences Imaging Center (SLEIC).
+abstract: |
+  Want to write a paper using R Markdown? Keep reading to see how.
+  
+keywords          : "APA, R Markdown"
+wordcount         : "Not that many."
+bibliography      : ["r-references.bib", "references.bib"]
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_pdf
+editor_options: 
+  chunk_output_type: console
+params:
+  data_file_in: '../data/survey_test.csv'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, error=FALSE)
+```
+
+```{r load_packages, include = FALSE}
+if(!require("papaja")){devtools::install_github("crsh/papaja")}
+library("papaja")
+
+if(!require("afex")){install.packages("afex")}
+library("afex")
+
+if(!require("gmodels")){install.packages("gmodels")}
+library("gmodels")
+
+# May need this for newer versions of R (needed for R 3.4.1)
+# devtools::install_github("crsh/papaja")
+
+if(!require("tidyverse")){install.packages("tidyverse")}
+library("tidyverse")
+
+# Could also source("R/Install_load_package.R") and then
+# lapply(c("papaja", "tidyverse"), Install_load_package)
+```
+
+```{r analysis_preferences}
+# Seed for random number generation
+set.seed(42)
+```
+
+It is possible to write an entire APA-formatted article in R Markdown. 
+This very brief paper shows how it might be done.
+As illustration, we use the data from a brief, informal survey of participants in the inaugural R Bootcamp at Penn State.
+We predicted that higher levels of enthusiasm for banjo music would be reported by respondents with *lower* reported hours/day of preferred sleep, at least among younger respondents.
+
+```{r import-survey}
+#survey <- read_csv("data/survey_clean.csv")
+# Or we can use "cleaned" actual survey data
+survey <- read_csv(params$data_file_in)
+
+survey$R_exp <- ordered(survey$R_exp, levels=c("none",
+                                               "limited",
+                                               "some",
+                                               "lots",
+                                               "pro"))
+
+survey$Sub_id <- 1:length(survey$R_exp)
+```
+
+# Methods {#methods}
+Consistent with open and transparent science practices, we report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study [@Simmons2011-za].
+
+## Participants {#participants}
+
+We asked participants in an optional "R Bootcamp" held at the Pennsylvania State University Department of Psychology on August 16 and 17, 2018 to complete an anonymous survey using a Google Form.
+We asked participants to report how old they felt.
+A total of $n=$`r length(survey$Psych_age_yrs)` respondents answered the survey with a reported felt age of $M$=`r mean(survey$Psych_age_yrs)` and a range of [`r min(survey$Psych_age_yrs)`-`r max(survey$Psych_age_yrs)`] years. 
+
+## Material {#material}
+
+The survey can be found at this URL: <https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit>.
+There were five questions asked:
+
+1. Your current level of experience/expertise with R
+2. Your enthusiasm for banjo music?
+3. How old do you feel (in years)?
+4. Preferred number of hours spent sleeping/day
+5. Favorite day of the week?
+6. Is there a reproducibility 'crisis' in psychology?
+
+## Procedure {#procedure}
+
+We emailed a link to the survey to the list of participants in advance.
+We also include a link to the survey on the web page containing the course schedule (https://psu-psychology.github.io/r-bootcamp-2018/schedule.html).
+We encouraged participants to complete the survey before the first day or during lunch.
+
+## Data analysis {#data-analysis}
+We used `r cite_r("r-references.bib")` for all our analyses.
+The code used to generate these analyses is embedded in this document.
+To view it, see the R Markdown file in the [GitHub repository](http://github.com/psu-psychology/r-bootcamp-2018/talks) associated with this paper.
+
+# Results {#results}
+
+```{r Banjo-by-experience, results="asis"}
+descriptives_Banjo <- survey %>%
+  select(R_exp, Banjo) %>%
+  group_by(R_exp) %>%
+  summarise(
+    Mean = mean(Banjo)
+    , Median = median(Banjo)
+    , SD = sd(Banjo)
+    , Min = min(Banjo)
+    , Max = max(Banjo)
+  )
+# Drop the Timestamp column
+descriptives_Banjo[, -1] <- printnum(descriptives_Banjo[, -1])
+
+apa_table(
+  descriptives_Banjo
+  , caption = "Descriptive statistics of banjo music enthusiasm by R experience."
+  , note = "This table was created with apa_table()"
+  , escape = TRUE
+)
+```
+
+```{r apaTables-corr, results="asis"}
+corr_Banjo_age <- apa_print(cor.test(survey$Banjo,survey$Psych_age_yrs))
+corr_Banjo_sleep <- apa_print(cor.test(survey$Banjo,survey$Sleep_hrs))
+corr_age_sleep <- apa_print(cor.test(survey$Psych_age_yrs,survey$Sleep_hrs))
+```
+
+```{r apa-corr-table, results="asis"}
+source('../R/corstars.R')
+## Get correlation matrix
+cor_mat <- round(survey[c('Banjo','Psych_age_yrs','Sleep_hrs')],2)
+
+## Format with sig. stars using custom function
+cor_stars <- as.data.frame(corstars(cor_mat))
+
+apa_table(cor_stars
+  , caption = "Correlation table of the example data set."
+  , note = "This is a correlation table created using apa_table()."
+  , escape = TRUE
+)
+
+```
+
+
+```{r Banjo-by-age-exp, fig.cap="Banjo music enthusiasm by age and R experience"}
+Banjo_vs_r_exp <- survey %>%
+  ggplot() +
+  aes(x=Banjo, y=Psych_age_yrs) +
+  facet_grid(. ~ R_exp) +
+  geom_point()
+Banjo_vs_r_exp
+```
+
+```{r Banjo-by-sleep, fig.cap="Banjo music enthusiasm by preferred hours of sleep"}
+Banjo_vs_sleep <- survey %>%
+  ggplot() +
+  aes(x=Sleep_hrs, y=Banjo) +
+  geom_point() +
+  geom_smooth() +
+  theme_apa()
+Banjo_vs_sleep
+```
+
+```{r Banjo-r_exp-aov}
+Banjo_aov <- afex::aov_ez(id="Sub_id", dv="Banjo", data=survey, between = "R_exp")
+Banjo_aov_results <- apa_print(Banjo_aov, es = "pes")
+Banjo_aov_results_p <- apa_print(Banjo_aov, es = "pes", in_paren = TRUE)
+```
+
+```{r Banjo-aov-table, results="asis"}
+apa_table(
+  Banjo_aov_results$table
+  , align = c("l", "r", "c", "r", "r", "r")
+  , caption = "ANOVA table for the analyis of the example data set."
+  , note = "This is a table created using apa_print() and apa_table()."
+)
+```
+
+Table \@ref(tab:Banjo-by-experience) summarizes the banjo music enthusiasm ratings data by levels of R experience. 
+
+Let's examine the correlations between our continuous variables.
+As indicated in Table \@ref(tab:apa-corr-table), there is a negative correlation (`r corr_Banjo_age$estimate`) between banjo music enthusiasm and age (`r corr_Banjo_age$statistic`), a negative correlation (`r corr_Banjo_sleep$estimate`) between banjo music enthusiasm and sleep (`r corr_Banjo_sleep$statistic`), but no correlation (`r corr_age_sleep$estimate`) between age and sleep (`r corr_age_sleep$statistic`). Figures \@ref(fig:Banjo-by-age-exp) and \@ref(fig:Banjo-by-sleep) depict these patterns.
+
+To test the hypothesis that banjo music enthusiasm varies as a function of R expertise, we carried out a one-way ANOVA.
+R experience (`r Banjo_aov_results$full$R_exp`) did not predict enthusiasm for banjo music. Table \@ref(tab:Banjo-aov-table) summarizes these results.
+
+# Discussion {#discussion}
+
+These results show how awesome it can be to use R, R Markdown, and literate programming principles to conduct and open, transparent, and reproducible psychological science. Yay, us!
+
+There are no limitations to what we can accomplish using these tools. So, let's get to it.
+
+\newpage
+
+# References
+
+```{r create_r-references}
+r_refs(file = "r-references.bib")
+```
+
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
