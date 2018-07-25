@@ -11,7 +11,7 @@ title: "2018 R Bootcamp Schedule"
 | 09:15 am • Why We R Here                              |
 | 09:45 am • Break                                      |
 
-| Slow-R Track, XXX Mateer    | Fast-R Track, 130 Moore |
+| [Slow-R Track](talks/slow-r.nb.html), XXX Mateer    | Fast-R Track, 130 Moore |
 |-----------------------------|--------------------------|
 | 10:00 am • RStudio                  |                  |
 | 11:00 am • Command the command line |                  |
@@ -22,7 +22,7 @@ title: "2018 R Bootcamp Schedule"
 
 | Plenary, XXX Mateer                                     |
 |-------------------------------------------------------|
-| 03:15 pm • Transparent, open, & reproducible science with R, [HTML slides](talks/r-eproducible-science.html) |
+| 03:15 pm • [Transparent, open, & reproducible science with R](talks/r-eproducible-science.html) |
 | 04:30 pm • End                                            |
 
 **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).
