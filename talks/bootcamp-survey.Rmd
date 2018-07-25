@@ -1,5 +1,5 @@
 ---
-title: "Analysis of bootcamp survey"
+title: "Analysis of 2018 bootcamp survey"
 author: "Rick Gilmore"
 date: '`r Sys.time()`'
 output:
@@ -13,9 +13,9 @@ output:
   word_document:
     toc: yes
     toc_depth: 3
-  params:
-    data_file_in: ../data/survey_test.csv
-    data_file_out: ../data/survey_2018.csv
+params:
+  data_file_in: ../data/survey_test.csv
+  data_file_out: ../data/survey_2018.csv
 ---
 
 ```{r setup, include=FALSE}
@@ -39,13 +39,13 @@ library(googlesheets)
 
 ## Load data and examine
 
-The survey data are stored in a [Google Sheet](https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit#gid=2108979913). We'll use the `googlesheets` package to open it and create a data frame. Documentation about the package can be found [here](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html).
+The survey data are stored in a [Google Sheet](https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit#gid=2108979913). 
+We'll use the `googlesheets` package to open it and create a data frame. Documentation about the package can be found [here](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html).
 
 There are some idiosyncrasies in using the `googlesheets` package in an R Markdown document because it requires interaction with the console, so I created a separate R script, `Get_bootcamp_googlesheet.R` to extract the survey data.
 If you try to execute the next chunk, it may give you an error, or it may ask you to allow `googlesheets` to access information in your Google profile.
 
-```{r update-survey-data-from-google-sheet, eval=FALSE}
-# Set eval=FALSE so I can render non-notebook formats
+```
 survey_url <- "https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit?usp=sharing"
 
 bootcamp_by_url <- survey_url %>%
@@ -60,7 +60,8 @@ boot_data <- bootcamp_by_url %>%
 write_csv(boot_data, path=params$data_file_out)
 ```
 
-This script downloads the data file saves it to a CSV under `data/survey.csv`.We can then load this file.
+This script downloads the data file saves it to a CSV under `r params$data_file_out`.
+We can then load this file.
 
 I also created a test data file, `data/survey-test.csv` so I could see how everything worked before y'all filled out your responses.
 The [`R/Make_test_survey.R`](../R/Make_test_survey.R) file shows how I did this.
@@ -70,7 +71,7 @@ It's a great, reproducible practice to **simulate the data you expect**, then ru
 
 ```{r load-data}
 # Created test data set for testing.
-survey <- read_csv("../data/survey_test.csv")
+survey <- read_csv(params$data_file_in)
 # Or choose data from respondents
 #survey <- read_csv(data_file_in)
 ```

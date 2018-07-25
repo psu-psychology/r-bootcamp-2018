@@ -14,6 +14,10 @@ output:
   github_document:
     toc: true
     toc_depth: 3
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -27,10 +31,6 @@ library(tidyverse)
 1. Is there a reproducibility crisis?
 2. What does reproducible psychological science look like?
 3. How can R & RStudio make my science more transparent, open, and reproducible?
-    - Scripting workflows
-    - RStudio projects
-    - R Markdown documents
-        - websites, slides, reports, manuscripts
         
 # Is there a reproducibility crisis?
 
@@ -53,6 +53,26 @@ library(tidyverse)
 </a>
 
 [Baker 2016](http://doi.org/10.1038/533452a)
+</div>
+
+## Results from our own bootcamp poll
+
+```{r load-2018-Bootcamp-survey, include=FALSE}
+survey <- read.csv("../data/survey_clean.csv")
+survey$Crisis <- factor(survey$Crisis, 
+                        levels = c("Yes, significant", "Yes, slight", "No", "Don't know"))
+survey_plot <- survey %>%
+  ggplot() +
+  aes(x=Crisis, fill=Crisis) +
+  geom_bar() +
+  xlab("Response") +
+  ggtitle("Is there a reproducibility crisis in psychology?")
+```
+
+<div class="centered">
+```{r plot-survey, echo=FALSE}
+survey_plot
+```
 </div>
 
 ## Not just in psychology
@@ -82,24 +102,6 @@ library(tidyverse)
 Here are the data from the Nature survey.
 </div>
 
-## Results from our own poll
-
-```{r load-2018-Bootcamp-survey, include=FALSE}
-survey <- read.csv("../data/survey_clean.csv")
-survey$Crisis <- factor(survey$Crisis, 
-                        levels = c("Yes, significant", "Yes, slight", "No", "Don't know"))
-survey_plot <- survey %>%
-  ggplot() +
-  aes(x=Crisis, fill=Crisis) +
-  geom_bar() +
-  xlab("Response") +
-  ggtitle("Is there a reproducibility crisis in psychology?")
-```
-
-```{r plot-survey, echo=FALSE}
-survey_plot
-```
-
 ## [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021) manifesto
 
 <div class="centered">
@@ -113,7 +115,7 @@ This recent manifesto from Nature Human Behavior describes the risks to reproduc
 I urge you to read it.
 </div>
 
-# What does reproducible psychological science look like?
+# What does reproducible science look like?
 
 ## What am I trying to reproduce?
 
@@ -124,7 +126,14 @@ I urge you to read it.
     - Analysis
     - Reporting
     - Manuscript generation?
+    
+## What am I trying to avoid?
+
 - "Hit by a truck" scenario
+
+<div class="centered">
+<img src="http://www.clipartguide.com/_named_clipart_images/0511-0902-0200-0035_Black_and_White_Cartoon_of_a_Man_Just_Hit_By_a_Truck_clipart_image.jpg"/>
+</div>
 
 <div class="notes">
 But today I want us to think more parochially about our own workflows.
@@ -150,16 +159,16 @@ This makes them easy to share.
 
 ## Reproducible workflows (the future)
 
-- Data, materials openly shared with researchers
-    - Procedure videos
+- Data, materials openly (and securely) shared with researchers
+    - Including procedure videos [[@Gilmore2017-eh]](http://doi.org/10.1038/s41562-017-0128)
 - Data, materials (displays, code) stored in central repository
-    - Open Science Framework (OSF)
+    - Open Science Framework ([OSF](http://osf.io))
     - [Databrary](http://databrary.org)
     
 ## Reproducible workflows (the future)
 
-- Access/analyze via repository APIs
-- A 'cumulative' science
+- Access/analyze materials/displays via repository application program interfaces (APIs)
+- Building a 'cumulative' science  [[@Mischel2011-br]](https://www.psychologicalscience.org/observer/becoming-a-cumulative-science)
 
 # How R can make my science more reproducible
 
@@ -180,7 +189,7 @@ This makes them easy to share.
 ## Using R scripts for reproducible workflows
 
 ```
-# Import data
+# Import/gather data
 
 # Clean data
 
@@ -225,6 +234,16 @@ source("R/Visualize_data.R")
     - No problem; fix data file and re-run "Master.R"
 - How to save results or share with collaborators?
 
+## Use R & RStudio for earlier phases?
+
+<div class="centered">
+<a href="http://www.nature.com/articles/s41562-016-0021/figures/1">
+<img src="http://www.nature.com/article-assets/npg/nathumbehav/2017/s41562-016-0021/images_hires/w926/s41562-016-0021-f1.jpg" height=400px>
+</a>
+</br>
+[[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021)
+</div>
+
 ## RStudio projects
 
 - Create using 'File/New Project'
@@ -233,7 +252,7 @@ source("R/Visualize_data.R")
 - Turn-off saving data to the .RData file
 - 'File/Open Project...' command opens 'fresh' workspace
 
-## RStudio Projects
+## RStudio projects
 
 - Keep files, settings, organized
 - Easy to switch between projects
@@ -244,20 +263,23 @@ source("R/Visualize_data.R")
 ---
 
 <div class="centered">
-<img src="../img/ricks_recent_projects.jpg" height=550/>
+<img src="../img/ricks_recent_projects.jpg" height=500/>
 </div>
 
-## R Markdown
+## [R Markdown](https://rmarkdown.rstudio.com/) workflows
 
 - Combine text, R code, images, comments, videos into one document
 - Render as web page (or site), PDF, MS Word (.docx), slides, etc.
 
-## What is R Markdown?
+## What is [R Markdown](https://rmarkdown.rstudio.com/)?
 
 - Markdown is a scripting 'language' used in lots of blogging engines and wikis
     - Simple commands to format documents
+    - Designed to be easier than writing in raw HTML
 - Human & machine readable
-- R Markdown extends Markdown with commands specialized for R code
+- [R Markdown](https://rmarkdown.rstudio.com/) extends Markdown with commands specialized for R code
+- [Tutorial](http://r4ds.had.co.nz/r-markdown.html) by Hadley Wickham
+- [Cheatsheets](http://rstudio.com/cheatsheets)
 
 ---
 
@@ -310,42 +332,33 @@ ggplot2::qplot(rnorm(100))
 ggplot2::qplot(rnorm(100))
 ```
 
-<!-- ## Structure of an [R Markdown .Rmd](R-Workshop-James.Rmd) file -->
-
-<!-- - header info in [YAML Ain't Markup Language (YAML) format](http://www.yaml.org/start.html) -->
-<!-- - Markdown for formating text (headers, **boldface**/*italics*, `code`, bulleted or numbered lists, [web links](http://www.psu.edu), etc. -->
-<!-- - R code "chunks" -->
-
 ## One R to rule them all and in the console bind them...
 
 - One file, many possible outputs
     - [pdf_document](http://rmarkdown.rstudio.com/pdf_document_format.html), [word_document](http://rmarkdown.rstudio.com/word_document_format.html), or [github_document](http://rmarkdown.rstudio.com/github_document_format.html)
     - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
     - Cool interactive web-apps in Shiny
-    - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
+    - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp-2018), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
     
-## Let's try it with some data
+## Let's look at a real example
 
 - [bootcamp-survey.Rmd](bootcamp-survey.Rmd)
-- [bootcamp-survey.md](bootcamp-survey.md)
 
 ## One file, many output options
 
-- 'Default' for the file: `rmarkdown::render("talks/bootcamp-survey.Rmd")`
-- **PDF document**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "pdf_document")`
-- **Word document**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "word_document")`
-
----
-
-- **HTML slides**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "ioslides_presentation")`
-- **Multiple outputs**: `rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = c("pdf_document", "word_document", "github_document", "ioslides_presentation")`
+```
+rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "pdf_document")
+rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "word_document")
+rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "ioslides_presentation")
+rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = c("pdf_document", "word_document", "github_document", "ioslides_presentation")
+```
 
 ## Key points
 
 - Use R scripts to capture & reproduce workflows and/or
 - Use R Markdown files for documents, reports, presentations.
     - One or more output formats from the same file.
-    - Analysis/lab notebook.
+    - Project/analysis/lab notebook.
     
 ---
 
@@ -371,9 +384,6 @@ ggplot2::qplot(rnorm(100))
 - Write papers in R Markdown using [`papaja`](https://github.com/crsh/papaja)
     - Make [this](../papaja_demo/gilmore-lebreton-hallquist.pdf) from [this](../papaja_demo/gilmore-lebreton-hallquist.Rmd)
 - Version control with git and [GitHub](http://github.com)
-- Scriptable analysis workflows
-    - Reports for each participant, e.g. [PEEP-II project](https://github.com/gilmore-lab/peep-II-ratings-analysis)
-    - This bootcamp's [`Make_site.R`](../R/Make_site.R)
 - [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), [blogs](https://bookdown.org/yihui/blogdown/), (even [books](https://bookdown.org/)) with R Markdown
     
 ## Version control
@@ -411,58 +421,6 @@ ggplot2::qplot(rnorm(100))
 Your browser does not support the video tag.
 </video>
 </div>
-
-## Scripting the pipeline
-
-```
-# Get_bootcamp_googlesheet.R
-# 
-# Script to authenticate to Google, extract R bootcamp survey data
-
-library(googlesheets)
-library(tidyverse)
-
-survey_url <- "https://docs.google.com/spreadsheets/d/1Ay56u6g4jyEEdlmV2NHxTLBlcjI2gHavta-Ik0kGrpg/edit?usp=sharing"
-
-bootcamp_by_url <- survey_url %>%
-  extract_key_from_url() %>%
-  gs_key()
-
-bootcamp_sheets <- gs_ws_ls(bootcamp_by_url)
-```
-
----
-
-```
-boot_data <- bootcamp_by_url %>%
-  gs_read(bootcamp_sheets[1])
-          
-names(boot_data) <- c("Timestamp",
-                      "R_exp",
-                      "GoT",
-                      "Age_yrs",
-                      "Sleep_hrs",
-                      "Fav_date",
-                      "Tidy_data")
-
-write_csv(boot_data, path = "data/survey.csv")
-```
-
----
-
-```
-# Update_survey.R
-#
-# Updates Googlesheet survey data and generates new R Markdown report
-#
-
-source("R/Get_bootcamp_googlesheet.R")
-rmarkdown::render("talks/bootcamp-survey.Rmd", 
-                  output_format = c("github_document",
-                                    "pdf_document",
-                                    "word_document",
-                                    "ioslides_presentation"))
-```
 
 ## [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html)
 
