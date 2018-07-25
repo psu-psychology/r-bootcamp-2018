@@ -5,13 +5,13 @@ title: "2018 R Bootcamp Schedule"
 ## Thursday, August 16, 2018, 9:00 am - 4:30 pm
 ### XXX Mateer and 130 Moore
 
-| Plenary, XXX Mateer                                  |
+| [Plenary](talks/bootcamp-day-1-intro.html), XXX Mateer                                  |
 |-------------------------------------------------------|
 | 09:00 am • Welcome, introductions, & housekeeping     |
 | 09:15 am • Why We R Here                              |
 | 09:45 am • Break                                      |
 
-| Slow-R Track, XXX Mateer    | Advanced Track, 130 Moore |
+| Slow-R Track, XXX Mateer    | Fast-R Track, 130 Moore |
 |-----------------------------|--------------------------|
 | 10:00 am • RStudio                  |                  |
 | 11:00 am • Command the command line |                  |

@@ -1,0 +1,20 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{gilmore-hallquist-bootcamp-2018-papaja_files/figure-latex/Banjo-by-age-exp-1.pdf}
+\caption{\label{fig:Banjo-by-age-exp}Banjo music enthusiasm by age and R
+experience}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{gilmore-hallquist-bootcamp-2018-papaja_files/figure-latex/Banjo-by-sleep-1.pdf}
+\caption{\label{fig:Banjo-by-sleep}Banjo music enthusiasm by preferred hours
+of sleep}
+\end{figure*}
+\efloatseparator
+ 

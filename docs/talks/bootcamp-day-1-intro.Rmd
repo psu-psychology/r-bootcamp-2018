@@ -1,0 +1,143 @@
+---
+title: "We-R Going to Learn Some R"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+css: gilmore.css
+bibliography: bootcamp.bib
+logo: ../img/psu-logo.png
+output: 
+  ioslides_presentation:
+    widescreen: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+  github_document:
+    toc: true
+    toc_depth: 3
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Acknowledgments
+
+- [Psychology Department](http://psych.la.psu.edu)
+- [Social, Life, & Engineering Sciences Imaging Center (SLEIC)](http://www.imaging.psu.edu)
+- [Child Study Center's Open Data and Developmental Science (ODDS) initiative](http://csc.la.psu.edu/research/collaborative-research-initiatives)
+
+## Agenda
+
+- Welcome and introductions
+- Housekeeping
+- Schedule
+- Aspirations & Philosophy
+- The stoRy of R
+
+## Welcome and introductions
+
+- Michael Hallquist
+- Rick Gilmore
+
+## Housekeeping
+
+- Bootcamp materials on GitHub: <https://github.com/psu-psychology/r-bootcamp-2018>
+- Bootcamp website: <http://psu-psychology.github.io/r-bootcamp-2018>
+
+## Schedule
+
+- Day 1 (Thursday, August 16, 2018): XXX Mateer & 130 Moore
+- Day 2 (Friday, August 17, 2018): XXX Mateer
+
+## Day 1 Schedule
+
+## Day 2 Schedule
+
+## Aspirations & Philosophy
+
+- You **can** learn to program
+- You **should** learn to program
+- R is a good language for learning programming
+- "Do or do not; there is no try" (Yoda)
+
+## Some background
+
+- About computers
+- The storRy of R
+
+## About computers
+    
+- Computers store data & instructions (programs, scripts etc.)
+    - Short-term (during your work session) in volatile memory
+    - Long-term (between work sessions) in files
+    
+---
+    
+```{r}
+# List the files in my current directory
+dir()
+```
+
+## About computers
+    
+- Files are organised in directories (folders)
+    - Directories/folders have a hierarchy
+    - The set of directories to a file is called the path
+    
+---
+
+```{r}
+# Get and print the current working directory
+getwd()
+```
+
+## The storRy of R
+
+<div class="centered">
+<a href="https://www.amazon.co.uk/Story-R-Gaia-Servadio/dp/0330332031">
+<img src="https://images-na.ssl-images-amazon.com/images/I/41ZHVS1JSHL._SX293_BO1,204,203,200_.jpg"/>
+</a>
+</div>
+
+## The storRy of [*our* R](https://en.wikipedia.org/wiki/R_(programming_language))
+    
+- What is R?
+    - A programming language, written by and for statisticians & data scientists
+- Why is it called R?
+    - TLDR: it's the free, open-source version of a commercial program called S developed in the 1970s at Bell Labs
+    - Bell Labs is also the home of C, and the Unix operating system
+    
+## The storRy of R
+
+- Features of R
+    - Written in C, Fortran, and R
+    - 14th most [popular programming language](https://www.tiobe.com/tiobe-index/)
+    - Base R (now 3.5.1) + thousands of packages
+    - Object-oriented
+    
+## Using R
+
+- On your own computer
+- In the cloud from your browser
+    - <https://lxclusterapps.tlt.psu.edu:8788>
+    
+## Your turn
+
+- Why do you want to learn R?
+- If you know some R, what else do you want to learn?
+- Complete the [survey!](https://docs.google.com/forms/d/1QrzdVYRu70uCfVN8AkHrdgH1odC0tUpqAHzfJ79monw/edit)
+- Testimonials?
+
+## Next steps
+
+- Slow R (stay here)
+- Fast R (130 Moore)
+- Lunch
+
+## References {.smaller}
+

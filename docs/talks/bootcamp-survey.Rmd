@@ -1,0 +1,206 @@
+---
+title: "Analysis of 2018 bootcamp survey"
+author: "Rick Gilmore"
+date: '`r Sys.time()`'
+output:
+  html_document: default
+  html_notebook: default
+  github_document:
+    toc: yes
+    toc_depth: 3
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+  word_document:
+    toc: yes
+    toc_depth: 3
+params:
+  data_file_in: '../data/survey_test.csv'
+  data_file_out: '../data/survey_2018.csv'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Goals
+
+- Download and clean data from 2018 R Bootcamp Survey
+- Visualize data
+- Prepare reports in `ioslides_presentation`, `pdf_document`, and `word_document` formats
+
+## Preliminaries
+
+Load required packages.
+
+```{r load-packages}
+library(tidyverse)
+library(googlesheets)
+```
+
+## Load data and examine
+
+The survey data are stored in a [Google Sheet](https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit#gid=2108979913). 
+We'll use the `googlesheets` package to open it and create a data frame. Documentation about the package can be found [here](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html).
+
+There are some idiosyncrasies in using the `googlesheets` package in an R Markdown document because it requires interaction with the console, so I created a separate R script, `Get_bootcamp_googlesheet.R` to extract the survey data.
+If you try to execute the next chunk, it may give you an error, or it may ask you to allow `googlesheets` to access information in your Google profile.
+
+```
+survey_url <- "https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit?usp=sharing"
+
+bootcamp_by_url <- survey_url %>%
+  googlesheets::extract_key_from_url() %>%
+  googlesheets::gs_key()
+
+bootcamp_sheets <- gs_ws_ls(bootcamp_by_url)
+
+boot_data <- bootcamp_by_url %>%
+  gs_read(bootcamp_sheets[1])
+          
+write_csv(boot_data, path=params$data_file_out)
+```
+
+This script downloads the data file saves it to a CSV under `r params$data_file_out`.
+We can then load this file.
+
+I also created a test data file, `data/survey-test.csv` so I could see how everything worked before y'all filled out your responses.
+The [`R/Make_test_survey.R`](../R/Make_test_survey.R) file shows how I did this.
+It's a great, reproducible practice to **simulate the data you expect**, then run it through your pipeline.
+
+---
+
+```{r load-data}
+# Created test data set for testing.
+survey <- read_csv(params$data_file_in)
+# Or choose data from respondents
+#survey <- read_csv(data_file_in)
+```
+
+```{r}
+survey
+```
+
+The `str()` or 'structure' command is also a great way to see what you've got.
+
+```{r}
+str(survey)
+```
+
+Clearly, we need to do some cleaning before we can do anything with this.
+
+Let's start by renaming variables.
+
+```{r rename-vars}
+names(survey) <- c("Timestamp",
+                  "R_exp",
+                  "Banjo",
+                  "Psych_age_yrs",
+                  "Sleep_hrs",
+                  "Fav_day",
+                  "Crisis")
+```
+
+
+```{r clean-survey}
+# complete.cases() drops NAs
+survey <- survey[complete.cases(survey),]
+survey
+```
+
+Now, lets make sure we have numbers where we expect them. 
+<!-- That person who really likes 8 hours ("8!!!") is a problem (for me, not them). -->
+
+```{r make-numbers}
+survey$Sleep_hrs <- readr::parse_number(survey$Sleep_hrs)
+survey
+```
+
+Looks good. Let's save that cleaned file so we don't have to do this again.
+
+```{r }
+write_csv(survey, path="../data/survey_clean.csv")
+```
+
+We may want to make the `R_exp` variable ordered.
+
+```{r modify-r-exp}
+(survey_responses <- unique(survey$R_exp))
+```
+
+This shows us the different survey response values.
+
+```{r}
+survey$R_exp <- ordered(survey$R_exp, levels=c("none",
+                                               "limited",
+                                               "some",
+                                               "lots",
+                                               "pro"))
+```
+
+## Visualization
+
+Now, we follow Mike Meyer's advice: "Plot your data!"
+
+### Descriptive plots
+
+```{r R-exp-hist, fig.cap="Distribution of prior R experience"}
+R_exp_hist <- survey %>%
+  ggplot() +
+  aes(x=R_exp) +
+  geom_histogram(stat = "count") # R_exp is discrete
+R_exp_hist
+```
+
+```{r Sleep_hrs_hist, fig.cap="Distribution of preferred sleep hrs/day"}
+Sleep_hrs_hist <- survey %>%
+  ggplot() +
+  aes(x=Sleep_hrs) +
+  geom_histogram() # Sleep_hrs is continuous
+Sleep_hrs_hist
+```
+
+```{r, fig.cap="Distribution of Enthusiasm for Banjo Music"}
+Banjo_hist <- survey %>%
+  ggplot() +
+  aes(x=Banjo) +
+  geom_histogram()
+Banjo_hist
+```
+
+---
+
+Does R experience have any relation to banjo music enthusiasm?
+
+```{r Banjo-vs-r-exp}
+Banjo_vs_r_exp <- survey %>%
+  ggplot() +
+  aes(x=Banjo, y=Psych_age_yrs) +
+  facet_grid(. ~ R_exp) +
+  geom_point()
+  # + stat_smooth()
+Banjo_vs_r_exp
+```
+
+```{r Crisis, cache=TRUE}
+crisis_plot <- survey %>%
+  ggplot() +
+  aes(x=Crisis) +
+  geom_bar()
+crisis_plot
+```
+
+## Analysis
+
+I could use a document like this to plan out my analysis plan **before** I conduct it.
+If I used simulated data, I could make sure that my workflow will run when I get real (cleaned) data.
+I could even preregister my analysis plan before I conduct it.
+That doesn't preclude later exploratory analyses, but it does hold me and my collaborators accountable for what I predicted in advance.
+
+## Notes
+
+Notice that I sometimes put a label like `Banjo-vs-r-exp` in the brackets `{}`for a given 'chunk' of R code. The main reasons to do this are:
+
+- It sometimes makes it easier to debug your code.
+- In some cases, you can have this 'chunk' name serve as the file name for a figure you generate within a chunk.
+- In a bit, we'll see how these chunk names are useful for making tables, figures, and equations that generate their own numbers.

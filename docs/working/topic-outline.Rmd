@@ -1,0 +1,149 @@
+---
+title: "topic-outline"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Slow Track
+
+- Prerequisites (or cover later?)
+    - Understand that computers store data and instructions (programs, scripts etc.) in files.
+    - Files are organised in directories (folders). 
+    - Know how to access files not in the working directory by specifying the path.
+- What is R?
+    - A programming language
+        - People telling computers what to do and how
+    - Why is it called R?
+        - TLDR: it's the free, open-source version of a commercial program called S.
+        - Software developers have an unusual sense of humor.
+- Why should I learn R?
+    - It's fun
+    - It's free
+    - You can amaze your friends and dazzle your foes
+    - It's powerful, especially for manipulating, plotting, and analyzing data
+    - **It will make you a more productive researcher**
+- What about learning other languages?
+    - Go for it!
+        - But make sure you develop some mastery over one computer language before learning another one
+    - Other useful languages to learn: Python, Matlab, *nix shell programming, HTML/CSS/JavaScript, SQL
+- Your turn
+    - Why do *you* want to learn R?
+    - What specifically do you want to know or do?
+    - What are your concerns?
+- The road ahead
+    - Like any skill, programming requires (regular, spaced) practice
+    - There will be pain and frustration
+    - Persist
+    - Computers are dumber than you imagine, but they're super-fast and they don't complain about repetitive tasks
+- Talking to the computer
+    - RStudio
+        - Discuss components/panes/windows later
+    - The command line or console
+        - The prompt and cursor
+            - One way to talk to the computer
+            - Interactive
+                - We type, it responds
+                - Or really, we command, it responds (if it can)
+            - Old school: Goes back to the 60s
+            - Seems less powerful than...Siri or Alexa or...
+                - But wait and see
+        - What's happening under the hood?
+            - R is waiting for you to do something (hit the `return` key)
+            - When you hit `return`, tries to 'understand' what you typed
+                - By 'understand' we mean...
+            - Computers don't get impatient...really
+        - Let's try
+            - Typing `hi` results in `Error: object 'hi' not found`
+            - Notice R doesn't really understand English
+            - Type "help"
+                - RStudio tries to 'help' you by adding '()', but delete those for now and just type 'help'
+                - Those are the sequence of things that R does under the hood when you issue the `help` command.
+                - So R understands some things, but not others
+            - Type `help()`
+                - This opens a new window in RStudio's "Help" panel.
+                - This is the documentation about how to ask R for help.
+                - The `()` parentheses after the word 'help' are where you give R more information about what and how you want it to carry out your command.
+                    - These are called 'arguments' or 'parameters'
+                    - `help()` is a function, and the information you type in the parentheses are the arguments or parameters for the function.
+          - Functions are sets of commands, like recipes
+              - Imagine if your kitchen had a command line
+              - Imagine issuing a `bake_cake(kind = 'chocolate', layers = 3, size = 'big')` command
+              - Try it in R
+              - Too bad, R `could not find function "bake_cake"`
+              - Just for fun: Design your own function with 2 or 3 arguments
+          - Functions R **does** understand
+              - Try `sum(2,3,4)`
+              - Try `cos(pi)`
+              - Try `1:5`
+              - Try `mean(1:5)`
+              - Try `print("Hello, world")`
+        - Types of things R understands
+            - Numbers, strings (combinations of letters, numbers and characters), commands
+            - Enter numbers like you'd type them: `1` or `3.14`
+            - Enter strings surrounded by single or double quotes: "R", or "version.1"
+                - `sqrt(9)` vs. `sqrt('9')` or `sqrt("9")`
+        - Getting really anal
+            - **Use underscores "_" rather than spaces**. Just do it.
+                - Why: R treats strings connected by underscores as one thing.
+                - `my_really_big_string`
+            - **Name things with letters, numbers, and underscores**.
+        - Naming things
+            - `my_age <- 55`
+            - Use the `<-` combination to assign names `my_age` to values `55`.
+                - Type `<` and then `-`or just `option + -` (Mac) or `alt + -` (Windows)
+                - `<-` is called an assignment operator.
+                - `<-` tells R to 'assign' the name on the left to the thing on the right.
+                - We'll use `<-` a lot.
+                - Now, R knows (for now) that when I type `my_age` I want it to substitute the value `55`. This will come in handy.
+            - **Don't use `=`. You can, but don't**. It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. **Avoid flame wars**.
+        - R as a calculator
+            - Try entering `2 + 2` and `1/sqrt(99)`
+            - `height_ft <- 6`
+            - `shoe_size <- 9`
+            - `(1/sin(height_ft))*sqrt(shoe_size)`
+            - **Use human-readable and meaningful names for things.** Be kind to your future self.
+            - **Name functions with action words/verbs.** This helps you distinguish objects/variables from commands/functions.
+        - Summing up: Talking to R at the command line or console
+            - Command R to do something (it already knows how to do)
+                - `mean(1:436)`
+            - Command R to do something and name the result
+                - `half_way_to_436 <- mean(1:436)`
+            - Ask R for help
+                - `help("mean")`
+            - Tell R what to do when we command it (create a function)
+                - `add_13 <- function(number){number + 13}`
+                - `add_one(15.333)`
+                - `add_one("15.333")`
+                    - `Error in number * 2 : non-numeric argument to binary operator`
+                    - This function can't add (`+`) strings (non-numeric arguments)
+        - Your questions
+        - Some elaborations before we move on
+            - Command history tab
+                - All the commands you've issued (but not the results)
+            - Environment tab
+                - What names you've assigned to things (not the names R already knows)
+    - From single commands to sequences (aka, programming or algorithmic thinking)
+        - Most of the time, we want to do a sequence of things
+            - A program or script is just a sequence of commands, a recipe
+                - Saved so we can reuse it.
+                - What are the ingredients? What do we do with them? In what order? What's the final product?
+            - Example 1: Compute [Body Mass Index (BMI)](https://www.cdc.gov/healthyweight/assessing/bmi/index.html)
+                - bmi <- wt_kg/(ht_m^2)
+                - wt_kg <- 80
+                - ht_m <- 2
+                - Example 1.1: Command line
+                - Example 1.3 Put in a script
+                    - That big panel in RStudio we haven't used yet!
+                    - Type commands, functions here.
+                    - Save and name the file `my_script.R`
+                    - At console simply `source("my_script.R")`
+                        - `help("source")` to see what the `source()` command does.
+                -  Example 1.2: Write a function
+                    - `calculate_bmi <- function(wt_kg, ht_m){wt_kg/(mt_m^2)}`
+                    - `calculate_bmi(80, 2)`
+                - **If you repeat the same code 2 or 3 times, write a function.**
