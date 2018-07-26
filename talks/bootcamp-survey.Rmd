@@ -190,6 +190,45 @@ crisis_plot <- survey %>%
 crisis_plot
 ```
 
+## Data documentation (codebook)
+
+Every data set should be documented.
+You can generate a template data codebook with some useful summary information using the package `dataMaid`.
+
+```{r make_dataMaid_codebook}
+if(!require(dataMaid)){install.packages('dataMaid')}
+library(dataMaid)
+dataMaid::makeCodebook(data = survey, 
+                       reportTitle = 'Codebook for 2018 R bootcamp survey', 
+                       replace = TRUE)
+```
+
+Then, we can look at the `codebook_survey.Rmd` file and edit it as needed, especially the section with the code descriptions.
+
+```
+# Codebook summary table
+
+------------------------------------------------------------------------------
+Label   Variable                Class         # unique  Missing  Description  
+                                                values                        
+------- ----------------------- ----------- ---------- --------- -------------
+        **[Timestamp]**         POSIXct              1  0.00 %   Time & date survey was completed            
+
+        **[R\_exp]**            ordered              5  0.00 %   Levels of R experience: {none", "limited", "some", "lots","pro")}            
+
+        **[Banjo]**             integer             10  0.00 %   Level of enthusiasm for banjo music [1,10]              
+
+        **[Psych\_age\_yrs]**   integer             33  0.00 %   Age participant reports feeling              
+
+        **[Sleep\_hrs]**        numeric             50  0.00 %   Preferred number of hours/day spent sleeping
+
+        **[Fav\_day]**          Date                 1  0.00 %   Favorite day of the week: {'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'}              
+
+        **[Crisis]**            character            4  0.00 %   Is there a 'reproducibility' crisis in psychology: {'Yes, a significant crisis', 'Yes, a slight crisis', 'No', 'Don't know'}            
+------------------------------------------------------------------------------
+
+```
+
 ## Analysis
 
 I could use a document like this to plan out my analysis plan **before** I conduct it.

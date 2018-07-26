@@ -3,13 +3,15 @@ title: "slow-r"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
 output:
-  html_notebook:
-      toc:  TRUE
-      toc_depth: 4
-      number_section: TRUE
   html_document:
       toc:  TRUE
       toc_depth: 4
+      toc_float: TRUE
+      number_section: TRUE
+  html_notebook:
+      toc:  TRUE
+      toc_depth: 4
+      toc_float: TRUE
       number_section: TRUE
 ---
 
@@ -19,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       collapse = FALSE)
 ```
 
-# Slow-R -- Preliminaries
+# Preliminaries
 > We're not slow; we're not fast. We're half-fast. 
 
 (Joke my Dad didn't think I got as a kid.)
@@ -28,6 +30,7 @@ This tutorial is intended as a very slow introduction to using R.
 If we're going too slow for you, that's ok.
 But if we're going too fast, please say so!
 We think that by going slow at the start, it will be easier to speed up later.
+
 ## Talking to the computer
 
 We talk about programming a computer or coding, but most of the time we're having a conversation.
@@ -48,14 +51,14 @@ It's powerful, especially for manipulating, plotting, and analyzing data.
 **It will make you a more productive researcher.**
 That's the bottom line.
 
-> What if you want to learn another programming language?
+> What if I want to learn another programming language?
 
 Awesome! 
 Good for you. 
 Learn a bunch of languages.
 They're a bit like human languages: It's easier or more poetic to say some things in some languages than it is in others.
 But make sure you develop some mastery over one computer language before learning another one.
-Other useful languages to learn include the following: Python, Matlab, *nix shell programming, HTML/CSS/JavaScript, SQL, C/C++, Java.
+Other useful languages for behavioral scientists to learn include the following: Python, Matlab, *nix shell programming, HTML/CSS/JavaScript, SQL, C/C++, and Java, for starters.
 
 ## Why RStudio?
 
@@ -64,15 +67,17 @@ RStudio brings together a number of useful tools for talking to the computer in 
 You don't have to use RStudio to use R, but you should use it for this bootcamp, and we strongly recommend using it in the future.
 It's suitable for beginners and experts.
 
-# Slow-R -- Part I (RStudio and the Console)
+# RStudio and the Console
 
 ## RStudio
 
 I'm going to login to a version of RStudio that Penn State hosts so that Penn Staters can use RStudio from a web browser.
-I enter [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788) in my browser, enter my PSU Access ID (rog1) and password, then click on the the `Sign In` button with my mouse or press return on my keyboard.
+Detailed instructions can be found at <http://psu-psychology.github.io/r-bootcamp-2018/rstudio-tlt.html>.
+
+In brief, I enter [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788) in my browser, enter my PSU Access ID (rog1) and password, then click on the the `Sign In` button with my mouse or press return on my keyboard.
 Then I see an RStudio window that looks very much like this one:
 
-<img src="img/rstudio-server-startup.jpg"/>
+<img src="../img/rstudio-server-startup.jpg"/>
 
 This is the default view.
 It has several different "windows" or panels.
@@ -97,7 +102,7 @@ Press the `return` or `enter` key on your keyboard to tell R you've finished say
 'license()'
 ```
 
-<img src="img/type-license.jpg"/>
+<!-- <img src="../img/type-license.jpg"/> -->
 
 Well, that wasn't very interesting.
 The computer responded by repeating what we'd typed, changing the single quotation marks for double quotation marks, but that's about it.
@@ -118,7 +123,7 @@ We said something in R, and the computer responded.
 
 Why did typing `license()` work but typing `'license()'` not work?
 The single quotation marks.
-Typing `license()` without them gave R a command; surrounding the same characters with single quotation marks told R that all of those characters were a single unit called a string, *not* a command.
+Typing `license()` without them gave R a command; surrounding the same characters with single quotation marks told R that all of those characters were a single unit a string of characters (called a *string*), but definitely *not* a command.
 As I said, computers are *very* literal.
 Many of the errors and frustrations you will encounter in your R journey will come down to your not telling the computer what to do in EXACTLY the way it needs to be told.
 
@@ -129,7 +134,7 @@ Notice that as we type text or R does, that text scrolls up so we can see the re
 You can scroll (with your mouse or arrow keys) up and down in the console.
 
 The greater-than (`> `) character is called the 'prompt', and the vertical line or pipe character (`|`) is called the 'cursor'. 
-You already knew about the cursor.
+You already knew about the cursor from your experiences in other computer programs.
 It's where characters we type will be entered.
 The prompt is just a character to 'prompt' or remind us that R is waiting for us to say something.
 
@@ -180,7 +185,7 @@ my_age <- 55 # Rick's age
 ```
 
 This command tells R to 'assign the name "my_age" to the number 55'.
-The 'assign the name' command is the combination is that leftward arrow `<-` symbol.
+The 'assign the name' command is the combination is that leftward arrow (`<-`) symbol.
 You can type it the easy way by typing `option` and the minus `-` keys at the same time (Mac OS) or the `alt` and `-` keys on Windows.
 You can also type it the hard way by typing a `<` and then `-`.
 But train your fingers to type it the easy way.
@@ -200,7 +205,7 @@ your_age <- 25
 your_age # Print the value assigned to 'your_age' 
 ```
 So, if you want to be consistent in commanding R, you can always use the `command()` syntax.
-And by the way, this works, too:
+Even stranger, this works, too:
 
 ```{r}
 `<-`('your_age', 27) # Wonky way to show that the assignment operator is a command
@@ -209,7 +214,11 @@ your_age
 ```
 
 By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right), just like the convention in math.
-**Don't use `=`. You can, but don't. Use `<-`**. 
+**Don't use `=`. You can, but don't. Use `<-`**.
+
+Why?
+It's a recommendation about style, not substance.
+But style matters.
 It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. 
 **Avoid flame wars**.
 
@@ -225,6 +234,17 @@ sqrt(9) < 4
 'richard' != 'rick'
 ```
 R will respond with `TRUE` or `FALSE` to these questions.
+Yes, `TRUE` and `FALSE` must be in all caps.
+
+```{r}
+'true' == TRUE
+'False' == FALSE
+```
+
+This is because `TRUE` and `FALSE` are not just character strings to R.
+They have special meaning as Boolean (logical) variables.
+We'll say more about them later.
+
 Notice that `==` asks if the two things are equal and `!=` asks if they are unequal.
 This is different from what you learned in math class, where $a=1$ could be either a statement (or assignment command) or a question.
 If computers had invented math, rather than the reverse, they would have separated making statements or commands from asking questions--for clarity.
@@ -234,8 +254,12 @@ If you want to think of this in a "commanding" way, you could say that you are c
 ### Rules for naming things
 
 R has rules for names.
-You'll be fine if you 1) replace spaces with underscores (`_`), and 2) start names with letters, not numbers.
-So, `good_name`, `a_longer_good_name`, and `Good_name1`, but not `bad name` or `1_very_bad_name`.
+You'll be fine if you do the following:
+
+1. Replace spaces with underscores (`_`), and 
+2. Start names with letters, not numbers.
+
+So, `bigly`, `good_name`, `a_longer_good_name`, `Good_name1`, and even `thisIsCamelCaseNoUnderscores` but not `!good`, `bad name` or `1_very_bad_name`.
 There are other rules and exceptions, but this is a good place to start.
 
 ### What can we talk about?
@@ -265,12 +289,13 @@ my_quest <- 'The Holy Grail'
 favorite_color <- 'Blue, no green'
 ```
 
-R treats strings and numbers as different beasts, so `1 == '1'` is `FALSE`.
+R treats strings, numbers, and logical values (`TRUE` and `FALSE`) as different beasts most of the time.
 
 ```{r}
-1 == '1'      # Compare the number 1 to the string '1'
 'one' == '1'
-'one' < 'two' # Be careful! R is not comparing the numbers but each letter
+
+# More predictable way of checking whether two things are identical
+identical(12, '12')
 ```
 
 We can also talk about *commands*, so `help('sum')` gives us helpful information about the `sum()` command.
@@ -280,7 +305,7 @@ help('sum')
 ```
 
 Notice that we have to put the name of the command in quotation marks.
-That tells R that we are talking about the command 'sum' not giving R the command to sum something.
+That tells R that we are telling R to 'help us learn about the command "sum"', not giving R the command to sum something.
 
 > You can use either single or double quotation marks for strings, but I recommend using single ones. And don't mix and match: `'R will hate this"`
 
@@ -289,11 +314,11 @@ That tells R that we are talking about the command 'sum' not giving R the comman
 These are the basic building blocks:
 
 - We type commands or questions into the Console, and R does our bidding...as long as we follow the rules that R requires for us to understand one another.
-- We can talk about numbers, strings, and commands.
+- We can talk about numbers, strings, logical values, and commands.
 
 And very soon, we'll see how we can talk about collections of numbers and strings (e.g., data) and sequences of commands (scripts or programs).
 
-# Slow-R -- Part II (object types and classes)
+# Object types and classes
 
 Let's pick up the pace.
 In this section, we'll talk more about the various types of objects R can store and how to manipulate them.
@@ -308,14 +333,14 @@ The computer doesn't know, but working with R and your operating system (Mac OS,
 
 Why should you care?
 Remember we said that computers are super-literal?
-That's why the computer returns `FALSE` when we say `'1' == 1`, or when we try to add things that can't be added.
+That's why the computer returns `FALSE` when we say `identical('1', 1)`, or when we try to add things that can't be added.
 
 ```{r, eval=FALSE}
 '1' + 1
 ```
 
 The character `'1'` is a completely *different* thing (different type) to the computer than the number `1`.
-So, when humans interact with the computer, we sometimes forget this, and that can cause errors and to humans grief.
+So, when humans interact with the computer, we sometimes forget this, and that can cause errors and (to humans) grief.
 
 ### (Optional aside) Why 1's and 0's?
 One reason is pragmatic: It's relatively easy to make electronic circuits that are either "on" or "off".
@@ -335,11 +360,11 @@ FALSE | FALSE
 
 !TRUE        # the exclamation point '!' is the NOT operator
 ```
-It turns out that these simple operations are **incredibly powerful** when combined together.
+It turns out that these simple operations are *incredibly powerful* when combined together.
 Basically, you can create simple arithmetic operations (addition, multiplication) from Boolean (AND, OR, NOT) elements.
 And from there, we can make any 'computable' function.
 What's computable and what's not?
-That is a deep and unresolved question we won't touch.
+That is a deep and unresolved question we won't touch, but one that computer scientists wrestle with all the time.
 
 ## Classes
 
@@ -368,14 +393,14 @@ R implements lots of different object classes.
 To see some of them, type `is.` then pause or type the 'tab' character.
 This will show you a scrollable list of all of the `is.` commands you can try out on a given object.
 
-<img src="img/is-help.jpg"/>
+<img src="../img/is-help.jpg"/>
 
 The first item on the list tests to see if the input is an 'array'.
 That is what we turn to next.
 
 ## Groups of things
 
-You'll often want to make or compute over groups of things.
+You'll often want to make groups of things or compute over them.
 
 ### Combine `c()` command
 
@@ -390,6 +415,7 @@ You can also combine characters.
 
 ```{r}
 (my_initials <- c("R", "O", "G"))
+
 # Surround an expression with parentheses to print it
 (my_name <- c("Rick", "Owen", "Gilmore"))
 ```
@@ -404,6 +430,11 @@ We'll show you how to make a list that mixes numbers and characters very soon.
 
 *But for now, if you just want to make one big character string from separate parts use the `paste0()` command, as in `paste0("My ", "country ", " tis", " of thee.")`*
 
+```{r}
+paste0("My ", "country ", "tis ", "of thee...")
+```
+
+
 Notice that the combine (`c()`) command puts things in a long row.
 How long is that row?
 
@@ -412,19 +443,37 @@ my_name
 length(my_name)
 ```
 
-Notice that the `length()` command reports the number of individual components, not the number of letters.
+Notice that the `length()` command reports the number of individual components.
 
 ```{r}
-# The colon ':' operator tells R to generate a sequence from a to b
+# The colon ':' operator (a:b) tells R to generate a sequence from a to b
 (more_numbers <- c(-6:15))
 length(more_numbers)
+```
 
+And it works for combined sets of character strings.
+
+```{r}
+length(c("a", "bc", "def", "ghij"))
+```
+
+#### (Optional) Sequence `seq()` command
+
+There is a command for creating orderly sequences.
+
+```{r}
 # The sequence 'seq()' command can also do this
 (more_numbers_alt <- seq(from = -6, to = 15))
 (just_evens <- seq(from = -6, to = 15, by = 2))
 ```
 
-These commands create a vector or 1 dimensional set of items--they have one length.
+And you can go backward.
+
+```{r}
+seq(from = 5, to = -5, by = -1)
+```
+
+These commands create a vector or 1 dimensional set of items--they have a single length.
 But what about other types of structures with more than one dimension?
 
 ### Matrices and Arrays
@@ -443,9 +492,11 @@ What happens if `nrow * ncol` is not equal to the length of the input?
 (bad_matrix <- matrix(1:25, nrow = 4))
 ```
 
+R warns you that there is a problem, but it tries its best to create a matrix of the shape you want by recycling old values.
 You probably won't make many matrices on your own.
 
 A 'matrix-like' object with more than 2 dimensions is called an *array*.
+
 ```{r}
 (my_array <- array(1:24, dim = c(2,3,4)))
 ```
@@ -457,10 +508,15 @@ By the way, if your data is a matrix, the `length()` command may not always work
 
 ```{r}
 length(my_array)
+```
+
+But the `dim()` does.
+
+```{r}
 dim(my_array)    # Usually what you actually want
 ```
 
-You may find yourself with data like this, but I find it easy to get confused about what the different dimensions mean and what order they are produced.
+You may find yourself with matrix or array data like this, but I find it easy to get confused about what the different dimensions mean and what order they are produced.
 
 It's possible to give the dimensions some plausible meanings using the `dimnames` parameter.
 
@@ -473,6 +529,10 @@ my_named_array <- array(1:24, dim = c(2,3,4),
 my_named_array
 ```
 
+This is 'old school' though.
+These days, most R data analysts work with data frames.
+Let's talk about them.
+
 ### Data frames
 
 R has a powerful way of organizing data that makes it both human- and machine-friendly: *data frames*.
@@ -480,10 +540,13 @@ Data frames are like arrays and matrices, but much more useful for humans becaus
 Under the hood, data frames can contain many dimensions like arrays.
 
 ```{r}
+# Create the data frame
 my_df <- data.frame(data = 1:24, 
                     gender = c("M", "F"), 
                     day = c("Mon", "Wed", "Fri"), 
                     measure = c("ht", "wt", "shoe", "IQ"))
+
+# Print the data frame
 my_df
 ```
 
@@ -491,7 +554,7 @@ Notice that R has turned our 3 dimensional data (gender, day, measure) into a 2 
 The rows contain complete observations; the columns the variables.
 This 'rectangular' data shape is called 'tidy'.
 It may seem wasteful to repeat 'M' and 'F' in each row, but it's crystal clear what we mean.
-We'll talk more about the virtues of tidy data tomorrow, but keeping your data tidy is a best practice you'll want to adopt.
+We'll talk more about the virtues of tidy data [^2] tomorrow, but keeping your data tidy (observations in rows, variables in columns, longer than wider) is a best practice you'll want to adopt.
 
 ### Lists
 
@@ -536,24 +599,26 @@ one_to_ten[5]
 ```
 
 Notice that we put the index in square brackets `[]`, not parentheses.
-Again, square brackets are for indexing.
-Parentheses are for commands and functions.
+Again, **square brackets are for indexing**.
+**Parentheses are for commands and functions**.
 You'll make this mistake a lot.
 I still do.
 Don't worry.
 R will tell you.
 
 ```{r, eval=FALSE}
+# See what happens when you type this
 (one_to_ten(5))
 ```
 
 What about matrices or arrays?
 They have more than one dimension.
-Yes, so you'll need more than one index.
+Yes, you'll need more than one index.
 
 ```{r}
-my_array
+dim(my_array)
 my_array[2,3,4] # The last item in each dimension
+my_array[1,1,1] # The first item in each dimension
 ```
 
 Of course, you have to keep track of how to map the indices to the row/column/table values.
@@ -571,19 +636,26 @@ You can pull data our of data frames using numeric indices, but you have to reme
 my_df
 my_df[1,4]     # row 1, column 4
 my_df[1:3,3:4] # rows 1-3, and columns 3-4
-my_df[,2:3]    # All of the rows
-my_df[1,]      # All of the columns
+my_df[,2:3]    # All of the rows from cols 2 and 3
+my_df[1,]      # All of the columns from row 1
 ```
 
 #### Accessing elements by name
 
 An often more useful way to index data in data frames is to use the names of the columns.
-We can extract entire columns using the dollar sign `$` or extract operator.
+We can extract entire columns using the dollar sign `$` or 'extract' operator.
 
 ```{r}
 names(my_df)   # What are the column names?
 my_df$data
 my_df$gender
+```
+
+If you read the help for this operator (`help('$')`) you'll note that you can also use it to create new or replace old values.
+
+```{r}
+# Make new lower case gender variable
+(my_df$new_gender <- tolower(my_df$gender))
 ```
 
 #### Accessing elements by logical (Boolean) values
@@ -594,22 +666,60 @@ Knowing this, we can use Boolean (true/false) expressions to create a vector of 
 (only_males <- (my_df$gender == 'M'))
 ```
 
-Remember, we're selecting all of the `gender` values from `my_df` with `$`, then asking R to test (`==`) which of those are males `'M'`.
-R returns a vector of `TRUE/FALSE` values based on the test.
-Now, we can tell R to give us the male data.
+Let's unpack this.
+We're selecting all of the `gender` values from `my_df` with `$`, so `mf_df$gender` returns only the `gender` column from the data frame.
+Then we ask R to test (`==`) which of those are males `'M'`.
+R returns a vector of `TRUE/FALSE` values that correspond to whether each item in `my_df$gender` is equal to `M`.
+
+With this in hand, we can then select from `my_df` all of the data for the males.
 
 ```{r}
 my_df[only_males,] # All rows with TRUE values for only_males
 ```
 
+Notice that we put `only_males` as the first index in `my_df`, before the comma: `my_df[only_males,]`.
+This means that R will return the *rows* of the data frame where `only_males` has `TRUE` values.
+Recall that data frames are two dimensional.
+The syntax for indexing them is of this form: `df[row_index, column_index]`.
+We didn't specify which columns to return--the column index is empty--so R returns all of the columns.
+
 What about the females?
 
 ```{r}
+# M and F are mutually exclusive, so F is just the opposite of M
 only_females <- !(only_males)
 my_df[only_females,]
 
 my_df[!(only_males),] # Equivalent
 ```
+
+We can mix and match logical indices.
+
+```{r}
+fav_day_mon <- (my_df$day == 'Mon')
+my_df[fav_day_mon & only_females,]
+```
+
+And we can select one or more specific columns by name.
+
+```{r}
+my_df[fav_day_mon, c('measure', 'gender')]
+```
+
+It can be confusing when to surround a variable name with quotations and when not to.
+When you use the extract (`$`) operator, don't surround the variable you're extracting with quotations: `my_df$gender` not `my_df$'gender'`.
+When you're indexing a variable by name, surround it with quotation marks: `my_df[,'gender']` not `my_df[,gender]`.
+Why?
+If you aren't using `$` or quotations `''`, R won't look for `gender` inside `my_df`, but will look for it, and fail to find it, among the objects it has already stored.
+
+By the way, you don't have to create a separate logical variable.
+
+```{r}
+my_df[my_df$gender == 'M',]
+```
+
+But it may be easier for you (or someone else) to read your code if you make a separate logical variable.
+Be kind to your future self.
 
 ### Indexing lists
 
@@ -620,6 +730,7 @@ Remember our $t$ test from a bit ago?
 ```
 
 What if we want to use these data without having to copy and paste?
+Can we pull the values out?
 
 ```{r}
 (names(t_test_r_100))
@@ -632,18 +743,18 @@ So, using this information along with some syntax we'll learn later, we can retr
 
 Our randomly generated set of numbers has a mean value of `r t_test_r_100$estimate`, $t$(`r t_test_r_100$parameter`) = `r t_test_r_100$statistic`, $p$<`r t_test_r_100$p.value`.
 
-We'll talk about this technique later this afternoon.
+We'll talk about how to use R Markdown to implement this technique later this afternoon.
 
 ## Summing up
 
-Here are some rules of thumb:
+Here are some rules of thumb about indexing different objects:
 
-- If you know the actual index numbers, use square brackets `[]`.
+- If you know the actual index numbers or have named variables, use square brackets `[]`.
 - If you want to pick a subset of your data that meets some specific criterion you can define, then create a new Boolean variable for that criterion and use it as an index.
     - You can embed the Boolean expression in your index, but that makes for hard-to-read code.
 - Many things in R (data frames, lists) can be extracted using the extract `$` operator.
 
-# Slow-R -- Part III (Honing your expertise)
+# Honing your expertise
 
 In this short section, we'll talk about some skills that will help accelerate your progress in learning R and RStudio.
 
@@ -693,7 +804,7 @@ Press `ctrl-8` to go to the 'Environment' pane.
 This shows us all of the Data, Variables, and Functions we have defined in the current session.
 Some of the items can be expanded by clicking on the small arrow, the data frame for example.
 
-## What's assigned to what
+### What's assigned to what
 
 The Environment pane is one way to keep track of what you've assigned, but there are some other ways to do this from the console.
 
@@ -711,7 +822,7 @@ You can modify the settings using the 'Tools' menu 'Project Options' item.
 The Project Options window opens.
 Here's mine.
 
-<img src="img/rog_project_options.jpg"/>
+<img src="../img/rog_project_options.jpg"/>
 
 I have strong feelings about two settings:
 
@@ -756,6 +867,7 @@ Again, this is the best way to call commands from a package because it is unambi
 An older, alternative way is to load the package into memory using the `library()` command.
 If we enter `library('ggplot2')` at the Console, then we can type the simpler expression `qplot(rnorm(100))` to create the plot.
 This seems like less typing.
+
 So, why do I recommend the other way?
 Because some packages use the same names for very similar functions.
 If you load both into memory, R won't know which package you want, and so it will choose for you.
@@ -768,7 +880,7 @@ We learned about the Help pane and the power of internet searching.
 We learned about the Environment pane to view what's in active memory, and how to do the same with the `ls()` command.
 We learned about packages and how to install them with `install.packages()` and how to call them using the `package_name::package_function()` syntax and how to 'activate' them using `library()`.
 
-# Slow-R -- Part IV (Scripts and functions)
+# Scripts and functions
 
 The real power of R, or really any programming language, stems from the combination of single steps to form more complex and useful wholes.
 
@@ -786,9 +898,13 @@ And the term comes from the computer world where every project starts out as 'so
 
 Let's make some source code.
 Press `shift-(command or control)-n` (that's 3 keys at one time) to create a new R script file called `Untitled1`.
+
+<img src="../img/new_script_menu.jpg"/>
+
 Press `ctrl-1` to make sure that you are typing in the Source pane in the `Untitled1` window.
 
 You can type in this window now, but I urge you to get in the habit of doing two things:
+
 1.  Typing in a comment line so you know what's to come.
     - Comments require a `#` in the first column.
     - So something like `# Rick's R Bootcamp work 2018-08-16` might be a good name.
@@ -813,6 +929,11 @@ data_mean_nonzero <- rnorm(n = 100, mean = 3, sd = 1)
 ```
 
 When you've typed this, press `(command/control)-s` to save it.
+
+What do these commands do?
+The `rnorm()` command creates a random sample of normally distributed numbers.
+The `n`, `mean`, and `sd` parameters specify the size of our sample, its mean and standard deviation.
+Notice the different sample means.
 
 Now, type in two additional rows of commands.
 
@@ -951,7 +1072,7 @@ my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {}
 If we forget (or choose not) to enter a value for one of the parameters, our function will use the defaults.
 Now we type the code.
 
-```
+```{r}
 my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {
   my_data <- rnorm(n = my_samples, mean = my_mean, sd = my_sd)
   hist(my_data)
@@ -986,7 +1107,7 @@ We've also seen how to make a function that encapsulates these sequences into ea
 
 There is much more to say and learn about functions (e.g., see this [Software Carpentry lesson](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/index.html)), but this is a good start on why they're so important and useful.
 
-# Slow R -- Part V (Getting data in)
+# Getting data in
 
 There are three main sources of data: R packages, the internet, and files on local computers or servers you have access to.
 
@@ -1051,6 +1172,13 @@ This will produce a cross tabulated table about the sex and tenure status of the
 xtabs(formula = ~ sex + tenure, data = mehr_etal_survey)
 ```
 
+Here is the same table formatted in a nice way using the `knitr::kable()` function:
+
+```{r}
+knitr::kable(xtabs(formula = ~ sex + tenure, data = mehr_etal_survey))
+```
+
+
 ## An aside about comma-separated value (CSV) files
 
 Spreadsheets are incredibly powerful computational tools.
@@ -1067,12 +1195,15 @@ CSV files have the file extension `.csv`.
 All spreadsheet programs can export and import CSV files.
 
 CSV files are the *lingua franca* of the data science world, followed closely by tab-delimited files (where `tab` characters replace the commas), JavaScript Object Notation (JSON), and eXtensible Markup Language (XML).
+Here is a tutorial about CSV files: <https://swcarpentry.github.io/r-novice-inflammation/11-supp-read-write-csv/>
 
 ### Reading 'foreign' file formats
 
 Notwithstanding the fact that we urge you to store data in comma-separated text files, you will often want and need to work with data files stored in other formats.
 
-The 'foreign' package (`install.packages('foreign')`) contains commands to read SPSS files (`foreign::read.spss()`).
+The 'foreign' package (`install.packages('foreign')`) contains commands to read SPSS files (`foreign::read.spss()`), Stata files (`foreign::read.dta()`), Systat files (`foreign::read.systat()`), and Minitab files (`foreign::read.mtp()`).
+
+SAS files can be imported using the `sas7bdat` package (`install.packages('sas7bdat')`).
 
 The `xlsx` package (`install.packages('xlsx')`) contains commands to read MS Excel (.xlsx) spreadsheets.
 
@@ -1138,3 +1269,4 @@ hist(mtcars$mpg[guzzlers],
 # Notes
 
 [^1]: Wilkinson, M. D., Dumontier, M., Aalbersberg, I. J. J., Appleton, G., Axton, M., Baak, A., Blomberg, N., et al. (2016). The FAIR guiding principles for scientific data management and stewardship. *Scientific Data*, *3*, 160018. Retrieved from http://dx.doi.org/10.1038/sdata.2016.18
+[^2]: Wickham, H. (2014). Tidy Data. *Journal of Statistical Software*. Retrieved November 19, 2016, from https://www.jstatsoft.org/article/view/v059i10
