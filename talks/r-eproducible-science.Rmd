@@ -2,10 +2,14 @@
 title: "R-eproducible Psychological Science"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-css: gilmore.css
 bibliography: bootcamp.bib
 logo: ../img/psu-logo.png
 output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: TRUE
+    number_section: TRUE
   ioslides_presentation:
     widescreen: true
   pdf_document:
@@ -14,29 +18,36 @@ output:
   github_document:
     toc: true
     toc_depth: 3
-  html_document:
-    toc: true
-    toc_depth: 3
-    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = TRUE)
 library(tidyverse)
 ```
 
+# Themes
 
-## Themes
-
-1. Is there a reproducibility crisis?
-2. What does reproducible psychological science look like?
-3. How can R & RStudio make my science more transparent, open, and reproducible?
+1. The reproducibility crisis
+2. What does reproducible science look like?
+3. Using R & RStudio for reproducible science
+4. Advanced topics in R-eproducible science
+5. The future of reproducible psychological science
         
-# Is there a reproducibility crisis?
+# The reproducibility crisis
 
----
+I like to start off talks about reproducibility in science with some humor.
+This video is a few years old, but it has some timeless insights.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/66oNv_DJuPc" frameborder="0" allowfullscreen></iframe>
+
+What's the point?
+That even the most well-meaning of us can make careless errors that undermine the reproducibility of science.
+
+But, is it a crisis?
+
+In 2016, Nature published the results of a survey of 1,500 scientists ([Baker 2016](http://doi.org/10.1038/533452a)).
+They were asked a number of questions, including the following:
 
 ## Is there a reproducibility crisis?
 
@@ -55,7 +66,7 @@ library(tidyverse)
 [Baker 2016](http://doi.org/10.1038/533452a)
 </div>
 
-## Results from our own bootcamp poll
+### Results from our own bootcamp poll
 
 ```{r load-2018-Bootcamp-survey, include=FALSE}
 survey <- read.csv("../data/survey_clean.csv")
@@ -75,7 +86,7 @@ survey_plot
 ```
 </div>
 
-## Not just in psychology
+## Problems with reproducibility extend beyond psychology and behavioral science
 
 <div class="centered">
 <a href="http://www.nature.com/polopoly_fs/7.36718.1464174471!/image/reproducibility-graphic-online3.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online3.jpg">
@@ -88,7 +99,7 @@ survey_plot
 <img src="https://cdn.shopify.com/s/files/1/0877/5762/products/Rigor_Mortis_1024x1024.jpg?v=1491240110" height=500px/>
 </div>
 
----
+## Why is reproducibility hard?
 
 <div class="centered">
 <a href="http://www.nature.com/polopoly_fs/7.36719.1464174488!/image/reproducibility-graphic-online4.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online4.jpg">
@@ -98,11 +109,9 @@ survey_plot
 [Baker 2016](http://doi.org/10.1038/533452a)
 </div>
 
-<div class="notes">
-Here are the data from the Nature survey.
-</div>
+### A manifesto for reproducible science
 
-## [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021) manifesto
+[[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021)
 
 <div class="centered">
 <a href="http://www.nature.com/articles/s41562-016-0021/figures/1">
@@ -110,14 +119,21 @@ Here are the data from the Nature survey.
 </a>
 </div>
 
-<div class="notes">
-This recent manifesto from Nature Human Behavior describes the risks to reproducible science at every step of the process.
-I urge you to read it.
-</div>
-
 # What does reproducible science look like?
 
-## What am I trying to reproduce?
+## What do we mean by 'reproducibility'?
+
+[Goodman et al., 2016](http://doi.org/10.1126/scitranslmed.aaf5027)
+
+- *Methods* reproducibility
+    - Enough details about materials & methods recorded (& reported)
+    - Same results with same materials & methods
+- *Results* reproducibility
+    - Same results from independent study
+-*Inferential* reproducibility
+    - Same inferences from one or more studies or reanalyses
+    
+## Achieving methods reproducibility
 
 - My own workflow
     - Data collection
@@ -126,21 +142,13 @@ I urge you to read it.
     - Analysis
     - Reporting
     - Manuscript generation?
-    
-## What am I trying to avoid?
-
-- "Hit by a truck" scenario
+- Avoiding the 'hit by a truck' scenario
 
 <div class="centered">
 <img src="http://www.clipartguide.com/_named_clipart_images/0511-0902-0200-0035_Black_and_White_Cartoon_of_a_Man_Just_Hit_By_a_Truck_clipart_image.jpg"/>
 </div>
 
-<div class="notes">
-But today I want us to think more parochially about our own workflows.
-How can using R make our own data collection, cleaning, visualization, and analysis workflows more reproducible.
-Ask yourself this: Can you pick up where you left off on a project you were working on yesterday? Last week? Last month? Six months ago?
-Put it this way: If you were hit by a truck tomorrow, could your adviser and collaborators pick up where you left off?
-</div>
+**Can someone pick up where you left off without significant loss of time and momentum?**
 
 ## Reproducible workflows
 
@@ -149,44 +157,11 @@ Put it this way: If you were hit by a truck tomorrow, could your adviser and col
 - Be kind to your future (forgetful) self
 - Transparent to me & colleagues == transparent to others
 
-<div class="notes">
-Reproducible workflows are scripted.
-They minimize human contact with your data files.
-They are well-documented.
-And it turns out that workflows that are transparent to you and your colleagues are transparent to others.
-This makes them easy to share.
-</div>
+# Using R (and RStudio) for reproducible science
 
-## Reproducible workflows (the future)
+## Scripting
 
-- Data, materials openly (and securely) shared with researchers
-    - Including procedure videos [[@Gilmore2017-eh]](http://doi.org/10.1038/s41562-017-0128)
-- Data, materials (displays, code) stored in central repository
-    - Open Science Framework ([OSF](http://osf.io))
-    - [Databrary](http://databrary.org)
-    
-## Reproducible workflows (the future)
-
-- Access/analyze materials/displays via repository application program interfaces (APIs)
-- Building a 'cumulative' science  [[@Mischel2011-br]](https://www.psychologicalscience.org/observer/becoming-a-cumulative-science)
-
-# How R can make my science more reproducible
-
-<!-- ## Using R scripts for reproducible workflows -->
-
-<!-- - **Option 1**: All commands in an R script: e.g., `project_analysis.R` -->
-<!-- - **Option 2a**: Mix R code, output, comments in an [R Markdown](http://rmarkdown.rstudio.com/) document -->
-<!-- - **Option 2b**: Use R scripts with some [special formatting](http://rmarkdown.rstudio.com/articles_report_from_r_script.html), [(more info)](https://github.com/jennybc/happy-git-with-r/blob/master/31_workflow-first-use-r-script-and-github.Rmd). -->
-
-<!-- <div class="notes"> -->
-<!-- We've already shown you in this bootcamp how writing R scripts and functions can let you import, clean, munge, reorganize, plot, and analyze data. -->
-<!-- We've already seen how commenting code fragments makes it easier to read and understand. -->
-<!-- An extension to R called R Markdown lets us mix R code, analyses, text, tables, and other formatting to make all sorts of products. -->
-<!-- R Markdown files are just text files. -->
-<!-- But with this one text file, it's easy to produce multiple output types: PDF or Word formatted documents; HTML for blogs, web sites, or even slide presentation. -->
-<!-- </div> -->
-
-## Using R scripts for reproducible workflows
+Think of each step of your data workflow
 
 ```
 # Import/gather data
@@ -200,7 +175,7 @@ This makes them easy to share.
 # Report findings
 ```
 
----
+Imagine writing R code to handle each step.
 
 ```
 # Import data
@@ -211,7 +186,7 @@ my_data$gender <- tolower(my_data$gender) # make lower case
 ...
 ```
 
-## Script calls sequence of R commands or functions
+You could put all the code in one script file, or even better, have separate scripts for each step that you `source()` one by one.
 
 ```
 # Import data
@@ -225,7 +200,7 @@ source("R/Visualize_data.R")
 ...
 ```
 
-## Strengths & Weaknesses
+### Scripts: Strengths & Weaknesses
 
 - R commands in files that can be re-run
 - Separate pieces of workflow kept separate
@@ -234,17 +209,19 @@ source("R/Visualize_data.R")
     - No problem; fix data file and re-run "Master.R"
 - How to save results or share with collaborators?
 
-## Use R & RStudio for earlier phases?
+<!-- ## Use R & RStudio for all phases? -->
 
-<div class="centered">
-<a href="http://www.nature.com/articles/s41562-016-0021/figures/1">
-<img src="http://www.nature.com/article-assets/npg/nathumbehav/2017/s41562-016-0021/images_hires/w926/s41562-016-0021-f1.jpg" height=400px>
-</a>
-</br>
-[[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021)
-</div>
+<!-- <div class="centered"> -->
+<!-- <a href="http://www.nature.com/articles/s41562-016-0021/figures/1"> -->
+<!-- <img src="http://www.nature.com/article-assets/npg/nathumbehav/2017/s41562-016-0021/images_hires/w926/s41562-016-0021-f1.jpg" height=400px> -->
+<!-- </a> -->
+<!-- </br> -->
+<!-- [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021) -->
+<!-- </div> -->
 
 ## RStudio projects
+
+RStudio has a 'projects' function that I strongly recommend you use.
 
 - Create using 'File/New Project'
 - Store in new directory with sensible name ('projects/1st_year_proj')
@@ -252,26 +229,23 @@ source("R/Visualize_data.R")
 - Turn-off saving data to the .RData file
 - 'File/Open Project...' command opens 'fresh' workspace
 
-## RStudio projects
-
-- Keep files, settings, organized
-- Easy to switch between projects
-- Reduces mental effort (what directory am I in?)
-    - Avoid `setwd()` commands that only work on *your* computer
-- Integrates with version control (e.g., GitHub)
-
----
+Here's an example of some recent projects I've worked on.
 
 <div class="centered">
 <img src="../img/ricks_recent_projects.jpg" height=500/>
 </div>
 
-## [R Markdown](https://rmarkdown.rstudio.com/) workflows
+Using RStudio projects helps keep your files and settings organized.
+It's easy to switch between projects.
+It reduces mental effort (what directory am I in?), and especially avoids having to use directory-settign commands like `setwd()` that will only work on *your* computer
+RStudio projects also integrates with version control (e.g., GitHub).
+
+## [R Markdown](https://rmarkdown.rstudio.com/)
 
 - Combine text, R code, images, comments, videos into one document
 - Render as web page (or site), PDF, MS Word (.docx), slides, etc.
 
-## What is [R Markdown](https://rmarkdown.rstudio.com/)?
+### What is [R Markdown](https://rmarkdown.rstudio.com/)?
 
 - Markdown is a scripting 'language' used in lots of blogging engines and wikis
     - Simple commands to format documents
@@ -293,32 +267,10 @@ source("R/Visualize_data.R")
 
 1. an enumerated **bold** point
 1. an enumerated *italicized* point
-```
-
-# Big idea
-
-## Smaller idea in service of bigger
-
-- Supporting point
-- Another suppporting point
-- a **bold** point
-- an *italicized* point
-
----
-
-```
 - a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
 - an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
 - an equation: $e = mc^2$
 ```
-
----
-
-- a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
-- an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
-- an equation: $e = mc^2$
-
----
 
 ```
 # Some R code
@@ -332,19 +284,18 @@ ggplot2::qplot(rnorm(100))
 ggplot2::qplot(rnorm(100))
 ```
 
-## One R to rule them all and in the console bind them...
-
-- One file, many possible outputs
+### One file, many possible outputs
     - [pdf_document](http://rmarkdown.rstudio.com/pdf_document_format.html), [word_document](http://rmarkdown.rstudio.com/word_document_format.html), or [github_document](http://rmarkdown.rstudio.com/github_document_format.html)
     - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
     - Cool interactive web-apps in Shiny
     - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp-2018), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
     
-## Let's look at a real example
+### Example using 2018 R bootcamp data
+ 
+I've analyzed the survey data you provided using an R Markdown document [bootcamp-survey.Rmd](bootcamp-survey.Rmd).
+Let's open it up and see how it looks.
 
-- [bootcamp-survey.Rmd](bootcamp-survey.Rmd)
-
-## One file, many output options
+The default format is an `html_document` but I can easily produce outputs in different formats simply by changing a parameter.
 
 ```
 rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "pdf_document")
@@ -353,47 +304,75 @@ rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "ioslides_present
 rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = c("pdf_document", "word_document", "github_document", "ioslides_presentation")
 ```
 
-## Key points
+So, I can prepare one document but many different output formats.
+Your adviser likes PDF?
+No problem.
+Your collaborator prefers MS Word?
+Got it covered.
+Need to give a quick brown bag talk you can give from any web browser?
+Easy.
 
-- Use R scripts to capture & reproduce workflows and/or
-- Use R Markdown files for documents, reports, presentations.
-    - One or more output formats from the same file.
-    - Project/analysis/lab notebook.
-    
----
+# Advanced topics in R-eproducible science
 
-- Use R scripts or functions to automate different pieces of the pipeline.
-- Make README files to explain how to put pieces together.
-
----
-
-<div class="centered">
-<img src="https://am23.akamaized.net/tms/cnt/uploads/2017/05/1491990205555-1.jpg" height=500px>
-</div>
-
-## Toward a reproducible psychological science...
-
-- Transparent, reproducible, open workflows pre-publication
-- Openly shared materials + data + code
-- [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021): reproducible practices across the workflow
-    - Where to share and when? Lots of options. Let's talk.
-- [[@Gilmore2017-eh]](http://dx.doi.org/10.1038/s41562-017-0128): video and reproducibility
-
-## Advanced topics
-
-- Write papers in R Markdown using [`papaja`](https://github.com/crsh/papaja)
-    - Make [this](../papaja_demo/gilmore-lebreton-hallquist.pdf) from [this](../papaja_demo/gilmore-lebreton-hallquist.Rmd)
+- Write *reproducible papers* in R Markdown using [`papaja`](https://github.com/crsh/papaja)
+    - Make [this](gilmore-hallquist-bootcamp-2018-papaja.pdf) from [this](gilmore-hallquist-bootcamp-2018-papaja.Rmd)
 - Version control with git and [GitHub](http://github.com)
 - [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), [blogs](https://bookdown.org/yihui/blogdown/), (even [books](https://bookdown.org/)) with R Markdown
+
+## Why write reproducible papers? ([Frank & Hartgerink](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd))
+
+**The following is section is copied verbatim from Mike Frank & Chris Hartgerink's tutorial on GitHub**.
+
+There are three reasons to write reproducible papers. 
+To be right, to be reproducible, and to be efficient. 
+There are more, but these are convincing to us. In more depth:
+
+To avoid errors. 
+Using an automated method for scraping APA-formatted stats out of PDFs, [[@Nuijten2015-ul]](http://doi.org/10.3758/s13428-015-0664-2) found that over 10% of p-values in published papers were inconsistent with the reported details of the statistical test, and 1.6% were what they called "grossly" inconsistent, e.g. difference between the p-value and the test statistic meant that one implied statistical significance and the other did not. 
+Nearly half of all papers had errors in them.
+
+To promote computational reproducibility. 
+Computational reproducibility means that other people can take your data and get the same numbers that are in your paper. 
+Even if you don't have errors, it can still be very hard to recover the numbers from published papers because of ambiguities in analysis. 
+Creating a document that literally specifies where all the numbers come from in terms of code that operates over the data removes all this ambiguity.
+
+To create spiffy documents that can be revised easily. 
+This is actually a really big neglected one for us. 
+At least one of us used to tweak tables and figures by hand constantly, leading to a major incentive never to rerun analyses because it would mean re-pasting and re-illustratoring all the numbers and figures in a paper. 
+That's a bad thing! 
+It means you have an incentive to be lazy and to avoid redoing your stuff. And you waste tons of time when you do. 
+In contrast, with a reproducible document, you can just rerun with a tweak to the code. You can even specify what you want the figures and tables to look like before you're done with all the data collection (e.g., for purposes of preregistraion or a registered report).
+
+### Example of a reproducible paper using the `papaja` package
+
+It's possible to write a paper like [this](gilmore-hallquist-bootcamp-2018-papaja.pdf) from an R Markdown document that looks like [this](gilmore-hallquist-bootcamp-2018-papaja.Rmd).
+Let's peek under the hood just a bit.
+
+So, there's much more to say about how to do this than we have time for today.
+This [guide](https://rpubs.com/YaRrr/papaja_guide) or [this](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd#writing-apa-format-papers) are good places to start.
+But I think we can all agree that **pushing a button to render a complete paper, including tables, figures, and references, is pretty amazing.**
     
 ## Version control
 
-- Keep track of your past
-- Back to the Future
-- **git**: a system for software version control
-- [**GitHub**](http://github.com): a website for managing projects that use git
+Track changes is great?
+Right?
+But if you've ever written a lengthy document with other people, you've experienced the challenge of tracking *versions* across time.
+At some point, the changes become too extensive to track, and so the author(s) decide to accept or reject a bunch and create a new version.
+This is how version control becomes an extension of the track changes problem.
+Most of us have experienced something like this sequence: 'paper.docx', 'paper_new.docx', 'paper_new_new.docx', 'paper_new_new_ROG.docx', etc.
 
-## My GitHub workflow
+My current scheme with colleagues is something like this: 'nsf_grant_2018-08-16v1.docx', 'nsf_grant_2018-08-16v2.docx', etc.
+That is, each person who modifies the document saves it as a new version.
+It doesn't avoid conflicts if we're working in parallel, but it does help us track down where we went astray.
+
+Imagine a scheme for doing this automatically with your R and RStudio files?
+RStudio incorporates two 'version control' systems from the software development world, 'git' and 'subversion'.
+I use 'git' and a web-based service for managing projects that use git called [**GitHub**](http://github.com).
+
+### Rick's GitHub workflow
+
+We don't have time to go into git and GitHub here, but I strongly recommend Jenny Bryan's tutorial [Happy Git and GitHub for the useR](http://happygitwithr.com/).
+In the meantime, this is the workflow I use for almost every project I do that will involve R:
 
 1. Create a repo on GitHub
 2. Copy repo URL
@@ -402,9 +381,9 @@ rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = c("pdf_document",
 5. Paste repo URL
 6. Select local name for repo and directory where it lives.
 7. Open project within R Studio `File/Open Project...`
-8. Commit early & often
+8. Commit (upload a commented version) early & often
 
----
+These videos show this workflow in action.
 
 <div class="centered">
 <video height="440" width="720" controls>
@@ -422,16 +401,58 @@ Your browser does not support the video tag.
 </video>
 </div>
 
-## [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html)
+This way, I always have local and web-based copies of my latest work.
+It's easy to share with collaborators.
+I just send them a URL to the project.
+This is how Michael and I worked together on the bootcamp.
+And it's how I create all of my teaching and talk slides.
 
-- [`_site.yml`](../_site.yml): site configuration parameters
-- [`index.Rmd`](../index.Rmd): home page for site
-- other `*.Rmd` files: other pages
-- other directories for files
-- `rmarkdown::render_site()`
-- [GitHub pages](https://pages.github.com/) or other web site hosting service
+## [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html) with R Markdown
+
+When I say most of my work these days is in RStudio, I'm not kidding.
+It's easy to create simple websites that start out as R Markdown documents.
+The bootcamp's website is an example.
+
+If you're curious about this, please feel free to examine the 'guts' of the bootcamp's repository. It includes a [`_site.yml`](../_site.yml) file that contains site configuration parameters, an [`index.Rmd`](../index.Rmd) home page for the site and other `*.Rmd` files that get converted into pages, and directories for files.
+
+To create the site, I simply enter `rmarkdown::render_site()` from the console, commit the changes and push them to GitHub. 
+GitHub has its own web hosting service called [GitHub pages](https://pages.github.com/) that makes it easy to create and modify simple websites.
+
+# The future of reproducible psychological science...
+
+I'm very optimistic about the future of psychological science.
+Our science is harder than physics, chemistry, and engineering because it incorporates phenomena from all of them.
+And the survey data show that failures to replicate in these other fields are common, more common than most outsiders would imagine.
+Behavioral scientists are becoming more mindful of the challenges to robustness in our work and are making strides to bolster it.
+
+## Let's learn more, faster
+
+At the end of the day, by making our research more reproducible, our findings will be more robust, and by sharing our findings, displays, data, and analysis code more widely and openly, we'll all learn more, faster.
+That's Databrary's motto, by the way.
+
+So, I think that in the very near future we'll see the following:
+
+- transparent, reproducible, open workflows across the publication cycle
+- Openly shared materials + data + code
+- [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021): reproducible practices across the workflow
+    - Including procedure videos [[@Gilmore2017-eh]](http://doi.org/10.1038/s41562-017-0128)
+- Data, materials (displays, code) stored in central repository
+    - Open Science Framework ([OSF](http://osf.io))
+    - [Databrary](http://databrary.org)
+- [[@Gilmore2017-eh]](http://dx.doi.org/10.1038/s41562-017-0128): video and reproducible behavioral science
+- Access/analyze materials/displays via repository application program interfaces (APIs)
+
+These will Building a 'cumulative' science  [[@Mischel2011-br]](https://www.psychologicalscience.org/observer/becoming-a-cumulative-science)
 
 ## Learn from my mistakes
+
+I still consider myself a 'student of R'.
+I learn new tricks and techniques all the time.
+You **can** teach an old dog new tricks.
+He just has to be motivated.
+It takes longer, and you have to be patient.
+
+But you can learn from my mistakes:
 
 - Script **everything** you possibly can
     - If you have to repeat something, make a function or write a parameterized script
@@ -443,5 +464,25 @@ Your browser does not support the video tag.
 - Learn from others
 - Just do it!
 
-## References {.smaller}
+<iframe src="https://giphy.com/embed/pvDp7Ewpzt0o8" width="480" height="264" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/star-wars-yoda-the-empire-strikes-back-pvDp7Ewpzt0o8">via GIPHY</a></p>
 
+In many ways, learning R is like acquiring a super power.
+
+<div class="centered">
+<img src="https://am23.akamaized.net/tms/cnt/uploads/2017/05/1491990205555-1.jpg" height=500px>
+</div>
+
+So, go be super-powerful.
+But remember that with great power comes great responsibility.
+
+# Materials {.smaller}
+
+This talk was produced on `r Sys.time()` in [RStudio 1.1.453](http://rstudio.com) using R Markdown.
+The code and materials used to generate the slides may be found at <https://github.com/psu-psychology/r-bootcamp-2018/>. 
+Information about the R Session that produced the slides is as follows:
+
+```{r session-info}
+sessionInfo()
+```
+
+## References
