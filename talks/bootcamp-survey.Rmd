@@ -3,7 +3,11 @@ title: "Analysis of 2018 bootcamp survey"
 author: "Rick Gilmore"
 date: '`r Sys.time()`'
 output:
-  html_document: default
+  html_document:
+    toc: TRUE
+    toc_depth: 3
+    toc_float: TRUE
+    number_section: TRUE
   html_notebook: default
   github_document:
     toc: yes
