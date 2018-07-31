@@ -12,18 +12,18 @@ title: "2018 R Bootcamp Schedule"
 | 09:45 am • Break                                      |
 
 | [Slow-R Track](talks/slow-r.nb.html), 11 Mateer |  | Fast-R Track, 130 Moore |
-|---------------------------------|-|----------------------------------------------------------|
-| 10:00 am - 12:00 • RStudio, Console, Classes & Types                |  | 10:00 - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
+|----------------------------------------------------------|-|----------------------------------------------------------|
+| 10:00 am - 12:00pm • RStudio, R console, object classes & data types                |  | 10:00am - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
 
 | Lunch, Moore 1st floor lobby                         |
 |-------------------------------------------------------|
 | 12:00 pm • Lunch |
 
 | [Slow-R Track](talks/slow-r.nb.html), 11 Mateer |  | Fast-R Track, 130 Moore |
-|---------------------------------|-|----------------------------------------------------------|
-| 1:00 pm - 1:45 pm • Indexing |  | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
-| 1:45 pm - 3:00 pm • Functions & packages | | 02:00 pm - 3:00 pm • Big data and parallel computing in R (Michael Hallquist)                |
-| 03:00 pm • Break                  |  | 03:00 pm • Break                 |
+|----------------------------------------------------------|-|----------------------------------------------------------|
+| 1:00 pm - 1:45 pm • Data indexing and subsetting |  | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
+| 1:45 pm - 3:00 pm • Functions & packages | | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
+| 03:00 - 03:15 pm • Break                  |  | 03:00 pm - 03:15pm • Break                 |
 
 | Plenary, 11 Mateer                                     |
 |-------------------------------------------------------|
@@ -32,18 +32,19 @@ title: "2018 R Bootcamp Schedule"
 
 **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).
 
-## Friday, August 17, 2018, 9:00 am - 4:00 pm
+## Friday, August 17, 2018, 9:00 am - 4:30 pm
 ### 11 Mateer
 
 | Plenary                                   |
 |-------------------------------------------------------|
-| 09:00 am • Welcome back |
+| 09:00 am • Welcome back and Q&A |
 | 09:15 am • Data wrangling & pipelines (primarily tidyverse)
 | 10:30 am • Break |
 | 10:45 am • Data visualization (primarily ggplot2) |
-| 11:45 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
-| 01:00 pm • Best practices in R programming |
+| 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
+| 01:00 pm • Core programming skills: loops, apply functions, writing functions |
+| 02:00 pm • Best practices in R: script management, versioning, modular coding |
 | 02:45 pm • Break |
 | 03:00 pm • Basic data analyses in R: correlation, regression, ANOVA, categorical data | 
 | 04:30 pm • End |
-| 05:00 pm • Optional Happy Hour @ Whisker's |
+| 04:45 pm • Optional Happy Hour @ Whisker's |
