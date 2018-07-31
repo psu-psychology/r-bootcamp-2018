@@ -261,11 +261,11 @@ If you don't speak LOTR, just ignore that.
 ### What is [R Markdown](https://rmarkdown.rstudio.com/)?
 
 R Markdown extends [Markdown](https://daringfireball.net/projects/markdown/syntax) [^3], a scripting 'language' used in lots of blogging engines and wikis.
-Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
+Markdown is a simple formatting syntax for authoring HTML documents and can also be converted to PDF and MS Word documents.
 It's designed to be easy for humans to write and for machines to read.
 
 You can learn the basics of R Markdown in a very short time.
-And there are several resources for doing so we recommend:
+Here are several resources for doing so we recommend:
 
 - RStudio has an [R Markdown page](https://rmarkdown.rstudio.com/) with extensive documentation, including some very useful [cheatsheets](http://rstudio.com/cheatsheets)
 - Hadley Wickham, the author of `ggplot2` and other R packages has an online [tutorial](http://r4ds.had.co.nz/r-markdown.html)
@@ -711,6 +711,6 @@ sessionInfo()
 [^1]: A best practice is to change the `date` field so that it is automatically updated each time the file is rendered: `date: '`r Sys.time()`'`.
 [^2]: R Markdown can contain code written in languages other than R!
 [^3]: Hypertext Markup Language (HTML) is the core language of web pages. 'Markdown' is a markup language for easily writing a file that gets converted to HTML.
-[^4]: HTML has different header levels that these map to: so <H1>, <H2>, etc.
+[^4]: HTML has different header levels that these map to: so `<H1>`, `<H2>`, etc.
 
 ## References
