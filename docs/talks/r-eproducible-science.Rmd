@@ -21,7 +21,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, 
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
                       cache = TRUE)
 library(tidyverse)
 ```
@@ -30,7 +32,7 @@ library(tidyverse)
 
 1. The reproducibility crisis
 2. What does reproducible science look like?
-3. Using R & RStudio for reproducible science
+3. Using R & RStudio for R-eproducible science
 4. Advanced topics in R-eproducible science
 5. The future of reproducible psychological science
         
@@ -40,6 +42,8 @@ I like to start off talks about reproducibility in science with some humor.
 This video is a few years old, but it has some timeless insights.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/66oNv_DJuPc" frameborder="0" allowfullscreen></iframe>
+
+<https://www.youtube.com/embed/66oNv_DJuPc>
 
 What's the point?
 That even the most well-meaning of us can make careless errors that undermine the reproducibility of science.
@@ -68,10 +72,16 @@ They were asked a number of questions, including the following:
 
 ### Results from our own bootcamp poll
 
+We'll dig into the workflow for gathering, cleaning, and visualizing the bootcamp survey data a little later.
+But let's see what we all said in response to the same question.
+
 ```{r load-2018-Bootcamp-survey, include=FALSE}
 survey <- read.csv("../data/survey_clean.csv")
+
+# Change order of responses for printing
 survey$Crisis <- factor(survey$Crisis, 
                         levels = c("Yes, significant", "Yes, slight", "No", "Don't know"))
+
 survey_plot <- survey %>%
   ggplot() +
   aes(x=Crisis, fill=Crisis) +
@@ -90,7 +100,7 @@ survey_plot
 
 <div class="centered">
 <a href="http://www.nature.com/polopoly_fs/7.36718.1464174471!/image/reproducibility-graphic-online3.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online3.jpg">
-<img src="http://www.nature.com/polopoly_fs/7.36718.1464174471!/image/reproducibility-graphic-online3.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online3.jpg"" height=500px>
+<img src="http://www.nature.com/polopoly_fs/7.36718.1464174471!/image/reproducibility-graphic-online3.jpg_gen/derivatives/landscape_630/reproducibility-graphic-online3.jpg" height=500px>
 </a>
 
 ---
@@ -133,22 +143,51 @@ survey_plot
 -*Inferential* reproducibility
     - Same inferences from one or more studies or reanalyses
     
-## Achieving methods reproducibility
+## Achieving *methods* reproducibility
 
-- My own workflow
-    - Data collection
-    - Cleaning
-    - Visualization
-    - Analysis
-    - Reporting
-    - Manuscript generation?
-- Avoiding the 'hit by a truck' scenario
+How do we record enough details about all of our data, materials, and methods so we can fully reproduce our analysis? Have we captured (and reported) enough details about all of the steps of our project:
+
+- Data collection
+- Cleaning
+- Visualization
+- Analysis
+- Reporting
+- Manuscript, talk, poster preparation.
+
+One way to answer the question is to think about that introductory video.
+Another way is to think about the 'hit by a truck' scenario
 
 <div class="centered">
 <img src="http://www.clipartguide.com/_named_clipart_images/0511-0902-0200-0035_Black_and_White_Cartoon_of_a_Man_Just_Hit_By_a_Truck_clipart_image.jpg"/>
 </div>
 
-**Can someone pick up where you left off without significant loss of time and momentum?**
+In other words, **could someone else (in your lab or another lab) pick up where you left off without significant loss of time and momentum if you weren't there?**.
+This is a high bar to reach, but it's feasible with the right tools and mindset.
+
+> No one is irreplaceable, but strive to be indispensible.
+
+## RStudio projects
+
+RStudio has a 'projects' function that I strongly recommend you use.
+
+- Create using 'File/New Project'
+- Store in new directory with sensible name ('projects/1st_year_proj')
+- Creates *.Rproj file
+- Turn-off saving data to the .RData file
+- 'File/Open Project...' command opens 'fresh' workspace
+
+I create a new project every time I start a new 'thing'.
+That occurs surprisingly often.
+Here's an example of some recent projects I've worked on.
+
+<div class="centered">
+<img src="../img/ricks_recent_projects.jpg" height=500/>
+</div>
+
+Using RStudio projects helps keep your files and settings organized.
+It's easy to switch between projects.
+It reduces mental effort (what directory am I in?), and especially avoids having to use directory-setting commands like `setwd()` that will only work on *your* computer
+RStudio projects also integrates with version control (e.g., GitHub).
 
 ## Reproducible workflows
 
@@ -209,102 +248,147 @@ source("R/Visualize_data.R")
     - No problem; fix data file and re-run "Master.R"
 - How to save results or share with collaborators?
 
-<!-- ## Use R & RStudio for all phases? -->
-
-<!-- <div class="centered"> -->
-<!-- <a href="http://www.nature.com/articles/s41562-016-0021/figures/1"> -->
-<!-- <img src="http://www.nature.com/article-assets/npg/nathumbehav/2017/s41562-016-0021/images_hires/w926/s41562-016-0021-f1.jpg" height=400px> -->
-<!-- </a> -->
-<!-- </br> -->
-<!-- [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021) -->
-<!-- </div> -->
-
-## RStudio projects
-
-RStudio has a 'projects' function that I strongly recommend you use.
-
-- Create using 'File/New Project'
-- Store in new directory with sensible name ('projects/1st_year_proj')
-- Creates *.Rproj file
-- Turn-off saving data to the .RData file
-- 'File/Open Project...' command opens 'fresh' workspace
-
-Here's an example of some recent projects I've worked on.
-
-<div class="centered">
-<img src="../img/ricks_recent_projects.jpg" height=500/>
-</div>
-
-Using RStudio projects helps keep your files and settings organized.
-It's easy to switch between projects.
-It reduces mental effort (what directory am I in?), and especially avoids having to use directory-settign commands like `setwd()` that will only work on *your* computer
-RStudio projects also integrates with version control (e.g., GitHub).
-
 ## [R Markdown](https://rmarkdown.rstudio.com/)
 
-- Combine text, R code, images, comments, videos into one document
-- Render as web page (or site), PDF, MS Word (.docx), slides, etc.
+[R Markdown](https://rmarkdown.rstudio.com/) is an add-on package to R, developed by the RStudio team.
+R Markdown allows you to write a single text document that combines text, code, images, videos, and equations into one document.
+R Markdown then let's you render that document in a number of formats: a PDF or MS Word document, a web page or site, slides, a blog, or even a book.
+
+> One tool to rule them all and in the R-ness, bind them.
+
+If you don't speak LOTR, just ignore that.
 
 ### What is [R Markdown](https://rmarkdown.rstudio.com/)?
 
-- Markdown is a scripting 'language' used in lots of blogging engines and wikis
-    - Simple commands to format documents
-    - Designed to be easier than writing in raw HTML
-- Human & machine readable
-- [R Markdown](https://rmarkdown.rstudio.com/) extends Markdown with commands specialized for R code
-- [Tutorial](http://r4ds.had.co.nz/r-markdown.html) by Hadley Wickham
-- [Cheatsheets](http://rstudio.com/cheatsheets)
+R Markdown extends [Markdown](https://daringfireball.net/projects/markdown/syntax) [^3], a scripting 'language' used in lots of blogging engines and wikis.
+Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
+It's designed to be easy for humans to write and for machines to read.
 
+You can learn the basics of R Markdown in a very short time.
+And there are several resources for doing so we recommend:
+
+- RStudio has an [R Markdown page](https://rmarkdown.rstudio.com/) with extensive documentation, including some very useful [cheatsheets](http://rstudio.com/cheatsheets)
+- Hadley Wickham, the author of `ggplot2` and other R packages has an online [tutorial](http://r4ds.had.co.nz/r-markdown.html)
+- Psychologists Mike Frank and Chris Hartgerink have produced a nice [tutorial](https://libscie.github.io/rmarkdown-workshop/handout.html) that they gave at the 2017 Society for Improving Psychological Science (SIPS) meeting.
+
+### The anatomy of an R Markdown file
+
+Let's create a simple R Markdown file so we can see how this works.
+From the 'File' menu select 'New File...' and then the R Markdown file type.
+
+<img src="../img/new_rmarkdown_file.jpg"/>
+
+Notice that the 'New R Markdown' window let's us choose different types of documents, presentations, an interactive web application using Shiny, or another file from some template.
+We'll just use the defaults and create a new Untitled document that gives as its default output an HTML file.
+
+<img src="../img/type_of_rmarkdown_file.jpg"/>
+
+Let's expand the Source panel so we can see the full file.
+
+<img src="../img/template_rmarkdown_file.jpg"/>
+
+The template shows us the core components of an R Markdown file:
+
+#### Header
+
+The header is marked off from the rest of the document by dashes `---`.
+The header contains metadata about the document, contained in different 'fields': `title`, `author`, `date`, and `output`.
+
+```
 ---
-
-```
-# Big idea
-
-## Smaller idea in service of bigger
-
-- Supporting point
-- Another suppporting point
-
-1. an enumerated **bold** point
-1. an enumerated *italicized* point
-- a [link](http://psu-psychology.github.io/r-bootcamp) to this bootcamp
-- an image: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
-- an equation: $e = mc^2$
-```
-
-```
-# Some R code
-ggplot2::qplot(rnorm(100))
-```
-
+title: "Untitled"
+author: "Rick Gilmore"
+date: "7/27/2018"
+output: html_document
 ---
-
-```{r}
-# Some R code
-ggplot2::qplot(rnorm(100))
 ```
 
-### One file, many possible outputs
-    - [pdf_document](http://rmarkdown.rstudio.com/pdf_document_format.html), [word_document](http://rmarkdown.rstudio.com/word_document_format.html), or [github_document](http://rmarkdown.rstudio.com/github_document_format.html)
-    - [ioslides_presentation](http://rmarkdown.rstudio.com/ioslides_presentation_format.html) for HTML slide show
-    - Cool interactive web-apps in Shiny
-    - Web sites like the one for this [bootcamp](https://github.com/psu-psychology/r-bootcamp-2018), [blogs](https://bookdown.org/yihui/blogdown/), even [books](https://bookdown.org/yihui/bookdown/)
-    
-### Example using 2018 R bootcamp data
+All of these can be edited.
+The `title` can and often should be different from the file name.
+The `date` field is filled out automatically [^1].
+The `output` field shows that this document will be converted into an `html_document` that we can open in any web browser.
+
+#### Body text
+
+The body text starts with the double hash marks `##`.
+R Markdown follows Markdown's convention of using hash marks to specify heading levels as in an outline.
+One hashmark means the 1st or top level.
+Two hashmarks means the 2nd level, etc.[^4]
+
+Note that we can include clickable web links by surrounding URLs with angular brackets `<>`, make text **boldface** by surrounding it with double-asterisks `**boldface**` or in *italics* with single asterisks `*italics*`.
+
+R Markdown allows other kinds of content to be inserted in body text:
+
+- Named [links](http://psu-psychology.github.io/r-bootcamp)
+- Images: ![rawr](https://www.insidehighered.com/sites/default/server_files/media/PennState2.PNG)
+- Equations: $e = mc^2$
+
+and even video or audio recordings using HTML.
+
+#### Code chunks
+
+Code chunks are separated from the body text by triple back-ticks '```'.
+
+Let's look at the *second* code chunk:
+
+<img src="../img/cars_chunk.jpg"/>
+
+Text in brackets `{r cars}` tells R that this chunk contains code written in R [^2] and gives the chunk the name `cars`.
+The name is optional, and must be unique within a file, but it can help in debugging a long R Markdown file.
+In this case, the chunk runs the `summary()` command on the `cars` dataset.
+
+When you create your own R Markdown documents, you will put your R code inside a chunk.
+You can create new chunks by clicking on a blank line in the R Markdown document and typing `CTRL+ALT+I`.
+
+The virtue of putting code in chunks is that you can run them piece by piece from within the document.
+For example, clicking on the small right arrow icon runs the current chunk.
+
+Scrolling down to the next code chunk, we see that it plots data from the `pressure` dataset: `plot(pressure)`.
+
+<img src="../img/pressure_chunk.jpg"/>
+
+Returning to the first chunk called `setup`, we see that chunks themselves can have options that specify whether or not they are displayed `echo=FALSE` in the document, whether or not chunks are evaluated `eval=TRUE` and so forth.
+This allows the user to customize how the document executes each chunk.
+
+#### Rendering output
+
+Edit the body text if you like, then render the document using the `Knit` button.
+If we have not saved the file, we may be prompted for a file name, you can use `test.Rmd` for now.
+This will generate a `test.html` file (per the `output: html_document` in the header).
+Let's open that file.
+We can see that the document combines the body text, links, R code chunks and R code ouputs, including plots in a very readable way.
+
+One of the virtues of R Markdown, of course, is that we could produce different output formats for the same file, either by changing the `output` field in the document header or by issuing a command in the console:
+
+```
+rmarkdown::render("test.Rmd", output_format = 'pdf_document')
+rmarkdown::render("test.Rmd", output_format = 'word_document')
+
+# More than one output_format
+rmarkdown::render("test.Rmd", output_format = c('html_document',
+                                                 'pdf_document',
+                                                 'word_document'))
+```
+
+### R Markdown using 2018 R bootcamp data
  
 I've analyzed the survey data you provided using an R Markdown document [bootcamp-survey.Rmd](bootcamp-survey.Rmd).
 Let's open it up and see how it looks.
 
-The default format is an `html_document` but I can easily produce outputs in different formats simply by changing a parameter.
+The default format is an `html_document`, and I've added some additional parameters in the header to produce a table of contents `toc: yes` with numbered sections `number_section: TRUE`, that floats `toc_float: TRUE`.
 
 ```
-rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "pdf_document")
-rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "word_document")
-rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = "ioslides_presentation")
-rmarkdown::render('talks/bootcamp-survey.Rmd', output_format = c("pdf_document", "word_document", "github_document", "ioslides_presentation")
+output:
+  html_document:
+    toc: TRUE
+    toc_depth: 3
+    toc_float: TRUE
+    number_section: TRUE
 ```
+I've also added parameters so I can easily produce outputs in different formats.
+Notice that I've added comments about what I did and why, so that the R Markdown file is like a combination lab notebook and data report.
+And by creating it in R Markdown, I can satisfy many audiences with different needs.
 
-So, I can prepare one document but many different output formats.
 Your adviser likes PDF?
 No problem.
 Your collaborator prefers MS Word?
@@ -319,7 +403,13 @@ Easy.
 - Version control with git and [GitHub](http://github.com)
 - [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), [blogs](https://bookdown.org/yihui/blogdown/), (even [books](https://bookdown.org/)) with R Markdown
 
-## Why write reproducible papers? ([Frank & Hartgerink](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd))
+## Writing reproducible papers in R Markdown
+
+The previous example showed how we might create reproducible data analysis reports in R Markdown.
+It's only a short step to writing full papers this way.
+But let's talk about *why* we might want to do this.
+
+### Why write reproducible papers? ([Frank & Hartgerink](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd))
 
 **The following is section is copied verbatim from Mike Frank & Chris Hartgerink's tutorial on GitHub**.
 
@@ -346,11 +436,140 @@ In contrast, with a reproducible document, you can just rerun with a tweak to th
 ### Example of a reproducible paper using the `papaja` package
 
 It's possible to write a paper like [this](gilmore-hallquist-bootcamp-2018-papaja.pdf) from an R Markdown document that looks like [this](gilmore-hallquist-bootcamp-2018-papaja.Rmd).
-Let's peek under the hood just a bit.
 
-So, there's much more to say about how to do this than we have time for today.
+The `papaja` package makes this possible.
+Let's peek under the hood to see how this is done.
+
+#### Headers in `papaja`
+
+The header has some specialized fields, but we can easily understand most of them.
+
+```
+---
+title             : "R you ready to write a paper in R Markdown?"
+shorttitle        : "R you ready"
+author: 
+  - name          : "Rick O. Gilmore"
+    affiliation   : "1,2"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Department of Psychology, The Pennsylvania State University, University Park, PA 16802 USA"
+    email         : "rogilmore@psu.edu"
+  - name          : "Michael Hallquist"
+    affiliation   : "1"
+affiliation:
+  - id            : "1"
+    institution   : "The Pennsylvania State University"
+  - id            : "2"
+    institution   : "Databrary.org"
+author_note: |
+  The authors are with the Department of Psychology at The Pennsylvania State University.
+  The authors acknowledge support from the Department of Psychology, the Social, Life, & Engineering Sciences Imaging Center (SLEIC), and the Child Study Center's Open Data in Developmental Science (ODDS) initiative.
+abstract: |
+  Want to write a paper using R Markdown? Keep reading to see how.
+  
+keywords          : "APA, R Markdown"
+wordcount         : "Not that many."
+bibliography      : ["r-references.bib", "references.bib"]
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_pdf
+editor_options: 
+  chunk_output_type: console
+params:
+  data_file_in: '../data/survey_test.csv'
+---
+```
+
+#### Main paper sections
+
+Notice that we set the chunk options so that chunks will run, but not echo their outputs or show warning or error messages.
+
+```
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE)
+```
+This keeps the final output clean.
+
+We load the required packages for our paper, and then write our introduction.
+
+```
+It is possible to write an entire APA-formatted article in R Markdown. 
+This very brief paper shows how it might be done.
+As illustration, we use the data from a short, informal survey of participants in the 2018 R Bootcamp at Penn State.
+```
+
+The methods section is specified as a level 1 `#` heading, with the subsections denoted by level 2 `##` headings.
+
+```
+# Methods {#methods}
+Consistent with open and transparent science practices, we report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study [@Simmons2011-za].
+
+## Participants {#participants}
+
+We asked participants in an optional "R Bootcamp" held at the Pennsylvania State University Department of Psychology on August 16 and 17, 2018 to complete an anonymous survey using a Google Form.
+We asked participants to report how old they felt.
+A total of $n=$`r length(survey$Psych_age_yrs)` respondents answered the survey with a reported felt age of $M$=`r mean(survey$Psych_age_yrs)` and a range of [`r min(survey$Psych_age_yrs)`-`r max(survey$Psych_age_yrs)`] years. 
+```
+
+The package uses the tags in braces `{#methods}` in generating a table of contents.
+Notice that we can add in-text references using the `[@paper_id]` syntax if we've created a bibliography file in the BibTex format (.bib).
+Notice also that we can freely mix LaTex syntax for equations (`$n=$` becomes $n=$) with commands to produce R output `r length(survey$Psych_age_yrs)`.
+This allows us to directly 'grab' information from R, including statistical values, and insert them into our document **without copying and pasting**.
+
+> Text between dollar signs `$x=12$` will be rendered using the LaTex equation engine. Text between single backticks `r hist(rnorm(100))` will be run in the language specified by the first element, here that is `r`.
+
+#### Making tables and figures
+
+`papaja` builds on other R commands to allow us to make APA-formatted tables.
+This chunk uses `dplyr` commands we'll learn about tomorrow to create a new data frame with some basic descriptive statistical information about the variables in our survey.
+Then it creates a properly formatted table using the `apa_table()` command.
+
+```
+descriptives_Banjo <- survey %>%
+  select(R_exp, Banjo) %>%
+  group_by(R_exp) %>%
+  summarise(Mean = mean(Banjo),
+            Median = median(Banjo),
+            SD = sd(Banjo),
+            Min = min(Banjo),
+            Max = max(Banjo))
+
+# Drop the Timestamp column
+descriptives_Banjo[, -1] <- printnum(descriptives_Banjo[, -1])
+
+apa_table(
+  descriptives_Banjo, 
+  caption = "Descriptive statistics of banjo music enthusiasm by R experience.",
+  note = "This table was created with apa_table()",
+  escape = TRUE
+)
+```
+
+Similarly, this chunk uses the `ggplot()` command to create a scatter plot of the relationship between preferred hours of sleep and enthusiasm for banjo music.
+
+```
+Banjo_vs_sleep <- survey %>%
+  ggplot() +
+  aes(x=Sleep_hrs, y=Banjo) +
+  geom_point() +
+  geom_smooth() +
+  theme_apa()
+Banjo_vs_sleep
+```
+
+### Summing up on writing papers with `papaja`
+
+There's much more to say about how to do this than we have time for today.
 This [guide](https://rpubs.com/YaRrr/papaja_guide) or [this](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd#writing-apa-format-papers) are good places to start.
 But I think we can all agree that **pushing a button to render a complete paper, including tables, figures, and references, is pretty amazing.**
+
+To be honest, I'm still learning `papaja` and have yet to create and submit a paper using it.
+But I have one in late draft stage and another in process.
+Let me know if you're using `papaja`, and what you think about it.
     
 ## Version control
 
@@ -406,6 +625,8 @@ It's easy to share with collaborators.
 I just send them a URL to the project.
 This is how Michael and I worked together on the bootcamp.
 And it's how I create all of my teaching and talk slides.
+
+> When using a GitHub workflow with collaborators, you **must** get in the habit of 'pushing' your work to GitHub when you finish and 'pulling' the latest version from GitHub when you start working again. It's not Dropbox or Box.
 
 ## [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html) with R Markdown
 
@@ -475,14 +696,21 @@ In many ways, learning R is like acquiring a super power.
 So, go be super-powerful.
 But remember that with great power comes great responsibility.
 
-# Materials {.smaller}
+# Materials
 
-This talk was produced on `r Sys.time()` in [RStudio 1.1.453](http://rstudio.com) using R Markdown.
+This document was produced on `r Sys.time()` in [RStudio](http://rstudio.com) version 1.1.453 using R Markdown.
 The code and materials used to generate the slides may be found at <https://github.com/psu-psychology/r-bootcamp-2018/>. 
 Information about the R Session that produced the slides is as follows:
 
 ```{r session-info}
 sessionInfo()
 ```
+
+## Notes
+
+[^1]: A best practice is to change the `date` field so that it is automatically updated each time the file is rendered: `date: '`r Sys.time()`'`.
+[^2]: R Markdown can contain code written in languages other than R!
+[^3]: Hypertext Markup Language (HTML) is the core language of web pages. 'Markdown' is a markup language for easily writing a file that gets converted to HTML.
+[^4]: HTML has different header levels that these map to: so <H1>, <H2>, etc.
 
 ## References

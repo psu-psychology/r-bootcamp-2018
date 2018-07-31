@@ -11,18 +11,23 @@ title: "2018 R Bootcamp Schedule"
 | 09:15 am • Why We R Here                              |
 | 09:45 am • Break                                      |
 
-| [Slow-R Track](talks/slow-r.nb.html), Rick Gilmore, 11 Mateer |  | Fast-R Track, 130 Moore |
+| [Slow-R Track](talks/slow-r.nb.html), 11 Mateer |  | Fast-R Track, 130 Moore |
 |---------------------------------|-|----------------------------------------------------------|
-| 10:00 am • RStudio                |  | 10:00 - 11:00 am • Introduction to exploratory factor analysis (Nilam Ram)  |
-| 11:00 am • Command the command line |  | 11:00 am - 12:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)                | 
-| 12:00 pm • Lunch                  |  | 12:00 pm • Lunch                 |
-| 01:00 pm • Packages, getting help |  | 01:00 pm • Big data and parallel computing in R (Michael Hallquist)               |
-| 02:00 pm • Thinking algorithmically | | 02:00 pm •  Longitudinal data analysis and visualization (Sy-Miin Chow?)                |
+| 10:00 am - 12:00 • RStudio, Console, Classes & Types                |  | 10:00 - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
+
+| Lunch, Moore 1st floor lobby                         |
+|-------------------------------------------------------|
+| 12:00 pm • Lunch |
+
+| [Slow-R Track](talks/slow-r.nb.html), 11 Mateer |  | Fast-R Track, 130 Moore |
+|---------------------------------|-|----------------------------------------------------------|
+| 1:00 pm - 1:45 pm • Indexing |  | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
+| 1:45 pm - 3:00 pm • Functions & packages | | 02:00 pm - 3:00 pm • Big data and parallel computing in R (Michael Hallquist)                |
 | 03:00 pm • Break                  |  | 03:00 pm • Break                 |
 
 | Plenary, 11 Mateer                                     |
 |-------------------------------------------------------|
-| 03:15 pm • [Transparent, open, & reproducible science with R](talks/r-eproducible-science.html) (Rick Gilmore) |
+| 03:15 pm • [R-eproducible Science with R](talks/r-eproducible-science.html) (Rick Gilmore) |
 | 04:30 pm • End                                            |
 
 **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).

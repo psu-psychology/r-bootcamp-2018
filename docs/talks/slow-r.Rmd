@@ -18,7 +18,10 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
                       tidy = TRUE,
-                      collapse = FALSE)
+                      collapse = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      cache = TRUE)
 ```
 
 # Preliminaries
@@ -790,10 +793,34 @@ There will be other keyboard commands.
 For example, if you're not already using `(command/ctrl)+c` for copying, `(command/ctrl)+v` for pasting, and `(command/ctrl)+x` for cutting, start now.
 Also, I use `(command/ctrl)+` (enlarge text) and `(command/ctrl)-` (shrink text).
 
+## Reading code will improve your writing
+
+It's well known that the best writers of prose, poetry, or music, are often voracious consumers.
+The more comfortable you get reading others' code, the better your own writing will become.
+Yes, code can be dense at times, and some coders write cleaner and more comprehensible code than others.
+But in this workshop, we're trying to help speed you along the learning curve by helping you learn to read R code from the get-go.
+Remember, it's critically important that code be human-readable.
+Computers want 1's and 0's and don't really care about things like comments or elegant syntax or any of that.
+
 ## Getting help
 
 Press `ctrl-3` to go to the help pane.
-Google is your friend.
+[RStudio](http://rstudio.com) has extensive documentation and help resources.
+Google is your friend, at least in this regard..
+There is also an active R community on [Stack Overflow](http://stackoverflow.com).
+
+I often find it useful to read the documentation about a function to see what the other parameters do.
+For example, typing `help('plot')` shows us that the `plot()` function takes (typically) two inputs, `x`, and `y`. The ellipsis `...` says that it also takes other optional parameters.
+So, this code
+
+```{r}
+plot(x = rnorm(10), y = rnorm(10), 
+     main = 'Random scatterplot',
+     ylab = 'Random Y',
+     xlab = 'Random X')
+```
+
+Creates a scatter plot with a title and labels for the x and y axes.
 
 ## Control/view the local environment
 
@@ -814,6 +841,110 @@ The Environment pane is one way to keep track of what you've assigned, but there
 If you're exploring and putting your commands in a script, you may find it useful to 'clean the slate' or start with a fresh environment before you `source()` your script. 
 To do this, you can 'remove individual objects' using the `rm()` command, or remove all of them using `rm(list = ls())`.
 
+## Finding your way around
+
+We've mostly ignored it thus far, but when you start RStudio, all of your work is in a default directory (or folder) on your computer.
+You can change this default in the 'Tools' menu, 'Global Options...' item.
+Later this afternoon, I'm going to recommend that you let RStudio help you organize your work by creating a project with its own directory for each new project you take on.
+But for now, let's see how we can use console commands to find out where we are.
+
+### Working directories and navigation
+
+To find out what directory you're currently working in, type the get working directory command `getwd()` at the console.
+
+```{r}
+getwd()
+```
+
+You'll see that I have a directory hierarchy under my home (`rick/`) directory that is specifically devoted to GitHub projects, with a subdirectory for the `psu-psychology` repository on GitHub and then this specific bootcamp project.
+
+I can go 'up' the directory hierarchy by typing the set working directory command `setwd()` as follows:
+
+```
+setwd("../") # "../" means go up one level in the directory hierarchy
+getwd()
+```
+
+To go back to where I was, I have to enter the name of the old directory where I came from.
+If I remember it, I just enter the `setwd()` command again.
+
+```
+setwd("r-bootcamp-2018/")
+```
+
+But if I've forgotten, RStudio can help me.
+Type the start of the `setwd('` command and then pause or hit the `tab` key.
+RStudio will show you a list of the contents of the current working directory.
+Use the up or down arrow keys to select where you want to change to, and then press `enter`.
+Confirm that you are where you thought you wanted to be with `getwd()`.
+
+Some researchers have workflows where they set the working directory in their scripts (using `setwd()`), but **these workflows are often more likely to break when they are shared with other people**.
+Nevertheless, you will need to have a mental model of the directory hierarchy you've created for your work and be explicit about where you want data, scripts, and outputs to go.
+This is critical when you start writing scripts and functions, and you want to tell your script or function where to find its inputs, like the data files you'll want to process.
+
+For example, if my R scripts are stored in an `R/` directory under my working directory as indicated below, to `source()` them, I need to give a command like this `source('R/my_script.R)`.
+And if my data are stored in a `data/csv/` directory, I may have to give my data cleaning function an input like this: `clean_my_data(path_to_data = 'data/csv/dirty_data.csv')`
+
+So, what directory structure should you use?
+
+### Directory structures
+
+One of the reasons people gravitate toward careers in independent research is that they relish their independence.
+So, you'll find lots of advice about how to structure the information in your projects.
+Rather than tell you what structure to use, I'm going to show you some structures that I find sensible and workable for many research projects:
+
+```
+my_awesome_project/
+  README.md
+  data/
+    raw/
+      sub_001.xlsx # or ...
+      sub_002.xlsx
+    csv/
+      sub_001.csv
+      sub_002.csv
+    aggregate/
+  R/ # Helper scripts
+  figs/
+  pubs/
+    papers/
+    talks/
+    posters/
+```
+
+This means that the `my_awesome_project/` directory is the 'home' directory for this project.
+
+Some people prefer to organize their data by measure:
+
+```
+my_awesome_project/
+  README.md
+  data/
+    behavior/
+    mri_structural/
+    mri_functional/
+...
+```
+
+And others prefer to organize it by participant:
+
+```
+my_awesome_project/
+  README.md
+  data/
+    sub_001/
+      sub_001_behavior.csv
+      sub_001_mri_structural/
+      sub_002_mri_functional/
+...
+```
+
+> Choose a directory structure that works for you and try to be as consistent as possible about it. This will make writing reproducible scripts (within and across projects) much easier.
+
+By the way, you can automate the creation of directories using the `dir.create()` command, but I usually use the RStudio Files panel and its associated buttons.
+
+<img src="../img/files_panel_buttons.jpg"/>
+
 ## Configuring RStudio
 
 You can customize your RStudio environment to your heart's content, including rearranging how the different panels appear.
@@ -832,7 +963,7 @@ I have strong feelings about two settings:
 These settings ensure that you have a 'clean' R session when you start-up.
 That is, that old values of variables and functions aren't still lurking about.
 This may seem counter-intuitive, but it is considered a best practice for reproducible research.
-You'll want to be able to re-generate your results from scratch.
+You'll want to be able to re-generate your results from scratch without having old (stale, possibly outdated) values interfering with your current analyses.
 
 ## R packages
 
@@ -1266,7 +1397,17 @@ hist(mtcars$mpg[guzzlers],
     - `summary()` produces summary statistics
     - `plot()` creates a matrix of plots, pitting each variable against the other
 
-# Notes
+# Materials
+
+This document was produced on `r Sys.time()` in [RStudio](http://rstudio.com) version 1.1.453 using R Markdown.
+The code and materials used to generate the slides may be found at <https://github.com/psu-psychology/r-bootcamp-2018/>. 
+Information about the R Session that produced the slides is as follows:
+
+```{r session-info}
+sessionInfo()
+```
+
+## Notes
 
 [^1]: Wilkinson, M. D., Dumontier, M., Aalbersberg, I. J. J., Appleton, G., Axton, M., Baak, A., Blomberg, N., et al. (2016). The FAIR guiding principles for scientific data management and stewardship. *Scientific Data*, *3*, 160018. Retrieved from http://dx.doi.org/10.1038/sdata.2016.18
 [^2]: Wickham, H. (2014). Tidy Data. *Journal of Statistical Software*. Retrieved November 19, 2016, from https://www.jstatsoft.org/article/view/v059i10
