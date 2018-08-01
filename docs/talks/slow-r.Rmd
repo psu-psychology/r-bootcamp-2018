@@ -316,6 +316,54 @@ These are the basic building blocks:
 
 And very soon, we'll see how we can talk about collections of numbers and strings (e.g., data) and sequences of commands (scripts or programs).
 
+## Your turn
+
+Let's get our fingers working on a tutorial using the [`swirl` package](https://swirlstats.com/).
+Install `swirl`.
+
+```
+install.packages('swirl')
+```
+
+And load it.
+
+```
+library(swirl)
+```
+
+Then, start the program.
+
+```
+swirl()
+```
+
+Tell swirl your name, if you like.
+Then choose `1: R Programming` by entering the number `1` and pressing `return`.
+Then choose `1: Basic Building Blocks` by entering the number `1` and pressing `return`.
+
+Your console should look something like this:
+
+<img src="../img/swirl_start.jpg"/>
+
+Work through the lesson and have fun!
+
+### Help with `swirl`
+
+The following commands may be useful when you are running `swirl`:
+
+```
+| When you are at the R prompt (>):
+| -- Typing skip() allows you to skip the current question.
+| -- Typing play() lets you experiment with R on your own;
+| swirl will ignore what you do...
+| -- UNTIL you type nxt() which will regain swirl's
+| attention.
+| -- Typing bye() causes swirl to exit. Your progress will
+| be saved.
+| -- Typing main() returns you to swirl's main menu.
+| -- Typing info() displays these options again.
+```
+
 # Object types and classes
 
 Let's pick up the pace.
@@ -365,6 +413,10 @@ And from there, we can make any 'computable' function.
 What's computable and what's not?
 That is a deep and unresolved question we won't touch, but one that computer scientists wrestle with all the time.
 
+### (Optional) Your turn
+
+For more practice with these concepts, try these `swirl` lessons: `5: Missing Values` and `8: Logic`.
+
 ## Classes
 
 There could be a lot more to say about types, but we won't here.
@@ -401,7 +453,7 @@ That is what we turn to next.
 
 You'll often want to make groups of things or compute over them.
 
-### Combine `c()` command
+### Combine (or concatenate) `c()` command
 
 The 'combine' or `c()` command is just for this purpose.
 
@@ -433,7 +485,6 @@ We'll show you how to make a list that mixes numbers and characters very soon.
 paste0("My ", "country ", "tis ", "of thee...")
 ```
 
-
 Notice that the combine (`c()`) command puts things in a long row.
 How long is that row?
 
@@ -456,7 +507,7 @@ And it works for combined sets of character strings.
 length(c("a", "bc", "def", "ghij"))
 ```
 
-#### (Optional) Sequence `seq()` command
+### Sequence `seq()` and replicate `rep()` commands
 
 There is a command for creating orderly sequences.
 
@@ -472,8 +523,29 @@ And you can go backward.
 seq(from = 5, to = -5, by = -1)
 ```
 
+As you might predict, the replicate `rep()` command makes copies of things.
+
+```{r}
+rep(7, times = 7)
+all_you_need_is <- rep("Love", times = 3) 
+```
+
 These commands create a vector or 1 dimensional set of items--they have a single length.
 But what about other types of structures with more than one dimension?
+
+### Your turn
+
+Take a few minutes to complete the `swirl` lesson related to this topic.
+If you've exited swirl, start it again.
+
+```
+swirl()
+```
+Enter your name (again), but this time in response to `| Would you like to continue with one of these lessons?` select `2: No. Let me start something new.`.
+
+Choose `1: R Programming` and then `3: Sequences of Numbers`.
+
+If you wish, you may also try completing `4: Vectors`.
 
 ### Matrices and Arrays
 
@@ -509,7 +581,7 @@ By the way, if your data is a matrix, the `length()` command may not always work
 length(my_array)
 ```
 
-But the `dim()` does.
+But the dimension command `dim()` does.
 
 ```{r}
 dim(my_array)    # Usually what you actually want
@@ -581,6 +653,10 @@ names(t_test_r_100)
 ```
 So, it turns out that that nice print out is made up of a list with different named components.
 That will come in handy soon.
+
+### Your turn
+
+Before we break for lunch, let's get our hands dirty again by taking the relevant `swirl` lesson: `7: Matrices and Data Frames`.
 
 ## Indexing (getting parts out)
 
@@ -757,6 +833,10 @@ Here are some rules of thumb about indexing different objects:
 - If you want to pick a subset of your data that meets some specific criterion you can define, then create a new Boolean variable for that criterion and use it as an index.
     - You can embed the Boolean expression in your index, but that makes for hard-to-read code.
 - Many things in R (data frames, lists) can be extracted using the extract `$` operator.
+
+## Your turn
+
+If you want additional practice with some of these ideas, try the `swirl` lesson `6: Subsetting Vectors`.
 
 # Packages, scripts, and functions
 

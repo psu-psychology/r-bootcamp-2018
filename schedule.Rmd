@@ -40,7 +40,7 @@ https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
 ## Friday, August 17, 2018, 9:00 am - 4:30 pm
 ### 11 Mateer
 
-| Plenary                                   |
+| Plenary                                               |
 |-------------------------------------------------------|
 | 09:00 am • Welcome back and Q&A |
 | 09:15 am • Data wrangling & pipelines (primarily tidyverse)
