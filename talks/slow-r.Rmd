@@ -8,11 +8,6 @@ output:
       toc_depth: 4
       toc_float: TRUE
       number_section: TRUE
-  html_notebook:
-      toc:  TRUE
-      toc_depth: 4
-      toc_float: TRUE
-      number_section: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -350,7 +345,8 @@ One reason is pragmatic: It's relatively easy to make electronic circuits that a
 If we decide that "on" means 1, and "off" means 0, then we can do computations with these states.
 
 ### (Optional aside) What sort of computations?
-Algebraic computations (addition, subraction, multiplication, division, etc.) and [Boolean algebra](https://en.wikipedia.org/wiki/Boolean_algebra) sorts of computations
+
+Algebraic computations (addition, subraction, multiplication, division, etc.) and [Boolean algebra](https://en.wikipedia.org/wiki/Boolean_algebra) sorts of computations, that's what.
 Boolean algebra (or Boolean logic) takes as input the logical values of `TRUE` or `FALSE` and combines them using combinations of three basic operations: AND, OR, and NOT.
 R has operators--simple programs or functions (`&`, `|`, and `!`--that implement Boolean algebra.
 
@@ -625,6 +621,11 @@ my_array[1,1,1] # The first item in each dimension
 ```
 
 Of course, you have to keep track of how to map the indices to the row/column/table values.
+In fact, Dr. Hallquist tells me that he strongly **discourages** the use of numeric indices to extract information from arrays.
+It's too easy to make a mistake.
+So, learn our mistakes.
+Make your own new ones.
+
 If you label your matrices and arrays, you can do something slick.
 
 ```{r}
@@ -757,8 +758,320 @@ Here are some rules of thumb about indexing different objects:
     - You can embed the Boolean expression in your index, but that makes for hard-to-read code.
 - Many things in R (data frames, lists) can be extracted using the extract `$` operator.
 
+# Packages, scripts, and functions
+
+We've learned how groups of things can be made and how to extract the parts of aggregate objects.
+Now let's see what happens when we combine groups of commands together.
+
+## R packages
+
+Base R can do quite a bit, but the real power of R is that there is a huge community of developers creating sets of powerful and useful functions that you can install and use.
+Functions are specialized commands to R that take inputs and generate outputs.
+Sets of functions that relate to some topic, technique, or theme are called 'packages'.
+Some include datasets, are called 'packages'.
+To view the packages that are already installed, press `ctrl-7` to view the 'Packages' panel.
+The packages with checkmarks are currently active R.
+
+As an illustration, let's look at the help for R's 'Base' Package, loaded by default when you start R.
+
+```{r}
+library(help = "base")
+```
+
+We see that there are all sorts of basic functions here, including the `sum()`, and `seq()` commands we used earlier and mathematical functions that can come in handy in other contexts.
+
+You might want to look at the help for the 'stats' package, which is also loaded by default:
+
+```{r}
+library(help = "stats")
+```
+
+You'll see a number of functions that look like they do familiar things, the `t.test()` function, for example.
+Unless you customize your R environment, R will automatically load the following packages at start-up: `stats`, `graphics`, `grDevices`, `utils`, `datasets`, `methods`, and `base`.
+When there is a new version of R released, it involves changes to these core packages.
+
+Packages often depend on other packages; these are called dependencies.
+A well designed package specifies what dependencies it has, and the default behavior of R is to download and install those, too.
+
+### Installing packages
+
+The 'Install Packages...' item in the 'Tools' menu opens a window where you can specify the package or packages you want R to install.
+To install a package from the Console, use the `install.packages()` command.
+You may note that R assumes you want to download packages from the [Comprehensive R Archive Network (CRAN) website](https://cran.r-project.org/).
+This is the 'official' repository for R packages that have undergone a certain level of automated testing and peer review.
+Some very useful packages have not yet made it into CRAN and are hosted elsewhere, such as on GitHub.
+
+### Using a package's data or functions
+
+Once you've installed a package, you'll need to tell R that you want to use the commands in the package.
+The clearest way to do this is to use the package name when you call a particular function.
+So, if we've already installed the `ggplot2` package via `install.packages('ggplot2')`, we can do this:
+
+```{r}
+ggplot2::qplot(rnorm(100))
+```
+
+This tells R to use the `qplot()` function from the `ggplot2` package to i) generate a random normal set of 100 numbers and ii) plot them.
+
+Try typing `ggplot2` and pausing or hitting the `tab` key.
+You'll see a pop-up list of functions in the `ggplot2` package.
+Again, this is the best way to call function from a package because it is unambiguous about what function we want.
+
+An older, alternative way is to load the package into memory using the `library()` command.
+If we enter `library('ggplot2')` at the Console, then we can type the simpler expression `qplot(rnorm(100))` to create the plot.
+This seems like less typing.
+
+So, why do I recommend the other way?
+Because some packages use the same names for very similar functions.
+If you load both into memory, R won't know which package you want, and so it will choose for you.
+R will warn you when it makes this choice saying 'function X is masked by package Y'.
+Usually, the developers of packages don't create functions with identical names that do incompatible things, so it's not a huge source of worry.
+The problem is magnified when you start to share your code with other researchers who don't have all of the same packages installed as you do.
+So, that's why it's better practice to be specific about the package(s) you're using when you use particular functions.
+In fact, CRAN requires this when you create a package for review.
+
+## Scripts and functions
+
+The real power of R, or really any programming language, stems from the combination of single steps to form more complex and useful wholes.
+Not only can we use functions other R experts have provided via packages, but we can create our own customized sequences of work and save them for later reuse in the form of scripts and functions.
+
+### Source pane
+
+While it can be fun and instructive to work solely in the Console, for most real work, you'll want and need to put commands in a place you can easily reuse them.
+That place is called the 'Source' pane.
+It's `ctrl-1` on your keyboard.
+
+Why is it called source?
+It's the source of inspiration, the source of your soon-to-be-realized statistical genius.
+And the term comes from the computer world where every project starts out as 'source code'.
+
+### Scripts
+
+Let's make some source code.
+Press `shift-(command or control)-n` (that's 3 keys at one time) to create a new R script file called `Untitled1`.
+
+<img src="../img/new_script_menu.jpg"/>
+
+Press `ctrl-1` to make sure that you are typing in the Source pane in the `Untitled1` window.
+
+You can type in this window now, but I urge you to get in the habit of doing two things:
+
+1.  Typing in a comment line so you know what's to come.
+    - Comments require a `#` in the first column.
+    - So something like `# R Bootcamp work 2018-08-16` might be a good name.
+    - Why the weird date format? It's unambiguous across the world, and it sorts nicely.
+2. Saving the file.
+    - Where to save it and with what name can get very...personal.
+    - I strongly suggest you start and maintain your own file directory structure so that you can find things in the future.
+    - My suggestion would be to have a structure like this:
+        - `courses/2018_r_bootcamp/`
+    - And then save the file as `2018_08_16_script.R` under that directory.
+
+Later today, I'm going to sharpen and modify this recommendation slightly by adding a step that takes advantage of RStudio's project management functionality.
+For now, this will be okay.
+
+Now you can type R code and comments in the Source pane.
+Let's try something (modestly) useful.
+
+```
+# Generate data
+data_mean_zero <- rnorm(n = 100, mean = 0, sd = 1)
+data_mean_nonzero <- rnorm(n = 100, mean = 3, sd = 1)
+```
+
+When you've typed this, press `(command/control)-s` to save it.
+
+What do these commands do?
+The `rnorm()` command creates a random sample of normally distributed numbers.
+The `n`, `mean`, and `sd` parameters specify the size of our sample, its mean and standard deviation.
+Notice the different sample means.
+
+Now, type in two additional rows of commands.
+
+```
+# Print histograms
+hist(data_mean_zero)
+hist(data_mean_nonzero)
+```
+
+Hit `(command/control)-s` to save.
+
+What is this new `hist()` command?
+Let's ask R to tell us.
+Hit `ctrl-2` to go to the Console.
+Type `help('hist')` and hit enter.
+You can also type `??hist` to see a broader search of R's help pages for other commands that start with these letters.
+
+So, this script is going to generate some data and plot histograms. 
+Let's run the `hist()` commands.
+Move up or down arrow into the line with the `hist(data_mean_zero)` command.
+Hit the `Run` button at the top of the Source panel.
+**Notice** that R moves the highlighted line down by one each time you press the `Run` button.
+
+What if you don't want to take your hands off the keyboard to do this?
+Good for you!
+You can run the current line by pressing `shift+enter`.
+Try that.
+
+Now, let's add two more lines to our script.
+
+```
+# Run t-tests
+(t.test(data_mean_zero))
+(t.test(data_mean_nonzero))
+```
+
+You can predict what these will do.
+Confirm it by running the lines.
+
+If you didn't save the file, the name will be highlighted in red.
+Save it now.
+
+### 'Sourcing' a script
+
+Now that you've saved a sequence of commands, you can run the whole (saved) sequence from the console.
+Switch to the console with `ctrl-2`.
+
+Enter `source('2018_08_16_script.R')` (or whatever name you have given your script) but do not press enter yet.
+Let's see what the `source()` command does.
+Press `esc` to clear the console.
+Type `help('source')` to view the documentation about `source()`.
+Now, we know that it will take the source file we provide and send it to the R console.
+Make sure you're still in the console by pressing `ctrl-2`.
+Type `source(file = "` and hit `tab` to see a list of files in your local directory.
+If you see the script file you created and saved, hit return to select it.
+Then press the right arrow key to the end of the line, and type `)` to close the command and `enter` to run it.
+
+You may also run the script from the Source panel.
+Press `ctrl-1` to switch to the Source.
+Press `ctrl-s` to make sure the file is saved.
+Press the `Source` button in the right corner of the Source panel.
+
+Why do the plot shapes change each time?
+
+### PaRameteRize your (R) life
+
+So, this script is fine, but it could be better.
+What if we want to try different values for the means or the standard deviations or the number of samples?
+
+Add this text to the top of your script file.
+
+```
+# Parameters
+mean_1 <- 0
+mean_2 <- 3
+sd_1 <- 1
+sd_2 <- 1
+samples_1 <- 100
+samples_2 <- 100
+```
+
+Then, edit the next few lines as follows
+
+```
+(data_mean_zero <- rnorm(n = samples_1, 
+                         mean = mean_1, 
+                         sd = sd_1))
+(data_mean_nonzero <- rnorm(n = samples_2, 
+                            mean = mean_2, 
+                            sd = sd_2))
+```
+
+See how we've substituted the new parameters for specific values?
+Save the script and source it.
+
+If you want to see different plots, switch to the Plots panel (`ctrl-6`) and press the left or right arrow buttons.
+
+The virtue of this approach is that we can edit the parameters in the script and see the effects of the changes pretty quickly.
+The downside of this approach is that we still have a lot of duplicate typing.
+
+## From scripts to functions
+
+Scripts are great.
+Functions are even better.
+Functions further reduce typing and other sorts of errors.
+
+Let's make our own function to see why.
+It can live (for now) in the same script file.
+The basic function will look like this:
+
+```
+my_hist_t <- function() {}
+```
+
+So, we'll assign the function a name--here `my_hist_t`.
+Why this particular name?
+Well, it's my function, not R's, and it plots a histogram and runs a $t$ test.
+It's boring, but helpful to your future self to name things in ways that are as clear as possible.
+Some even suggest that functions should have verbs in their names -- `print_hist_t()` -- so we can tell them apart from other kinds of objects.
+
+Our function will have some input parameters--not specified yet--entered inside the parentheses `()`.
+And then there are the squiggly braces `{}`.
+Those are new.
+That's where the meat of the function goes, the commands we want to execute.
+
+What input parameters will we want to enter?
+The number of samples, mean, and standard deviation, of course.
+
+```
+my_hist_t <- function(my_samples, my_mean, my_sd) {}
+```
+
+Notice that I called the parameters `my_samples`, etc.
+This is to make it easier to see what's going on inside the function.
+It's often good practice to give some default values for the parameters so that your function runs even if you forget to give it input.
+
+```
+my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {}
+```
+
+If we forget (or choose not) to enter a value for one of the parameters, our function will use the defaults.
+Now we type the code.
+
+```{r}
+my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {
+  my_data <- rnorm(n = my_samples, mean = my_mean, sd = my_sd)
+  hist(my_data)
+  t.test(my_data)
+}
+```
+
+Let's make sure we understand what's going on.
+Inside the function (inside the curly brackets), we compute a random normal data set and assign it to `my_data`.
+Then we calculate the histogram and $t$ test.
+R will 'return' to us the result of the last command in the function, in this case, the results of `t.test(my_data)`.
+
+Let's save the script and source it.
+We have to do this **every time we edit the script file**.
+
+Now switch to the `Environment` pane (`ctrl-8`).
+See how there is now a function called `my_hist_t` listed?
+We can now go back to the console (`ctrl-2`) and run our function with all sorts of parameter combinations:
+
+```{r}
+# Run these in the Console
+my_hist_t()
+my_hist_t(my_mean = 10)
+my_hist_t(my_samples = 200, my_sd=5)
+```
+
+Because we've specified defaults and are naming our parameters when we call the function, R will just use the defaults when we don't specify a parameter.
+
+There are many subtleties about writing functions that we haven't covered here.
+I recommend the free [DataCamp](http://www.datacamp.com) course by Hadley Wickham on ["Writing Functions in R"](https://www.datacamp.com/courses/writing-functions-in-r) to learn more.
+
+## Summing up
+
+We've learned how to install packages via the `install.packages()` command, load packages into R's 'working memory' via `library()` and to view documentation about packages using the `library(help = "package_name")` command.
+
+We've also learned how to type sequences of assignments and commands into the Source pane to create scripts, and we've learned how to execute those commands using the `source()` command.
+We've also seen how to make a function that encapsulates these sequences into easily reproducible units, using the `function_name <- function(...arguments...) {...function commands...}` syntax.
+
+There is much more to say and learn about functions (e.g., see this [Software Carpentry lesson](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/index.html)), but this is a good start on why they're so important and useful.
+
 # Honing your expertise
 
+In a short first course in R, we can never cover everything, but we can hope to give you enough momentum to get started.
 In this short section, we'll talk about some skills that will help accelerate your progress in learning R and RStudio.
 
 ## Practice
@@ -964,279 +1277,6 @@ These settings ensure that you have a 'clean' R session when you start-up.
 That is, that old values of variables and functions aren't still lurking about.
 This may seem counter-intuitive, but it is considered a best practice for reproducible research.
 You'll want to be able to re-generate your results from scratch without having old (stale, possibly outdated) values interfering with your current analyses.
-
-## R packages
-
-Base R can do quite a bit, but the real power of R is that there is a huge community of developers creating sets of powerful and useful functions that you can install and use.
-These sets of functions, and some include datasets, are called 'packages'.
-To view the packages that are already installed, press `ctrl-7` to view the 'Package' panel.
-
-Packages often depend on other packages; these are called dependencies.
-A well designed package specifies what dependencies it has, and the default behavior is to download and install those, too.
-
-### Installing packages
-
-The 'Install Packages...' item in the 'Tools' menu opens a window where you can specify the package or packages you want R to install.
-To install a package from the Console, use the `install.packages()` command.
-
-### Using a package's data or functions
-
-Once you've installed a package, you'll need to tell R that you want to use the commands in the package.
-The clearest way to do this is to use the package name when you call a particular function.
-So, if we've already installed the `ggplot2` package via `install.packages('ggplot2')`, we can do this:
-
-```{r}
-ggplot2::qplot(rnorm(100))
-```
-
-This tells R to use the `qplot()` function from the `ggplot2` package to i) generate a random normal set of 100 numbers and ii) plot them.
-
-Try typing `ggplot2` and pausing or hitting the `tab` key.
-You'll see a pop-up list of functions in the `ggplot2` package.
-Again, this is the best way to call commands from a package because it is unambiguous about what command we want.
-
-An older, alternative way is to load the package into memory using the `library()` command.
-If we enter `library('ggplot2')` at the Console, then we can type the simpler expression `qplot(rnorm(100))` to create the plot.
-This seems like less typing.
-
-So, why do I recommend the other way?
-Because some packages use the same names for very similar functions.
-If you load both into memory, R won't know which package you want, and so it will choose for you.
-This problem is magnified when you start to share your code with other researchers who don't have all of the same packages installed as you do.
-
-## Summing up
-
-We've learned about keyboard combinations we should try to train our fingers to use through regular practice.
-We learned about the Help pane and the power of internet searching.
-We learned about the Environment pane to view what's in active memory, and how to do the same with the `ls()` command.
-We learned about packages and how to install them with `install.packages()` and how to call them using the `package_name::package_function()` syntax and how to 'activate' them using `library()`.
-
-# Scripts and functions
-
-The real power of R, or really any programming language, stems from the combination of single steps to form more complex and useful wholes.
-
-## Source pane
-
-While it can be fun and instructive to work solely in the Console, for most real work, you'll want and need to put commands in a place you can easily reuse them.
-That place is called the 'Source' pane.
-It's `ctrl-1` on your keyboard.
-
-Why is it called source?
-It's the source of inspiration, the source of your soon-to-be-realized statistical genius.
-And the term comes from the computer world where every project starts out as 'source code'.
-
-## Scripts
-
-Let's make some source code.
-Press `shift-(command or control)-n` (that's 3 keys at one time) to create a new R script file called `Untitled1`.
-
-<img src="../img/new_script_menu.jpg"/>
-
-Press `ctrl-1` to make sure that you are typing in the Source pane in the `Untitled1` window.
-
-You can type in this window now, but I urge you to get in the habit of doing two things:
-
-1.  Typing in a comment line so you know what's to come.
-    - Comments require a `#` in the first column.
-    - So something like `# Rick's R Bootcamp work 2018-08-16` might be a good name.
-    - Why the weird date format? It's unambiguous across the world, and it sorts nicely.
-2. Saving the file.
-    - Where to save it and with what name can get very...personal.
-    - I strongly suggest you start and maintain your own file directory structure so that you can find things in the future.
-    - My suggestion would be to have a structure like this:
-        - `courses/2018_r_bootcamp/`
-    - And then save the file as `2018_08_16_script.R` under that directory.
-
-Later today, I'm going to sharpen and modify this recommendation slightly by adding a step that takes advantage of RStudio's project management functionality.
-For now, this will be okay.
-
-Now you can type R code and comments in the Source pane.
-Let's try something (modestly) useful.
-
-```
-# Generate data
-data_mean_zero <- rnorm(n = 100, mean = 0, sd = 1)
-data_mean_nonzero <- rnorm(n = 100, mean = 3, sd = 1)
-```
-
-When you've typed this, press `(command/control)-s` to save it.
-
-What do these commands do?
-The `rnorm()` command creates a random sample of normally distributed numbers.
-The `n`, `mean`, and `sd` parameters specify the size of our sample, its mean and standard deviation.
-Notice the different sample means.
-
-Now, type in two additional rows of commands.
-
-```
-# Print histograms
-hist(data_mean_zero)
-hist(data_mean_nonzero)
-```
-
-Hit `(command/control)-s` to save.
-
-What is this new `hist()` command?
-Let's ask R to tell us.
-Hit `ctrl-2` to go to the Console.
-Type `help('hist')` and hit enter.
-You can also type `??hist` to see a broader search of R's help pages for other commands that start with these letters.
-
-So, this script is going to generate some data and plot histograms. 
-Let's run the `hist()` commands.
-Move up or down arrow into the line with the `hist(data_mean_zero)` command.
-Hit the `Run` button at the top of the Source panel.
-**Notice** that R moves the highlighted line down by one each time you press the `Run` button.
-
-What if you don't want to take your hands off the keyboard to do this?
-Good for you!
-You can run the current line by pressing `shift+enter`.
-Try that.
-
-Now, let's add two more lines to our script.
-
-```
-# Run t-tests
-(t.test(data_mean_zero))
-(t.test(data_mean_nonzero))
-```
-
-You can predict what these will do.
-Confirm it by running the lines.
-
-If you didn't save the file, the name will be highlighted in red.
-Save it now.
-
-### 'Sourcing' a script
-
-Now that you've saved a sequence of commands, you can run the whole (saved) sequence from the console.
-Switch to the console with `ctrl-2`.
-
-Enter `source('2018_08_16_script.R')` (or whatever name you have given your script) but do not press enter yet.
-Let's see what the `source()` command does.
-Press `esc` to clear the console.
-Type `help('source')` to view the documentation about `source()`.
-Now, we know that it will take the source file we provide and send it to the R console.
-Make sure you're still in the console by pressing `ctrl-2`.
-Type `source(file = "` and hit `tab` to see a list of files in your local directory.
-If you see the script file you created and saved, hit return to select it.
-Then press the right arrow key to the end of the line, and type `)` to close the command and `enter` to run it.
-
-You may also run the script from the Source panel.
-Press `ctrl-1` to switch to the Source.
-Press `ctrl-s` to make sure the file is saved.
-Press the `Source` button in the right corner of the Source panel.
-
-Why do the plot shapes change each time?
-
-### Parameterize your (R) life
-
-So, this script is fine, but it could be better.
-What if we want to try different values for the means or the standard deviations or the number of samples?
-
-Add this text to the top of your script file.
-
-```
-# Parameters
-mean_1 <- 0
-mean_2 <- 3
-sd_1 <- 1
-sd_2 <- 1
-samples_1 <- 100
-samples_2 <- 100
-```
-
-Then, edit the next few lines as follows
-
-```
-(data_mean_zero <- rnorm(n = samples_1, 
-                         mean = mean_1, 
-                         sd = sd_1))
-(data_mean_nonzero <- rnorm(n = samples_2, 
-                            mean = mean_2, 
-                            sd = sd_2))
-```
-
-See how we've substituted the new parameters for specific values?
-Save the script and source it.
-
-If you want to see different plots, switch to the Plots panel (`ctrl-6`) and press the left or right arrow buttons.
-
-The virtue of this approach is that we can edit the parameters in the script and see the effects of the changes pretty quickly.
-The downside of this approach is that we still have a lot of duplicate typing.
-
-## From scripts to functions
-
-Scripts are great.
-Functions are even better.
-Functions further reduce typing and other sorts of errors.
-
-Let's make our own function to see why.
-It can live (for now) in the same script file.
-The basic function will look like this:
-
-```
-my_hist_t <- function() {}
-```
-
-So, we'll assign the function a name--here `my_hist_t`.
-It will have some input parameters--not specified yet--entered inside the parentheses `()`.
-And then there are the squiggly braces `{}`.
-Those are new.
-That's where the meat of the function goes, the commands we want to execute.
-
-What parameters will we want to enter?
-The number of samples, mean, and standard deviation, of course.
-
-```
-my_hist_t <- function(my_samples, my_mean, my_sd) {}
-```
-
-Notice that I called the parameters `my_samples`, etc.
-This is to make it easier to see what's going on inside the function.
-It's often good practice to give some default values for the parameters so that your function runs even if you forget to give it input.
-
-```
-my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {}
-```
-
-If we forget (or choose not) to enter a value for one of the parameters, our function will use the defaults.
-Now we type the code.
-
-```{r}
-my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {
-  my_data <- rnorm(n = my_samples, mean = my_mean, sd = my_sd)
-  hist(my_data)
-  t.test(my_data)
-}
-```
-
-Let's make sure we understand what's going on.
-Inside the function (inside the curly brackets), we compute a random normal data set and assign it to `my_data`.
-Then we calculate the histogram and $t$ test.
-
-Let's save the script and source it.
-We have to do this **every time we edit the script file**.
-
-Now switch to the `Environment` pane (`ctrl-8`).
-See how there is now a function called `my_hist_t` listed?
-We can now go back to the console (`ctrl-2`) and run our function with all sorts of parameter combinations:
-
-```{r}
-# Run these in the Console
-my_hist_t()
-my_hist_t(my_mean = 10)
-my_hist_t(my_samples = 200, my_sd=5)
-```
-
-Because we've specified defaults and are naming our parameters when we call the function, R will just use the defaults when we don't specify a parameter.
-
-## Summing up
-
-We've learned how to type sequences of assignments and commands into the Source pane to create scripts, and we've learned how to execute those commands using the `source()` command.
-We've also seen how to make a function that encapsulates these sequences into easily reproducible units, using the `function_name <- function(...arguments...) {...function commands...}` syntax.
-
-There is much more to say and learn about functions (e.g., see this [Software Carpentry lesson](https://swcarpentry.github.io/r-novice-inflammation/02-func-R/index.html)), but this is a good start on why they're so important and useful.
 
 # Getting data in
 

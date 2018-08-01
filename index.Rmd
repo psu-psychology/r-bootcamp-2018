@@ -23,7 +23,8 @@ rogilmore AT-SIGN psu PERIOD edu</br>
 Daniel Albohn</br>
 dna5021 AT-SIGN psu PERIOD edu</br>
 
-<!-- Kayla Brown</br> -->
+Kayla Brown</br>
+kwb5191 AT-SIGN psu PERIOD edu</br>
 
 Alicia Vallorani</br>
 auv27 AT-SIGN psu PERIOD edu</br>
@@ -52,8 +53,8 @@ Plus, RStudio has fully featured free versions, including some available entirel
 
 Here is the [GitHub repo](https://github.com/psu-psychology/r-bootcamp/) where the course files are shared.
 
-To download all course materials, you can clone the entire Github repository using the command ```git clone https://github.com/psu-psychology/r-bootcamp.git```.
-If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <https://github.com/psu-psychology/r-bootcamp/archive/master.zip>
+To download all course materials, you can clone the entire Github repository using the command ```git clone https://github.com/psu-psychology/r-bootcamp-2018.git```.
+If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <https://github.com/psu-psychology/r-bootcamp-2018/archive/master.zip>
 
 ## Acknowledgments
 
