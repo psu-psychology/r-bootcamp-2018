@@ -44,6 +44,12 @@ library(tidyverse)
 - Michael Hallquist
 - Rick Gilmore
 
+## Welcome and introductions
+
+- Dan Albohn
+- Kayla Brown
+- Alicia Vallorani
+
 ## Housekeeping
 
 - Bootcamp materials on GitHub: <https://github.com/psu-psychology/r-bootcamp-2018>
@@ -51,12 +57,64 @@ library(tidyverse)
 
 ## Schedule
 
-- Day 1 (Thursday, August 16, 2018): XXX Mateer & 130 Moore
-- Day 2 (Friday, August 17, 2018): XXX Mateer
+- Day 1 (Thursday, August 16, 2018): 11 Mateer & 130 Moore
+- Day 2 (Friday, August 17, 2018): 11 Mateer
 
 ## Day 1 Schedule
 
+| Plenary session, 11 Mateer |
+|-------------------------------------------------------|
+| 09:00 am • Welcome, introductions, & housekeeping     |
+| 09:15 am • Why We R Here                              |
+| 09:45 am • Break                                      |
+
+## Day 1 Schedule
+
+| Slow-R Track, 11 Mateer |  Fast-R Track, 130 Moore |
+|----------------------------------------------------------|----------------------------------------------------------|
+| 10:00 am - 12:00pm • RStudio, R console, object classes & data types (Rick Gilmore)                | 10:00am - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
+
+| Lunch, Moore 1st floor lobby                         |
+|-------------------------------------------------------|
+| 12:00 pm • Lunch |
+
+## Day 1 Schedule
+
+| Slow-R Track, 11 Mateer | Fast-R Track, 130 Moore |
+|----------------------------------------------------------|----------------------------------------------------------|
+| 1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
+| 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore) | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
+| 03:00 - 03:15 pm • Break                  | 03:00 pm - 03:15pm • Break                 |
+
+## Day 1 Schedule
+
+| Plenary, 11 Mateer                                     |
+|-------------------------------------------------------|
+| 03:15 pm • R-eproducible Science with R (Rick Gilmore) |
+| 04:30 pm • End                                            |
+</br>
+- **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).</smaller>
+
 ## Day 2 Schedule
+
+| Plenary                                   |
+|-------------------------------------------------------|
+| 09:00 am • Welcome back and Q&A |
+| 09:15 am • Data wrangling & pipelines (primarily tidyverse)
+| 10:30 am • Break |
+| 10:45 am • Data visualization (primarily ggplot2) |
+| 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
+
+## Day 2 Schedule
+
+| Plenary                                   |
+|-------------------------------------------------------|
+| 01:00 pm • Core programming skills: loops, apply functions, writing functions |
+| 02:00 pm • Best practices in R: script management, versioning, modular coding |
+| 02:45 pm • Break |
+| 03:00 pm • Basic data analyses in R: correlation, regression, ANOVA, categorical data | 
+| 04:30 pm • End |
+| 04:45 pm • Optional Happy Hour @ Whisker's |
 
 ## Aspirations & Philosophy
 
@@ -138,6 +196,4 @@ getwd()
 - Slow R (stay here)
 - Fast R (130 Moore)
 - Lunch
-
-## References {.smaller}
 
