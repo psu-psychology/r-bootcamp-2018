@@ -261,11 +261,11 @@ If you don't speak LOTR, just ignore that.
 ### What is [R Markdown](https://rmarkdown.rstudio.com/)?
 
 R Markdown extends [Markdown](https://daringfireball.net/projects/markdown/syntax) [^3], a scripting 'language' used in lots of blogging engines and wikis.
-Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
+Markdown is a simple formatting syntax for authoring HTML documents and can also be converted to PDF and MS Word documents.
 It's designed to be easy for humans to write and for machines to read.
 
 You can learn the basics of R Markdown in a very short time.
-And there are several resources for doing so we recommend:
+Here are several resources for doing so we recommend:
 
 - RStudio has an [R Markdown page](https://rmarkdown.rstudio.com/) with extensive documentation, including some very useful [cheatsheets](http://rstudio.com/cheatsheets)
 - Hadley Wickham, the author of `ggplot2` and other R packages has an online [tutorial](http://r4ds.had.co.nz/r-markdown.html)
@@ -349,6 +349,7 @@ Scrolling down to the next code chunk, we see that it plots data from the `press
 
 Returning to the first chunk called `setup`, we see that chunks themselves can have options that specify whether or not they are displayed `echo=FALSE` in the document, whether or not chunks are evaluated `eval=TRUE` and so forth.
 This allows the user to customize how the document executes each chunk.
+See the [RStudio documentation](https://rmarkdown.rstudio.com/lesson-3.html) for more information about what chunk options suit your needs.
 
 #### Rendering output
 
@@ -417,16 +418,16 @@ There are three reasons to write reproducible papers.
 To be right, to be reproducible, and to be efficient. 
 There are more, but these are convincing to us. In more depth:
 
-To avoid errors. 
+**To avoid errors**. 
 Using an automated method for scraping APA-formatted stats out of PDFs, [[@Nuijten2015-ul]](http://doi.org/10.3758/s13428-015-0664-2) found that over 10% of p-values in published papers were inconsistent with the reported details of the statistical test, and 1.6% were what they called "grossly" inconsistent, e.g. difference between the p-value and the test statistic meant that one implied statistical significance and the other did not. 
 Nearly half of all papers had errors in them.
 
-To promote computational reproducibility. 
+**To promote computational reproducibility**. 
 Computational reproducibility means that other people can take your data and get the same numbers that are in your paper. 
 Even if you don't have errors, it can still be very hard to recover the numbers from published papers because of ambiguities in analysis. 
 Creating a document that literally specifies where all the numbers come from in terms of code that operates over the data removes all this ambiguity.
 
-To create spiffy documents that can be revised easily. 
+**To create spiffy documents that can be revised easily**. 
 This is actually a really big neglected one for us. 
 At least one of us used to tweak tables and figures by hand constantly, leading to a major incentive never to rerun analyses because it would mean re-pasting and re-illustratoring all the numbers and figures in a paper. 
 That's a bad thing! 
@@ -438,7 +439,6 @@ In contrast, with a reproducible document, you can just rerun with a tweak to th
 It's possible to write a paper like [this](gilmore-hallquist-bootcamp-2018-papaja.pdf) from an R Markdown document that looks like [this](gilmore-hallquist-bootcamp-2018-papaja.Rmd).
 
 The `papaja` package makes this possible.
-Let's peek under the hood to see how this is done.
 
 #### Headers in `papaja`
 
@@ -706,11 +706,9 @@ Information about the R Session that produced the slides is as follows:
 sessionInfo()
 ```
 
-## Notes
+## References & notes
 
 [^1]: A best practice is to change the `date` field so that it is automatically updated each time the file is rendered: `date: '`r Sys.time()`'`.
 [^2]: R Markdown can contain code written in languages other than R!
 [^3]: Hypertext Markup Language (HTML) is the core language of web pages. 'Markdown' is a markup language for easily writing a file that gets converted to HTML.
-[^4]: HTML has different header levels that these map to: so <H1>, <H2>, etc.
-
-## References
+[^4]: HTML has different header levels that these map to: so `<H1>`, `<H2>`, etc.
