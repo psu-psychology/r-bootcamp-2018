@@ -47,15 +47,19 @@ Plus, RStudio has fully featured free versions, including some available entirel
 
 ### What to bring
 
-**Note**: If possible, please bring a laptop, preferably with [R](https://cran.r-project.org) and [RStudio](https://www.rstudio.com/products/rstudio/download/) already installed. We will be walking through a number of demonstrations during the course and it may be useful to follow along on your own machine.
+**Note**: If possible, please bring a laptop.
+Please make sure you complete the mandatory steps outlined [here](before-the-bootcamp.html) to ensure that your computer can connect to the Penn State wifi.
+If you want to run RStudio in a web browser, then follow [these](rstudio-tlt.html) instructions.
+Or (or in addition) you may want to install [R](https://cran.r-project.org) and [RStudio](https://www.rstudio.com/products/rstudio/download/). 
+We will be walking through a number of demonstrations during the course and it may be useful to follow along on your own machine.
 
 ### Course materials
 
-Here is the [GitHub repo](https://github.com/psu-psychology/r-bootcamp/) where the course files are shared.
+Here is the [GitHub repo](https://github.com/psu-psychology/r-bootcamp-2018/) where the course files are shared.
 
 To download all course materials, you can clone the entire Github repository using the command ```git clone https://github.com/psu-psychology/r-bootcamp-2018.git```.
 If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <https://github.com/psu-psychology/r-bootcamp-2018/archive/master.zip>
 
 ## Acknowledgments
 
-We thank the [Department of Psychology](http://psych.la.psu.edu) and the [Social, Life, & Engineering Sciences Imaging Center (SLEIC)](http://imaging.psu.edu) for support.
+We thank the [Department of Psychology](http://psych.la.psu.edu), the [Social, Life, & Engineering Sciences Imaging Center (SLEIC)](http://imaging.psu.edu), and the [Child Study Center's](http://csc.la.psu.edu) Open Data and Developmental Science initiative for support.

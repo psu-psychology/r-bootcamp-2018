@@ -1,7 +1,7 @@
 ---
 title: "rstudio-server-tlt"
 author: "Rick Gilmore"
-date: "2018-07-18"
+date: "`r Sys.time()`"
 output: html_document
 ---
 

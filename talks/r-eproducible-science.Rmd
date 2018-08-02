@@ -306,7 +306,7 @@ output: html_document
 All of these can be edited.
 The `title` can and often should be different from the file name.
 The `date` field is filled out automatically [^1].
-The `output` field shows that this document will be converted into an `html_document` that we can open in any web browser.
+The `output` field shows that this document will be converted into an `html_document` (.html file) that we can open in any web browser.
 
 #### Body text
 

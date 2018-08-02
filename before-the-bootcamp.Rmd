@@ -1,0 +1,61 @@
+---
+title: "before-the-bootcamp"
+author: "Rick Gilmore"
+date: "`r Sys.time()`"
+output: html_document
+---
+
+## Purpose
+
+This document describes the steps you must take to ensure that you are able to use your computer during the 2018 R Bootcamp.
+
+## Get a Penn State access account
+
+You will need your Penn State [Access Account](http://www.identity.psu.edu/services/authentication-services/access-accounts/) user ID (e.g. rog1) in order to access the `psu` wifi.
+Your home department should set this up for you.
+
+## Set up Penn State (`psu`) wifi access
+
+If you want to use the [web-based version of RStudio](rstudio-server-tlt.html) provided by the Teaching and Learning with Technology group, you will need to configure your computer to securely access the `psu` wifi system.
+
+You need to do this when you are on campus.
+
+Follow the instructions [here](http://wireless.psu.edu/wireless.html) for your specific device and operating system.
+
+## Connect to Penn State's `psu` wifi
+
+Once you have connected, try navigating to <https://lxclusterapps.tlt.psu.edu:8788> to test whether you can connect to the cloud-based version of RStudio.
+
+## (Optional) Set-up Two-Factor Authentication (2FA)
+
+You should not need 2FA for the bootcamp, but you will need it for other Penn State services.
+While you are setting up your device(s), you may as well set up 2FA.
+
+I find that 2FA works really well from my smartphone (iPhone).
+Follow the detailed instructions at [www.identity.psu.edu/set-up-instructions/](https://www.identity.psu.edu/set-up-instructions/)
+
+## (Optional) Download R and RStudio
+
+If you want to use R and RStudio on your own machine, you will want to install and download them.
+If you are using a computer provided by Penn State (e.g., your supervisor's laboratory), you may need assistance to install these tools.
+
+Install R first following instructions you can find at [www.r-project.org/](https://www.r-project.org/).
+
+Install RStudio second.
+Choose the installer for your computer platform from the files listed at [www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download).
+
+Once you have installed RStudio, try opening it.
+
+## (Optional) Create a GitHub account
+
+It is not required for the bootcamp, but you may want to create a GitHub account so you can start using GitHub for your own reproducible workflows and contribute to other open source projects.
+
+Visit [github.com](https://github.com) to create an account.
+
+## (Optional) Install PSU's Cisco AnyConnect Virtual Private Network (VPN) client
+
+The VPN client allows you to connect to PSU's network securely from an off campus location (like your home or favoriate coffee shop) and allows you to use some services that are otherwise only available to users who are on campus.
+The TLT RStudio server is one of these services.
+So, if you like the TLT RStudio server and want to use it while you are elsewhere, you'll want to download, install, and use Cisco AnyConnect.
+
+Follow the instructions at [kb.its.psu.edu/article/891](http://kb.its.psu.edu/article/891) to install the AnyConnect client on your device.
