@@ -397,6 +397,13 @@ Got it covered.
 Need to give a quick brown bag talk you can give from any web browser?
 Easy.
 
+### More about R Markdown
+
+I have just learned that there is a new book coming out called *R Markdown: The Definitive Guide* by Yihui Xie, J. J. Allaire, Garrett Grolemund.
+Here is a link to the e-version of the book: <https://bookdown.org/yihui/rmarkdown/>.
+I've only just started digging in, but I really like what I see so far.
+I'm pretty sure I'll buy a hard copy, since I like to have paper copies of technical books.
+
 # Advanced topics in R-eproducible science
 
 - Write *reproducible papers* in R Markdown using [`papaja`](https://github.com/crsh/papaja)
@@ -648,7 +655,7 @@ Behavioral scientists are becoming more mindful of the challenges to robustness 
 
 ## Let's learn more, faster
 
-At the end of the day, by making our research more reproducible, our findings will be more robust, and by sharing our findings, displays, data, and analysis code more widely and openly, we'll all learn more, faster.
+At the end of the day, by making our research more reproducible, our findings will be more robust, and by sharing our findings, displays, data, and analysis code more widely and openly, we'll all *learn more, faster*.
 That's Databrary's motto, by the way.
 
 So, I think that in the very near future we'll see the following:
@@ -663,7 +670,7 @@ So, I think that in the very near future we'll see the following:
 - [[@Gilmore2017-eh]](http://dx.doi.org/10.1038/s41562-017-0128): video and reproducible behavioral science
 - Access/analyze materials/displays via repository application program interfaces (APIs)
 
-These will Building a 'cumulative' science  [[@Mischel2011-br]](https://www.psychologicalscience.org/observer/becoming-a-cumulative-science)
+These will help us build a 'cumulative' science  [[@Mischel2011-br]](https://www.psychologicalscience.org/observer/becoming-a-cumulative-science) of behavior.
 
 ## Learn from my mistakes
 

@@ -28,7 +28,7 @@ This document describes how to log-on and use RStudio Server from a web browser.
 
 2. Start your web browser.
 
-3. Connect to [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788).
+3. Connect to [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788) or to [https://lxclusterapps-dev.tlt.psu.edu:8787/auth-sign-in](https://lxclusterapps-dev.tlt.psu.edu:8787/auth-sign-in)
     - You should see the following login page:
     
 <img src="img/rstudio-login.jpg"/>
