@@ -182,7 +182,7 @@ getwd()
 
 - On your own computer
 - In the cloud from your browser
-    - <https://lxclusterapps.tlt.psu.edu:8788>
+    - <https://lxclusterapps.tlt.psu.edu:8787>
     
 ## Your turn
 
