@@ -29,7 +29,7 @@ Follow the instructions [here](http://wireless.psu.edu/wireless.html) for your s
 
 ## Connect to Penn State's `psu` wifi
 
-Once you have connected, try navigating to <https://lxclusterapps.tlt.psu.edu:8788> to test whether you can connect to the cloud-based version of RStudio.
+Once you have connected, try navigating to <https://lxclusterapps.tlt.psu.edu:8787> to test whether you can connect to the cloud-based version of RStudio.
 
 ## (Optional) Set-up Two-Factor Authentication (2FA)
 
