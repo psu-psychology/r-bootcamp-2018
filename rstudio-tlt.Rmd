@@ -1,26 +1,25 @@
 ---
-title: "rstudio-server-tlt"
+title: "Using RStudio Server @ Penn State"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-output: html_document
+output:
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tufte)
 ```
 
 ## Purpose
 
-This document describes how to log-on and use RStudio Server from a web browser.
+This document describes how to log-on and use Penn State's RStudio Server instance from a web browser.
 
 ## Prerequisites
 
 1. A Penn State [Access Account](http://www.identity.psu.edu/services/authentication-services/access-accounts/) user ID (e.g. rog1).
 2. A web browser.
-3. A computer that is connected to the Penn State network via
-    - [PSU wifi](http://wireless.psu.edu/wireless.html), or
-    - a physical network connection, or
-    - a connection to Penn State's network via a [Virtual Private Network (VPN)](http://kb.its.psu.edu/article/891) application like Cisco AnyConnect.
+3. A computer that is connected to the Penn State network via [PSU wifi](http://wireless.psu.edu/wireless.html), or a physical network connection, or a connection to Penn State's network via a [Virtual Private Network (VPN)](http://kb.its.psu.edu/article/891) application like Cisco AnyConnect.
     
 ## Procedure
 
@@ -28,18 +27,17 @@ This document describes how to log-on and use RStudio Server from a web browser.
 
 2. Start your web browser.
 
-3. Connect to [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788) or to [https://lxclusterapps-dev.tlt.psu.edu:8787/auth-sign-in](https://lxclusterapps-dev.tlt.psu.edu:8787/auth-sign-in)
-    - You should see the following login page:
+3. Connect to [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788) or to [https://lxclusterapps-dev.tlt.psu.edu:8787/auth-sign-in](https://lxclusterapps-dev.tlt.psu.edu:8787/auth-sign-in). You should see the following login page:
     
 <img src="img/rstudio-login.jpg"/>
 
 4. Enter your PSU access ID (e.g., rog1) in the `Username` field (Do **not** add `@psu.edu`), and enter your PSU password in the `Password` field. 
-    - The use of a password manager like LastPass, 1Password, or DashLane is highly recommended.
+The use of a password manager like LastPass, 1Password, or DashLane is highly recommended.
 
 5. Hit the `Sign In` button or press return on your keyboard.
-    - You should see an RStudio window that looks very much like this one.
+You should see an RStudio window that looks very much like this one.
 
-<img src="img/rstudio-server-startup.jpg">
+<img src="img/rstudio-login.jpg"/>
 
 You are now ready to use RStudio Server!
 
@@ -49,18 +47,16 @@ The RStudio Server application uses your PASS space for file storage.
 
 To access your PASS space and upload files to it (like data),
 
-1. Visit [https://webfiles.psu.edu/](https://webfiles.psu.edu/).
-    - You will see a login window like this:
+1. Visit [https://webfiles.psu.edu/](https://webfiles.psu.edu/). You will see a login window like this:
     
 <img src="img/webfiles.psu.edu-login.jpg"/>
-    
-2. Enter your Penn State Access ID (e.g. rog1) and password.
-    - You should see the WebFiles interface:
+
+2. Enter your Penn State Access ID (e.g. rog1) and password. You should see the WebFiles interface:
     
 <img src="img/webfiles-window.jpg"/>
 
 3. Click on the `PASS Personal (X)` text or the `+` icon in the left panel.
-    - This will open a window on the right that shows the contents of your PASS space.
+This will open a window on the right that shows the contents of your PASS space.
     
 4. You may create new folders, upload, and download files using the WebFiles application.
 

@@ -1,9 +1,14 @@
 ---
-title: "before-the-bootcamp"
+title: "Before the R Bootcamp"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-output: html_document
+output:
+  html_document: default
 ---
+
+```{r, include=FALSE}
+library(tufte)
+```
 
 ## Purpose
 
