@@ -25,8 +25,9 @@ This document describes how to log-on and use Penn State's RStudio Server instan
 
 2. Start your web browser.
 
-3. Connect to [https://lxclusterapps.tlt.psu.edu:8787](https://lxclusterapps.tlt.psu.edu:8788) or to [https://lxclusterapps-bygone.tlt.psu.edu:8788/auth-sign-in](https://lxclusterapps-bygone.tlt.psu.edu:8788/auth-sign-in). You should see the following login page:
-
+3. Connect to [https://lxclusterapps.tlt.psu.edu:8787](https://lxclusterapps.tlt.psu.edu:8787) or to [https://lxclusterapps-bygone.tlt.psu.edu:8788](https://lxclusterapps-bygone.tlt.psu.edu:8788)
+    - You should see the following login page:
+    
 <img src="img/rstudio-login.jpg"/>
 
 4. Enter your PSU access ID (e.g., rog1) in the `Username` field (Do **not** add `@psu.edu`), and enter your PSU password in the `Password` field. 
