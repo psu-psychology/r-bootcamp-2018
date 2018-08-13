@@ -2,8 +2,6 @@
 title: "Before the R Bootcamp"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-output:
-  html_document: default
 ---
 
 ```{r, include=FALSE}
@@ -31,6 +29,7 @@ Follow the instructions [here](http://wireless.psu.edu/wireless.html) for your s
 
 Once you have connected, try navigating to <https://lxclusterapps.tlt.psu.edu:8787> to test whether you can connect to the cloud-based version of RStudio.
 
+***
 ## (Optional) Set-up Two-Factor Authentication (2FA)
 
 You should not need 2FA for the bootcamp, but you will need it for other Penn State services.

@@ -4,9 +4,13 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Getting ready"
+      href: before-the-bootcamp.html
     - text: "Schedule"
       href: schedule.html
-    - text: "Resources"
+    - text: "Topics"
+      href: modules.html
+    - text: "Other resources"
       href: resources.html
     - text: "Site info"
       href: site-info.html

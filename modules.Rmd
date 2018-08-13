@@ -1,0 +1,62 @@
+---
+title: "R bootcamp topics"
+output:
+  html_document:
+      toc:  TRUE
+      toc_depth: 4
+      toc_float: TRUE
+      number_section: FALSE
+---
+
+## Slow R: basic introduction to R
+
+This module provides a deliberately slow introduction to R that assumes that you have little or no experience with R and have not worked extensively with other programming languages.
+
+- [Slow R](talks/slow-r.html) (Rick Gilmore) | [Download](talks/slow-r.Rmd)
+
+*Other resources*
+
+- Kelly Black R tutorial: https://www.cyclismo.org/tutorial/R/index.html
+- James LeBreton [R introduction](https://psu-psychology.github.io/r-bootcamp/talks/R-Workshop-James.nb.html) (from R Bootcamp 2017) | [Rmd source](https://github.com/psu-psychology/r-bootcamp/blob/master/docs/talks/R-Workshop-James.Rmd)
+
+***
+
+## Data wrangling
+
+### Tidy data and data pipelines
+
+### Importing data into R
+
+### Joining datasets
+
+***
+
+## Data visualization
+
+*Other resources*
+
+- Jenny Bryan [ggplot2 tutorial](https://github.com/jennybc/ggplot2-tutorial) | [Download](https://github.com/jennybc/ggplot2-tutorial/archive/master.zip)
+- [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
+
+***
+
+## Best practices in R programming
+
+
+- Setting up a Github repo as an R project | [Video](mov/rstudio-project-on-github.mp4)
+- Using Github within RStudio | [Video](mov/edit-save-commit-push.mp4)
+
+*Other resources*
+
+- [Wickham R style guide](http://adv-r.had.co.nz/Style.html)
+
+## SEM using lavaan
+
+- Structural equation modeling in lavaan tutorial | Rmd
+
+*Other resources*
+
+- Alison Schreiber We R [lavaan walkthrough](https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan)
+- Michael Hallquist [PSY 597 SEM course in R](https://psu-psychology.github.io/psy-597-SEM/)
+
+##

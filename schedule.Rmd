@@ -2,21 +2,21 @@
 title: "2018 R Bootcamp Schedule"
 ---
 
-## Interested in attending?
+<!--## Interested in attending?
 
 Please be sure to RSVP for all sessions you plan to attend no later than 8/10/2018.
-https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
+https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R-->
 
 ## Thursday, August 16, 2018, 9:00 am - 4:30 pm
 ### 104 Keller, 104 Rackley, and Moore Building Lobby
 
-| [Plenary](talks/bootcamp-day-1-intro.html), 11 Mateer |
+| [Plenary](talks/bootcamp-day-1-intro.html), 104 Keller |
 |-------------------------------------------------------|
 | 09:00 am • Welcome, introductions, & housekeeping     |
 | 09:15 am • Why We R Here                              |
 | 09:45 am • Break                                      |
 
-| [Slow-R Track](talks/slow-r.html), 104 Keller |  | Fast-R Track, 104 Rackly |
+| [Slow-R Track](talks/slow-r.html), 104 Keller |  | Fast-R Track, 104 Rackley |
 |----------------------------------------------------------|-|----------------------------------------------------------|
 | 10:00 am - 12:00pm • RStudio, R console, object classes & data types (Rick Gilmore)                |  | 10:00am - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
 
@@ -30,7 +30,7 @@ https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
 | 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore)| | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
 | 03:00 - 03:15 pm • Break                  |  | 03:00 pm - 03:15pm • Break                 |
 
-| Plenary, 11 Mateer                                     |
+| Plenary, 104 Keller                                     |
 |-------------------------------------------------------|
 | 03:15 pm • [R-eproducible Science with R](talks/r-eproducible-science.html) (Rick Gilmore) |
 | 04:30 pm • End                                            |

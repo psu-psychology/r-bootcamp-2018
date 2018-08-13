@@ -11,7 +11,7 @@
 
 
 
-<title>2018 PSU Psychology R Bootcamp</title>
+<title>R bootcamp topics</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -166,6 +169,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
@@ -210,51 +308,76 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">2018 PSU Psychology R Bootcamp</h1>
+<h1 class="title toc-ignore">R bootcamp topics</h1>
 
 </div>
 
 
-<p><img src="https://www.r-project.org/Rlogo.png" /></p>
-<p>Welcome to the R Bootcamp for PSU Psychology researchers. The goal of this two-day workshop is to provide a broad introduction to the use of the R programming language for social science research. Participants are not expected to have prior experience with R or another programming language. The scope and schedule of the course is provided <a href="https://psu-psychology.github.io/r-bootcamp/schedule.html">here</a>.</p>
-<div id="instructors" class="section level2">
-<h2>Instructors</h2>
-<p>Michael Hallquist, Ph.D.</br> Assistant Professor of Psychology</br> michael.hallquist AT-SIGN psu PERIOD edu</br> <a href="http://dependpsu.weebly.com/" class="uri">http://dependpsu.weebly.com/</a></br></p>
-<p>Rick O. Gilmore, Ph.D.</br> Associate Professor of Psychology</br> rogilmore AT-SIGN psu PERIOD edu</br> <a href="http://gilmore-lab.github.io" class="uri">http://gilmore-lab.github.io</a></br></p>
+<div id="slow-r-basic-introduction-to-r" class="section level2">
+<h2>Slow R: basic introduction to R</h2>
+<p>This module provides a deliberately slow introduction to R that assumes that you have little or no experience with R and have not worked extensively with other programming languages.</p>
+<ul>
+<li><a href="talks/slow-r.html">Slow R</a> (Rick Gilmore) | <a href="talks/slow-r.Rmd">Download</a></li>
+</ul>
+<p><em>Other resources</em></p>
+<ul>
+<li>Kelly Black R tutorial: <a href="https://www.cyclismo.org/tutorial/R/index.html" class="uri">https://www.cyclismo.org/tutorial/R/index.html</a></li>
+<li>James LeBreton <a href="https://psu-psychology.github.io/r-bootcamp/talks/R-Workshop-James.nb.html">R introduction</a> (from R Bootcamp 2017) | <a href="https://github.com/psu-psychology/r-bootcamp/blob/master/docs/talks/R-Workshop-James.Rmd">Rmd source</a></li>
+</ul>
+<hr />
 </div>
-<div id="student-coaches" class="section level2">
-<h2>Student Coaches</h2>
-<p>Daniel Albohn</br> dna5021 AT-SIGN psu PERIOD edu</br></p>
-<p>Kayla Brown</br> kwb5191 AT-SIGN psu PERIOD edu</br></p>
-<p>Benjamin Johnson</br> bnj108 AT-SIGN psu PERIOD edu</br></p>
-<p>Alicia Vallorani</br> auv27 AT-SIGN psu PERIOD edu</br></p>
+<div id="data-wrangling" class="section level2">
+<h2>Data wrangling</h2>
+<div id="tidy-data-and-data-pipelines" class="section level3">
+<h3>Tidy data and data pipelines</h3>
 </div>
-<div id="meeting-times-and-location" class="section level2">
-<h2>Meeting times and location</h2>
-<p>Thursday, August 16, 2018, 9:00 am - 4:30 pm</br> Friday, August 17, 2018, 9:00 am - 4:30 pm</br> 104 <a href="http://www.psumap.com/#Keller">Keller Building</a></br> 104 <a href="http://www.psumap.com/#Rackley%20Building">Rackley Building</a></p>
-<p><a href="schedule.html">Detailed schedule</a></br></p>
+<div id="importing-data-into-r" class="section level3">
+<h3>Importing data into R</h3>
 </div>
-<div id="about-this-course" class="section level2">
-<h2>About this course</h2>
-<p>R is one of the core languages in data science. It’s free and fun to use. Join us in learning how to use this tool to accelerate your research.</p>
-<p>The course <em>heavily</em> emphasizes the use of the <a href="http://rstudio.com">RStudio</a> integrated development environment (IDE). You don’t have to use RStudio to use R, but we think that doing so makes R an even more powerful tool. Plus, RStudio has fully featured free versions, including some available entirely in your web browser.</p>
-<div id="what-to-bring" class="section level3">
-<h3>What to bring</h3>
-<p><strong>Note</strong>: If possible, please bring a laptop. Please make sure you complete the mandatory steps outlined <a href="before-the-bootcamp.html">here</a> to ensure that your computer can connect to the Penn State wifi. If you want to run RStudio in a web browser, then follow <a href="rstudio-tlt.html">these</a> instructions. Or (or in addition) you may want to install <a href="https://cran.r-project.org">R</a> and <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a>. We will be walking through a number of demonstrations during the course and it may be useful to follow along on your own machine.</p>
-</div>
-<div id="course-materials" class="section level3">
-<h3>Course materials</h3>
-<p>Here is the <a href="https://github.com/psu-psychology/r-bootcamp-2018/">GitHub repo</a> where the course files are shared.</p>
-<p>To download all course materials, you can clone the entire Github repository using the command <code>git clone https://github.com/psu-psychology/r-bootcamp-2018.git</code>. You can also use Github Desktop to clone the repository using a more user-friendly interface: <a href="https://desktop.github.com" class="uri">https://desktop.github.com</a> If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <a href="https://github.com/psu-psychology/r-bootcamp-2018/archive/master.zip" class="uri">https://github.com/psu-psychology/r-bootcamp-2018/archive/master.zip</a></p>
+<div id="joining-datasets" class="section level3">
+<h3>Joining datasets</h3>
+<hr />
 </div>
 </div>
-<div id="acknowledgments" class="section level2">
-<h2>Acknowledgments</h2>
-<p>We thank the <a href="http://psych.la.psu.edu">Department of Psychology</a>, the <a href="http://imaging.psu.edu">Social, Life, &amp; Engineering Sciences Imaging Center (SLEIC)</a>, and the <a href="http://csc.la.psu.edu">Child Study Center’s</a> Open Data and Developmental Science initiative for support.</p>
+<div id="data-visualization" class="section level2">
+<h2>Data visualization</h2>
+<p><em>Other resources</em></p>
+<ul>
+<li>Jenny Bryan <a href="https://github.com/jennybc/ggplot2-tutorial">ggplot2 tutorial</a> | <a href="https://github.com/jennybc/ggplot2-tutorial/archive/master.zip">Download</a></li>
+<li><a href="http://ggplot2.tidyverse.org/reference/">ggplot2 documentation</a></li>
+</ul>
+<hr />
+</div>
+<div id="best-practices-in-r-programming" class="section level2">
+<h2>Best practices in R programming</h2>
+<ul>
+<li>Setting up a Github repo as an R project | <a href="mov/rstudio-project-on-github.mp4">Video</a></li>
+<li>Using Github within RStudio | <a href="mov/edit-save-commit-push.mp4">Video</a></li>
+</ul>
+<p><em>Other resources</em></p>
+<ul>
+<li><a href="http://adv-r.had.co.nz/Style.html">Wickham R style guide</a></li>
+</ul>
+</div>
+<div id="sem-using-lavaan" class="section level2">
+<h2>SEM using lavaan</h2>
+<ul>
+<li>Structural equation modeling in lavaan tutorial | Rmd</li>
+</ul>
+<p><em>Other resources</em></p>
+<ul>
+<li>Alison Schreiber We R <a href="https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan">lavaan walkthrough</a></li>
+<li>Michael Hallquist <a href="https://psu-psychology.github.io/psy-597-SEM/">PSY 597 SEM course in R</a></li>
+</ul>
+</div>
+<div id="section" class="section level2">
+<h2></h2>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 

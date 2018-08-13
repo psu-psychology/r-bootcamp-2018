@@ -2,8 +2,6 @@
 title: "Using RStudio Server @ Penn State"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-output:
-  html_document: default
 ---
 
 ```{r setup, include=FALSE}
