@@ -2,9 +2,10 @@
 title: "Resources"
 ---
 
-## Running RStudio 'in the cloud'
+## Penn State resources
 
-- Penn State's (browser based) [RStudio Server](rstudio-tlt.html)
+- Get your computer set up for access to [PSU's network services](before-the-bootcamp.html)
+- Running RStudio 'in the cloud' Penn State's (browser based) [RStudio Server](rstudio-tlt.html)
 
 ## Cheatsheets
 - [Base R](http://github.com/rstudio/cheatsheets/raw/master/source/pdfs/base-r.pdf)
