@@ -7,54 +7,44 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+if (!("pacman" %in% installed.packages()[,"Package"])) { install.packages("pacman") } #handy package manager that installs and loads packages used in this document
+pacman::p_load(dplyr, tidyr, ggplot2, Hmisc, GGally, jtools) #install (if needed) and load packages
 ```
 
-
-## Install packman for subsequent package management
-```{r, include=FALSE}
-if (!("pacman" %in% installed.packages()[,])) {
-    install.packages("pacman")
-  }
-pacman::p_load(base, dplyr, tidyr, ggplot2, Hmisc, GGally, jtools)
-```
-
-
-## Set working directory and read-in data
+## Read in data
 ```{r}
-setwd("~/Penn State/Summer 2018/R Bootcamp 2018")
-
-read.csv("./DATA/ggplot2_tutorial.csv", stringsAsFactors = FALSE) %>%
-  mutate(bi = as.factor(bi),
-         sex = as.factor(sex),
-         socbid_group = as.factor(socbid_group),
-         prosoc_group = as.factor(prosoc_group)) -> df
+df <- read.csv("../data/ggplot2_tutorial_vallorani.csv", stringsAsFactors = FALSE) %>%
+  mutate_at(vars(bi, sex, socbid_group, prosoc_group), as.factor) ### Consider clarifying the levels of the group and bi variables so the data.frame is self-describing
 ```
-
 
 ## Examine data structure
 ```{r}
 str(df)
 ```
 
-
-## Examining distributions - histograms
+## Examining univariate distributions - histograms
 ```{r}
 # Looking at a histogram for a single variable
 ggplot(df, aes(proportion_toys)) +
   geom_histogram(bins = 5) # you can change the bin value to best fit your data
 
-# Looking at histrograms for all variables ggplot option
-ggplot(gather(df[c(-1, -2)]), aes(value)) + # numbers are removing id columns
+# Looking at histograms for all variables ggplot option
+### Alicia, I wasn't sure which columns should be included since binary don't make sense
+###      (this was throwing an error). I Took a guess here
+ggplot(df %>% select(starts_with("proportion"), age) %>% gather(), aes(value)) +
     geom_histogram(bins = 5) + 
     facet_wrap(~key, scales = "free_x")
 
-# Looking at histrograms for all variables Hmisc option
-hist.data.frame(df[c(-1, -2)]) 
 ```
 
+### Alternative approach to histograms for all variables using Hmisc package
+```{r, fig.height=9, fig.width=8}
+hist.data.frame(df %>% select(-id, -did)) ### I'm ambivalent about the value of showing people 2 ways of doing the same thing in an introductory walkthrough
+```
 
 ## Examining zero-order relations - scatterplots
-```{r}
+```{r, fig.height=5, fig.width=10, messages=FALSE, warnings=FALSE}
 # Looking at a scatterplot for a single relation
 ggplot(df, aes(proportion_toys, proportion_socconv)) +
   geom_point()
@@ -63,19 +53,21 @@ ggplot(df, aes(proportion_toys, proportion_socconv)) +
   #facet_wrap(~bi)
   #facet_wrap(~socbid_group)
   #face_grid(bi~sex)
+```
 
+```{r, fig.height=10, fig.width=10, messages=FALSE, warnings=FALSE}
 # Looking at a scatterplot matrix
 # Michael, I've never really found a ggplot option I am hapy with. Do you have good code?
+### Do you mean customizing the overall appearance of ggpairs?
 
 # Fancy distribution/relations option with GGally
-na.omit(df) -> df_na # removing na to reduce error messages
-ggpairs(df_na[c(-1, -2)])
+ggpairs(df %>% select(-id, -did) %>% na.omit(), progress=FALSE, lower = list(combo = wrap("facethist", bins=6))) ### Consider plotting a somewhat smaller variable set for aiding discussion (e.g., 6 x 6)
 ```
 
 
 ## Examining group differences - bar graphs
 ```{r}
-ggplot(df, aes(bi, proportion_peerbody)) +
+ggplot(df, aes(x=bi, y=proportion_peerbody)) +
   geom_bar(stat = "identity") 
   #theme_bw() 
   #theme(panel.grid.major.x = element_blank(),
@@ -92,25 +84,29 @@ ggplot(df, aes(bi, proportion_peerbody)) +
 
 ## Examining interactions - bar graphs
 ```{r}
-ggplot(df, aes(bi, proportion_socconv, fill = sex)) +
-  geom_bar(stat = "identity", position = "dodge")
-  #labs(fill = "Sex") 
-  #scale_fill_manual(labels = c("Boys", "Girls"), values = c("#ff8c00", "#5898d7")) 
-  #theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) 
+ggplot(df, aes(x=bi, y=proportion_socconv, fill = sex)) +
+  geom_bar(stat = "identity", position = "dodge") #+
+  #labs(fill = "Sex") +
+  #scale_fill_manual(labels = c("Boys", "Girls"), values = c("#ff8c00", "#5898d7")) + ### What do you think about highlighting some of the built-in palettes (e.g., in the scale_fill_brewer function)?
+  #theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) +
   #coord_flip()
+
+### I guess this dataset may not lend itself to this, but showing error bars (geom_errorbar) is a common request.
 ```
 
 
 ## Examining interactions - 3 variables and continuous interactions
-```{r}
-ggplot(df, aes(proportion_toys, proportion_socconv, color = sex)) +
+```{r, warnings=FALSE}
+ggplot(df, aes(x=proportion_toys, y=proportion_socconv, color = sex)) +
   geom_point() +
   stat_smooth(method = lm, se = FALSE) 
   #facet_wrap(~bi)
+```
 
-
+### Add subheading detail here
+```{r}
 # Advanced options using jtools
-with(df, lm(proportion_socconv~biq*proportion_toys)) -> lm1
+lm1 <- lm(proportion_socconv~biq*proportion_toys, df)
 
 interact_plot(lm1, pred = biq, modx = proportion_toys,
               plot.points = TRUE,
@@ -122,13 +118,14 @@ johnson_neyman(lm1, pred = biq, modx = proportion_toys, alpha = 0.05)
 ```
 
 
-## Publication quality graphs and exporting 
-```{r}
+## Publication quality graphs and exporting
+```{r, warnings=FALSE}
+### you'll probably need to document/describe right-hand assignment, since it's a bit unconventional
 df %>%
   dplyr::select(id, bi, proportion_peerbody, proportion_socconv) %>%
-  gather(key = type, value = proportion, proportion_peerbody, proportion_socconv)  -> social
+  gather(key = type, value = proportion, proportion_peerbody, proportion_socconv) -> social
 
-  ggplot(social, aes(type, proportion, fill = bi)) +
+social_plot <- ggplot(social, aes(type, proportion, fill = bi)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   scale_x_discrete(limits = c("proportion_peerbody", 
                               "proportion_socconv"), 
@@ -147,13 +144,13 @@ df %>%
   theme(axis.title = element_text(size = 14)) +
   theme(legend.text = element_text(size = 12)) +
   theme(legend.title = element_text(size = 14)) +
-  theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) -> social_plot
+  theme(legend.justification=c(-0.1,1), legend.position=c(.72,.95))
 
-ggsave("./OUTPUT/FIGURES/social_plot.png", plot = social_plot, 
-       width = NA, height = NA, dpi = 300)
+ggsave("../figures/social_plot.png", plot = social_plot, 
+       width = 6, height = 6, dpi = 300) #make a 6 x 6 inch PNG file with 300 DPI
 
-# For editable figures  
-svg("./OUTPUT/FIGURES/social_plot.svg")
+# Vector graphic: for editable figures in Inkscape or Illustrator
+svg("../figures/social_plot.svg")
 plot(social_plot)
 dev.off()
 ```
