@@ -8,7 +8,7 @@ Please be sure to RSVP for all sessions you plan to attend no later than 8/10/20
 https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
 
 ## Thursday, August 16, 2018, 9:00 am - 4:30 pm
-### 11 Mateer and 130 Moore
+### 104 Keller, 104 Rackley, and Moore Building Lobby
 
 | [Plenary](talks/bootcamp-day-1-intro.html), 11 Mateer |
 |-------------------------------------------------------|
@@ -16,15 +16,15 @@ https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
 | 09:15 am • Why We R Here                              |
 | 09:45 am • Break                                      |
 
-| [Slow-R Track](talks/slow-r.html), 11 Mateer |  | Fast-R Track, 130 Moore |
+| [Slow-R Track](talks/slow-r.html), 104 Keller |  | Fast-R Track, 104 Rackly |
 |----------------------------------------------------------|-|----------------------------------------------------------|
 | 10:00 am - 12:00pm • RStudio, R console, object classes & data types (Rick Gilmore)                |  | 10:00am - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
 
 | Lunch, Moore 1st floor lobby                         |
 |-------------------------------------------------------|
-| 12:00 pm • Lunch |
+| 12:00 pm • Lunch, Moore Building Lobby|
 
-| [Slow-R Track](talks/slow-r.html), 11 Mateer |  | Fast-R Track, 130 Moore |
+| [Slow-R Track](talks/slow-r.html), 104 Keller |  | Fast-R Track, 104 Rackley |
 |----------------------------------------------------------|-|----------------------------------------------------------|
 | 1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) |  | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
 | 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore)| | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
@@ -38,7 +38,7 @@ https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
 **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).
 
 ## Friday, August 17, 2018, 9:00 am - 4:30 pm
-### 11 Mateer
+### 104 Keller
 
 | Plenary                                               |
 |-------------------------------------------------------|
@@ -46,7 +46,7 @@ https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R
 | 09:15 am • Data wrangling & pipelines (primarily tidyverse)
 | 10:30 am • Break |
 | 10:45 am • Data visualization (primarily ggplot2) |
-| 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
+| 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)), Moore Building Lobby 
 | 01:00 pm • Core programming skills: loops, apply functions, writing functions |
 | 02:00 pm • Best practices in R: script management, versioning, modular coding |
 | 02:45 pm • Break |
