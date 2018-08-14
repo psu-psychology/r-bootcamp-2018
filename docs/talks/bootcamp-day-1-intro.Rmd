@@ -43,26 +43,29 @@ library(tidyverse)
 
 - Michael Hallquist
 - Rick Gilmore
+- Nilam Ram
 
 ## Welcome and introductions
 
 - Dan Albohn
 - Kayla Brown
+- Ben Johnson
 - Alicia Vallorani
 
 ## Housekeeping
 
 - Bootcamp materials on GitHub: <https://github.com/psu-psychology/r-bootcamp-2018>
 - Bootcamp website: <http://psu-psychology.github.io/r-bootcamp-2018>
+- **Survey**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit) *before lunch*.
 
 ## Schedule
 
-- Day 1 (Thursday, August 16, 2018): 11 Mateer & 130 Moore
-- Day 2 (Friday, August 17, 2018): 11 Mateer
+- Day 1 (Thursday, August 16, 2018): 104 Keller & 104 Rackley
+- Day 2 (Friday, August 17, 2018): 104 Keller
 
 ## Day 1 Schedule
 
-| Plenary session, 11 Mateer |
+| Plenary session, 104 Keller |
 |-------------------------------------------------------|
 | 09:00 am • Welcome, introductions, & housekeeping     |
 | 09:15 am • Why We R Here                              |
@@ -70,7 +73,7 @@ library(tidyverse)
 
 ## Day 1 Schedule
 
-| Slow-R Track, 11 Mateer |  Fast-R Track, 130 Moore |
+| Slow-R Track, 104 Keller |  Fast-R Track, 104 Rackley |
 |----------------------------------------------------------|----------------------------------------------------------|
 | 10:00 am - 12:00pm • RStudio, R console, object classes & data types (Rick Gilmore)                | 10:00am - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
 
@@ -80,7 +83,7 @@ library(tidyverse)
 
 ## Day 1 Schedule
 
-| Slow-R Track, 11 Mateer | Fast-R Track, 130 Moore |
+| Slow-R Track, 104 Keller | Fast-R Track, 104 Rackley |
 |----------------------------------------------------------|----------------------------------------------------------|
 | 1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
 | 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore) | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
@@ -88,12 +91,11 @@ library(tidyverse)
 
 ## Day 1 Schedule
 
-| Plenary, 11 Mateer                                     |
+| Plenary, 104 Keller                                     |
 |-------------------------------------------------------|
 | 03:15 pm • R-eproducible Science with R (Rick Gilmore) |
 | 04:30 pm • End                                            |
 </br>
-- **Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).</smaller>
 
 ## Day 2 Schedule
 
@@ -194,6 +196,5 @@ getwd()
 ## Next steps
 
 - Slow R (stay here)
-- Fast R (130 Moore)
-- Lunch
-
+- Fast R (104 Rackley Moore)
+- Lunch (Moore Building Lobby)

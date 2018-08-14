@@ -1,16 +1,8 @@
 ---
 title: "Before the R Bootcamp"
-author: "Rick Gilmore"
-date: "`r Sys.time()`"
 ---
 
-```{r, include=FALSE}
-library(tufte)
-```
-
-## Purpose
-
-This document describes the steps you must take to ensure that you are able to use your computer during the 2018 R Bootcamp.
+This document describes the steps you must take to ensure that you are able to use your laptop computer during the 2018 R Bootcamp.
 
 ## Get a Penn State access account
 
@@ -30,6 +22,7 @@ Follow the instructions [here](http://wireless.psu.edu/wireless.html) for your s
 Once you have connected, try navigating to <https://lxclusterapps.tlt.psu.edu:8787> to test whether you can connect to the cloud-based version of RStudio.
 
 ***
+
 ## (Optional) Set-up Two-Factor Authentication (2FA)
 
 You should not need 2FA for the bootcamp, but you will need it for other Penn State services.
@@ -43,7 +36,7 @@ Follow the detailed instructions at [www.identity.psu.edu/set-up-instructions/](
 If you want to use R and RStudio on your own machine, you will want to install and download them.
 If you are using a computer provided by Penn State (e.g., your supervisor's laboratory), you may need assistance to install these tools.
 
-Install R first following instructions you can find at [www.r-project.org/](https://www.r-project.org/).
+Install R first following instructions you can find at [www.r-project.org](https://www.r-project.org/).
 
 Install RStudio second.
 Choose the installer for your computer platform from the files listed at [www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download).

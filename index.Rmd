@@ -4,7 +4,7 @@ title: "2018 PSU Psychology R Bootcamp"
 
 ![](https://www.r-project.org/Rlogo.png)
 
-Welcome to the R Bootcamp for PSU Psychology researchers. The goal of this two-day workshop is to provide a broad introduction to the use of the R programming language for social science research. Participants are not expected to have prior experience with R or another programming language. The scope and schedule of the course is provided [here](https://psu-psychology.github.io/r-bootcamp/schedule.html).
+Welcome to the R Bootcamp for PSU Psychology researchers. The goal of this two-day workshop is to provide a broad introduction to the use of the R programming language for social science research. Participants are **not** expected to have prior experience with R or another programming language. The scope and schedule of the course is provided [here](https://psu-psychology.github.io/r-bootcamp/schedule.html).
 
 ## Instructors
 
@@ -17,6 +17,10 @@ Rick O. Gilmore, Ph.D.</br>
 Associate Professor of Psychology</br>
 rogilmore AT-SIGN psu PERIOD edu</br>
 [http://gilmore-lab.github.io](http://gilmore-lab.github.io)</br>
+
+Nilam Ram, Ph.D.</br>
+Professor of Human Development and Family Studies</br>
+nilam PERIOD ram AT-SIGN psu PERIOD edu</br>
 
 ## Student Coaches
 

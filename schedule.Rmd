@@ -7,6 +7,11 @@ title: "2018 R Bootcamp Schedule"
 Please be sure to RSVP for all sessions you plan to attend no later than 8/10/2018.
 https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R-->
 
+## Pre-bootcamp survey
+
+Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).
+We'll use the data drawn from it to show how one can use R and R Markdown to create reproducible data processing workflows like [this](talks/bootcamp-survey.html) and even full manuscripts like [this](talks/gilmore-hallquist-bootcamp-2018-papaja.pdf).
+
 ## Thursday, August 16, 2018, 9:00 am - 4:30 pm
 ### 104 Keller, 104 Rackley, and Moore Building Lobby
 
@@ -34,8 +39,6 @@ https://pennstate.qualtrics.com/jfe/form/SV_4132LrVZzPTGy4R-->
 |-------------------------------------------------------|
 | 03:15 pm • [R-eproducible Science with R](talks/r-eproducible-science.html) (Rick Gilmore) |
 | 04:30 pm • End                                            |
-
-**Homework**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit).
 
 ## Friday, August 17, 2018, 9:00 am - 4:30 pm
 ### 104 Keller
