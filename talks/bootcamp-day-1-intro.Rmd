@@ -57,6 +57,7 @@ library(tidyverse)
 - Bootcamp materials on GitHub: <https://github.com/psu-psychology/r-bootcamp-2018>
 - Bootcamp website: <http://psu-psychology.github.io/r-bootcamp-2018>
 - **Survey**: Please complete this anonymous (and light-hearted) [survey](https://docs.google.com/forms/d/1l5OX8PcN_lfVn3ykr_PtHCzhRbWzMbxhqtgILD45zRg/edit) *before lunch*.
+- **Sessions are being video recorded**. Last year's is on [Databrary](http://doi.org/10.17910/B7.473)
 
 ## Schedule
 
@@ -65,96 +66,72 @@ library(tidyverse)
 
 ## Day 1 Schedule
 
-| Plenary session, 104 Keller |
-|-------------------------------------------------------|
-| 09:00 am • Welcome, introductions, & housekeeping     |
-| 09:15 am • Why We R Here                              |
-| 09:45 am • Break                                      |
+||Plenary session, 104 Keller |
+|-|-------------------------------------------------------|
+|| 09:00 am • Welcome, introductions, & housekeeping     |
+|| 09:15 am • Why We R Here                              |
+|| 09:45 am • Break                                      |
 
 ## Day 1 Schedule
 
-| Slow-R Track, 104 Keller |  Fast-R Track, 104 Rackley |
-|----------------------------------------------------------|----------------------------------------------------------|
-| 10:00 am - 12:00pm • RStudio, R console, object classes & data types (Rick Gilmore)                | 10:00am - 12:00 pm • Introduction to exploratory factor analysis (Nilam Ram)  |
+||Slow-R Track, 104 Keller |  Fast-R Track, 104 Rackley |
+|-|---------------------------------------------------------|----------------------------------------------------------|
+||10:00 am - 12:00pm  • RStudio, R console, object classes & data types (Rick Gilmore)                | 10:00 am - 12:00pm • Introduction to exploratory factor analysis (Nilam Ram)  |
 
-| Lunch, Moore 1st floor lobby                         |
-|-------------------------------------------------------|
-| 12:00 pm • Lunch |
+</br>
 
-## Day 1 Schedule
-
-| Slow-R Track, 104 Keller | Fast-R Track, 104 Rackley |
-|----------------------------------------------------------|----------------------------------------------------------|
-| 1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
-| 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore) | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
-| 03:00 - 03:15 pm • Break                  | 03:00 pm - 03:15pm • Break                 |
+||Lunch, Moore 1st floor lobby                         |
+|-|------------------------------------------------------|
+|| 12:00 pm • Lunch (thanks to the Child Study Center (CSC))|
 
 ## Day 1 Schedule
 
-| Plenary, 104 Keller                                     |
-|-------------------------------------------------------|
-| 03:15 pm • R-eproducible Science with R (Rick Gilmore) |
-| 04:30 pm • End                                            |
+|| Slow-R Track, 104 Keller | Fast-R Track, 104 Rackley |
+|-|---------------------------------------------------------|----------------------------------------------------------|
+||1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
+||1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore) | 02:00 pm - 3:00 pm • Parallel computing, batch processing, and big data in R (Michael Hallquist)                |
+|| 03:00 - 03:15 pm • Break                  | 03:00 pm - 03:15pm • Break                 |
+
+## Day 1 Schedule
+
+|| Plenary, 104 Keller                                     |
+|-|------------------------------------------------------|
+|| 03:15 pm • R-eproducible Science with R (Rick Gilmore) |
+|| 04:30 pm • End                                            |
 </br>
 
 ## Day 2 Schedule
 
-| Plenary                                   |
-|-------------------------------------------------------|
-| 09:00 am • Welcome back and Q&A |
-| 09:15 am • Data wrangling & pipelines (primarily tidyverse)
-| 10:30 am • Break |
-| 10:45 am • Data visualization (primarily ggplot2) |
-| 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
+|| Plenary                                   |
+|-|------------------------------------------------------|
+|| 09:00 am • Welcome back and Q&A |
+|| 09:15 am • Data wrangling & pipelines (primarily tidyverse)
+|| 10:30 am • Break |
+|| 10:45 am • Data visualization (primarily ggplot2) |
+|| 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)) 
 
 ## Day 2 Schedule
 
-| Plenary                                   |
-|-------------------------------------------------------|
-| 01:00 pm • Core programming skills: loops, apply functions, writing functions |
-| 02:00 pm • Best practices in R: script management, versioning, modular coding |
-| 02:45 pm • Break |
-| 03:00 pm • Basic data analyses in R: correlation, regression, ANOVA, categorical data | 
-| 04:30 pm • End |
-| 04:45 pm • Optional Happy Hour @ Whisker's |
+|| Plenary                                   |
+|-|------------------------------------------------------|
+|| 01:00 pm • Core programming skills: loops, apply functions, writing functions |
+|| 02:00 pm • Best practices in R: script management, versioning, modular coding |
+|| 02:45 pm • Break |
+|| 03:00 pm • Basic data analyses in R: correlation, regression, ANOVA, categorical data | 
+|| 04:30 pm • End |
+|| 04:45 pm • Optional Happy Hour @ Whisker's |
 
 ## Aspirations & Philosophy
 
 - You **can** learn to program
 - You **should** learn to program
 - R is a good language for learning programming
-- "Do or do not; there is no try" (Yoda)
 
-## Some background
-
-- About computers
-- The storRy of R
-
-## About computers
-    
-- Computers store data & instructions (programs, scripts etc.)
-    - Short-term (during your work session) in volatile memory
-    - Long-term (between work sessions) in files
-    
----
-    
-```{r}
-# List the files in my current directory
-dir()
-```
-
-## About computers
-    
-- Files are organised in directories (folders)
-    - Directories/folders have a hierarchy
-    - The set of directories to a file is called the path
-    
 ---
 
-```{r}
-# Get and print the current working directory
-getwd()
-```
+<div class="centered">
+<img src="https://i0.wp.com/wnainc.com/wp-content/uploads/2017/06/there-is-no-try-only-do-quote-do-or-do-not-there-is-no-try-4-rules-to-responding-to-angry.jpg?w=960" height=500px/>
+</div>
 
 ## The storRy of R
 
@@ -186,6 +163,30 @@ getwd()
 - In the cloud from your browser
     - <https://lxclusterapps.tlt.psu.edu:8787>
     
+## Some of ouR own eye-candy
+
+<div class="centered">
+<img src="https://raw.githubusercontent.com/PLAY-behaviorome/video-coding/master/img/NYU020/time-line-plot-00-60-1.png" height=450/>
+
+[github.com/PLAY-behaviorome/](https://github.com/PLAY-behaviorome/)
+</div>
+
+---
+
+<div class="centered">
+<img src="https://raw.githubusercontent.com/gilmore-lab/gilmore-thomas-fesi-2015/master/figs/1F1/child/figX-channel-wise-effects-1.png" height=450px/>
+
+[Gilmore, Thomas, & Fesi, 2016](http://dx.doi.org/10.1371/journal.pone.0157911)
+</div>
+
+---
+
+<!-- Alicia's graph -->
+
+---
+
+<!-- Michael's graph -->
+    
 ## Your turn
 
 - Why do you want to learn R?
@@ -195,6 +196,6 @@ getwd()
 
 ## Next steps
 
-- Slow R (stay here)
+- Slow R (stay here in 104 Keller)
 - Fast R (104 Rackley Moore)
 - Lunch (Moore Building Lobby)
