@@ -29,6 +29,16 @@ If we're going too slow for you, that's ok.
 But if we're going too fast, please say so!
 We think that by going slow at the start, it will be easier to speed up later.
 
+## Philosophy and approach
+
+I've taken exactly two programming classes in my life.
+The rest I've taught myself.
+So, I'm definitely a half-fast programmer.
+But, I think this means that I haven't completely forgotten what it means to pound your head against the wall trying to understand why the computer won't do what you want it to do.
+
+Learning a programming language is lots of fun, and it can provide you a structured way for doing certain kinds of thinking.
+As much as possible, I want us to make this an environment where no question (about R) is out of bounds.
+
 ## Talking to the computer
 
 We talk about programming a computer or coding, but most of the time we're having a conversation.
@@ -100,8 +110,6 @@ Press the `return` or `enter` key on your keyboard to tell R you've finished say
 'license()'
 ```
 
-<!-- <img src="../img/type-license.jpg"/> -->
-
 Well, that wasn't very interesting.
 The computer responded by repeating what we'd typed, changing the single quotation marks for double quotation marks, but that's about it.
 
@@ -113,15 +121,13 @@ Try typing `license()` *without* the single quotation marks (and hit return/ente
 license()
 ```
 
-<!-- <img src="img/better-license.jpg"/> -->
-
 Much better!
 So, this was our first 'conversation' with the computer.
 We said something in R, and the computer responded.
 
-Why did typing `license()` work but typing `'license()'` not work?
+Why did typing `license()` work but typing `'license()'` give us something odd?
 The single quotation marks.
-Typing `license()` without them gave R a command; surrounding the same characters with single quotation marks told R that all of those characters were a single unit a string of characters (called a *string*), but definitely *not* a command.
+Typing `license()` without them gave R a command; surrounding the same characters with single quotation marks told R that all of those characters were a single unit--a string of characters (called a *string*)--but definitely *not* a command.
 As I said, computers are *very* literal.
 Many of the errors and frustrations you will encounter in your R journey will come down to your not telling the computer what to do in EXACTLY the way it needs to be told.
 
@@ -132,7 +138,7 @@ Notice that as we type text or R does, that text scrolls up so we can see the re
 You can scroll (with your mouse or arrow keys) up and down in the console.
 
 The greater-than (`> `) character is called the 'prompt', and the vertical line or pipe character (`|`) is called the 'cursor'. 
-You already knew about the cursor from your experiences in other computer programs.
+You already know about the cursor from your experiences in other computer programs.
 It's where characters we type will be entered.
 The prompt is just a character to 'prompt' or remind us that R is waiting for us to say something.
 
@@ -141,11 +147,13 @@ The prompt is just a character to 'prompt' or remind us that R is waiting for us
 Typing in the console is just one way to talk to the computer.
 It's *interactive*, meaning we type, it responds.
 Or really, we command, it responds (if it can).
+
 This way of talking to computers is very old school.
-It goes back to the 60s.
+It goes back to the 1960s.
 It might seems less powerful than say clicking buttons or menu items or talking to Siri or Alexa.
 But just wait and see.
-The console is our window into the computer's brain.
+Talking to computers via the console is powerful and useful.
+And the console is our window into the computer's brain.
 
 What's happening under the hood here?
 When the console displays the prompt it means that R is waiting for you to do something.
@@ -162,6 +170,9 @@ You can give R commands and ask it simple questions.
 When you type things that end with parentheses like `license()`, that commands R to do something, in this case, to 'print the license information'.
 Why doesn't R require you to say `print_license()`?
 To save typing.
+If you were writing your own command to print your name you could certainly use `print_my_name()` to do so.
+Of course, you'd have to create a command, or really a function, that told R what to do when you gave this command.
+We'll talk about writing our own functions later.
 
 Here's another command: `sum(1, 4, 7)`
 ```{r}
@@ -173,6 +184,7 @@ R responds with the answer: 12.
 Notice that there are two parts to the command: the 'what to do' part (`sum`) and the 'what to do it with or on' part inside the parentheses, here `(1,4,7)`.
 We'll return to this later, but many, many things we want to do or say in life (and R life) have two parts, the 'verb' or action we want to do and the 'noun' or objects/people we want to involve in that action.
 The parentheses tell R which is which when it reads the command from the console.
+The 'verb' is first, and the 'noun(s)' come inside the parentheses.
 
 Here's another useful command: `my_age <- 55`
 ```{r}
@@ -186,7 +198,7 @@ This command tells R to 'assign the name "my_age" to the number 55'.
 The 'assign the name' command is the combination is that leftward arrow (`<-`) symbol.
 You can type it the easy way by typing `option` and the minus `-` keys at the same time (Mac OS) or the `alt` and `-` keys on Windows.
 You can also type it the hard way by typing a `<` and then `-`.
-But train your fingers to type it the easy way.
+But it's a good idea to train your fingers to type it the easy way.
 
 ### (Optional) Assignments are another type of command
 
@@ -196,12 +208,14 @@ R's syntax assigns to the value (on the right side) the name (on the left).
 So, really, R is doing something like `assign('my_age', 55)` when you type `my_age <- 55`.
 In fact, they're the same thing.
 Try it.
+
 ```{r}
 assign('my_age', 55)
 my_age   # Tells R to print the current value assigned to 'my_age'
 your_age <- 25
 your_age # Print the value assigned to 'your_age' 
 ```
+
 So, if you want to be consistent in commanding R, you can always use the `command()` syntax.
 Even stranger, this works, too:
 
@@ -212,18 +226,22 @@ your_age
 ```
 
 By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right), just like the convention in math.
-**Don't use `=`. You can, but don't. Use `<-`**.
+In other words, I could say `my_age = 55` and R would understand it.
+
+> Don't use `=`. You can, but don't. Use `<-`.
 
 Why?
 It's a recommendation about style, not substance.
-But style matters.
+But style matters in many important things in life, and R is no exception.
 It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. 
-**Avoid flame wars**.
+
+> Avoid flame wars unless you want to get burned.
 
 ### Asking questions
 
 We can also ask R questions.
-By typing comparison operators (`==`, `!=`, `>`, `<`, etc.) we can ask R true/false questions.
+By typing 'comparison operators' (`==`, `!=`, `>`, `<`, etc.), commands that tell R to compare this thing to that, we can ask R true/false questions.
+
 ```{r}
 1 == 0
 sqrt(9) < 4
@@ -231,6 +249,7 @@ sqrt(9) < 4
 'richard' > 'rick'
 'richard' != 'rick'
 ```
+
 R will respond with `TRUE` or `FALSE` to these questions.
 Yes, `TRUE` and `FALSE` must be in all caps.
 
@@ -244,13 +263,15 @@ They have special meaning as Boolean (logical) variables.
 We'll say more about them later.
 
 Notice that `==` asks if the two things are equal and `!=` asks if they are unequal.
-This is different from what you learned in math class, where $a=1$ could be either a statement (or assignment command) or a question.
-If computers had invented math, rather than the reverse, they would have separated making statements or commands from asking questions--for clarity.
+This is different from what you learned in math class, where a single equal sign like $a=1$ could be either a statement (or assignment command) or a question.
+If computers had invented math, rather than people, they would probably have separated making statements or commands from asking questions--for clarity.
+So, if we want to ask R a question about whether two things are equal, we use the double equal sign `==` to make it absolutely clear what we mean.
 
 If you want to think of this in a "commanding" way, you could say that you are commanding R to 'compare these two things and print TRUE or FALSE depending on the outcome of the comparison'.
 
 ### Rules for naming things
 
+Naming things is very important.
 R has rules for names.
 You'll be fine if you do the following:
 
@@ -273,9 +294,13 @@ Here, parentheses function just like they do in math, so $(10-8)+1$ is equal to 
 ```{r}
 (10-8)+1 == 3
 ```
-So, R is a very big pocket calculator.
+
+So, used this way, R is a very big pocket calculator.
 
 You can use R for other calculations: subtraction (`-`), multiplication (`*`), division (`/`), exponentiation (`^` or `**`, i.e. $4^2$ is written `4^2` or `4**2` in R).
+There are rules about which operations R does in what order.
+They are called 'rules of precedence', but we won't go over them here.
+My advice is never make an expression where you aren't absolutely clear what operation will happen in what order.
 
 We can also talk about strings, or sets of letters, numbers, and characters: `'Fourscore and seven years ago'` or `'RStudio'` or `'R 3.5'`.
 Unlike names, strings *can* have spaces (and special characters like $ or !) in them or start with numbers--as long as the string starts and ends with quotation marks.
@@ -296,7 +321,11 @@ R treats strings, numbers, and logical values (`TRUE` and `FALSE`) as different 
 identical(12, '12')
 ```
 
-We can also talk about *commands*, so `help('sum')` gives us helpful information about the `sum()` command.
+I say *most* of the time because R sometimes treats the numbers 1 and 0 as the equivalent of `TRUE` and `FALSE`.
+There is a good reason for this we'll talk about soon.
+
+Of course, we can also talk about *commands*, so `help('sum')` tells R to give us helpful information about the `sum()` command.
+
 
 ```{r}
 help('sum')
@@ -304,12 +333,13 @@ help('sum')
 
 Notice that we have to put the name of the command in quotation marks.
 That tells R that we are telling R to 'help us learn about the command "sum"', not giving R the command to sum something.
+Here, we don't need the parentheses `()` because we just information about the command itself.
 
 > You can use either single or double quotation marks for strings, but I recommend using single ones. And don't mix and match: `'R will hate this"`
 
 ## Summing up
 
-These are the basic building blocks:
+These are the basic building blocks for interacting with R:
 
 - We type commands or questions into the Console, and R does our bidding...as long as we follow the rules that R requires for us to understand one another.
 - We can talk about numbers, strings, logical values, and commands.
@@ -319,7 +349,7 @@ And very soon, we'll see how we can talk about collections of numbers and string
 ## Your turn
 
 Let's get our fingers working on a tutorial using the [`swirl` package](https://swirlstats.com/).
-Install `swirl`.
+If you are working on your own computer and haven't already, install `swirl`.
 
 ```
 install.packages('swirl')
@@ -338,8 +368,8 @@ swirl()
 ```
 
 Tell swirl your name, if you like.
-Then choose `1: R Programming` by entering the number `1` and pressing `return`.
-Then choose `1: Basic Building Blocks` by entering the number `1` and pressing `return`.
+Then choose `1: R Programming` by entering the number `1` and pressing `return` or `enter`.
+Then choose `1: Basic Building Blocks` by entering the number `1` and pressing `return` or `enter`.
 
 Your console should look something like this:
 
@@ -372,7 +402,8 @@ In this section, we'll talk more about the various types of objects R can store 
 ## Types of things
 
 At the deepest level, everything, and I mean _everything_ in a computer is represented by sequences of 1's and 0's, data, programs, images, sounds, videos, _everything_.
-So, the computer needs to know what *type* of thing a given sequence of 1's and 0's is defined to be in order to know how to do computations on it.
+The 1's and 0's are called binary digits or bits for short.
+So, the computer needs to know what *type* of thing a given sequence of bits is defined to be in order to know how to do computations on it.
 Does the sequence of binary digits (bits) "0011000" mean the number 48 (in binary or base 2), or the [ASCII character](https://en.wikipedia.org/wiki/ASCII) "0", or the "address" in the computer's memory where a given piece of data is stored, or a SUM() function or command?
 It could be any of these.
 The computer doesn't know, but working with R and your operating system (Mac OS, Windows, *nix), the computer can figure this out.
@@ -385,15 +416,19 @@ That's why the computer returns `FALSE` when we say `identical('1', 1)`, or when
 '1' + 1
 ```
 
-The character `'1'` is a completely *different* thing (different type) to the computer than the number `1`.
+The *character* `'1'` is a completely *different* thing (different type) to the computer than the number `1`.
 So, when humans interact with the computer, we sometimes forget this, and that can cause errors and (to humans) grief.
 
 ### (Optional aside) Why 1's and 0's?
+
 One reason is pragmatic: It's relatively easy to make electronic circuits that are either "on" or "off".
 If we decide that "on" means 1, and "off" means 0, then we can do computations with these states.
+This is also why R (and some other computer languages) treat `TRUE` and the number 1 and `FALSE` and the number 0 as equivalent in many contexts.
+These are just 'on' or 'off' states of simple electronic components that make up our computers.
 
 ### (Optional aside) What sort of computations?
 
+You might wonder what sort of computations this sort of simple representation using 1's and 0's permits.
 Algebraic computations (addition, subraction, multiplication, division, etc.) and [Boolean algebra](https://en.wikipedia.org/wiki/Boolean_algebra) sorts of computations, that's what.
 Boolean algebra (or Boolean logic) takes as input the logical values of `TRUE` or `FALSE` and combines them using combinations of three basic operations: AND, OR, and NOT.
 R has operators--simple programs or functions (`&`, `|`, and `!`--that implement Boolean algebra.
@@ -407,6 +442,7 @@ FALSE | FALSE
 
 !TRUE        # the exclamation point '!' is the NOT operator
 ```
+
 It turns out that these simple operations are *incredibly powerful* when combined together.
 Basically, you can create simple arithmetic operations (addition, multiplication) from Boolean (AND, OR, NOT) elements.
 And from there, we can make any 'computable' function.
@@ -438,7 +474,7 @@ is.character(ten_number)
 is.character(ten_character)
 ```
 
-The `is.numeric()` command tells R to the inputs are 'numeric', and the `is.character()` command tells it to report whether the input contains a set of characters.
+The `is.numeric()` command tells R to the inputs are 'numeric', that is are numbers, and the `is.character()` command tells it to report whether the input contains a set of characters.
 
 R implements lots of different object classes.
 To see some of them, type `is.` then pause or type the 'tab' character.

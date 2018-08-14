@@ -51,6 +51,11 @@ Choose the installer for your computer platform from the files listed at [www.rs
 
 Once you have installed RStudio, try opening it.
 
+### Install packages
+
+For the Slow-R track, you'll only need to install the `swirl` package.
+From the Console, enter `install.packages('swirl')`.
+
 ## (Optional) Create a GitHub account
 
 It is not required for the bootcamp, but you may want to create a GitHub account so you can start using GitHub for your own reproducible workflows and contribute to other open source projects.
