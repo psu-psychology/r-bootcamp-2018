@@ -82,7 +82,7 @@ It's suitable for beginners and experts.
 I'm going to login to a version of RStudio that Penn State hosts so that Penn Staters can use RStudio from a web browser.
 Detailed instructions can be found at <http://psu-psychology.github.io/r-bootcamp-2018/rstudio-tlt.html>.
 
-In brief, I enter [https://lxclusterapps.tlt.psu.edu:8788](https://lxclusterapps.tlt.psu.edu:8788) in my browser, enter my PSU Access ID (rog1) and password, then click on the the `Sign In` button with my mouse or press return on my keyboard.
+In brief, I enter [https://lxclusterapps.tlt.psu.edu:8787](https://lxclusterapps.tlt.psu.edu:8787) in my browser, enter my PSU Access ID (rog1) and password, then click on the the `Sign In` button with my mouse or press return on my keyboard.
 Then I see an RStudio window that looks very much like this one:
 
 <img src="../img/rstudio-server-startup.jpg"/>

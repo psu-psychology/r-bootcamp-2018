@@ -26,6 +26,9 @@ dna5021 AT-SIGN psu PERIOD edu</br>
 Kayla Brown</br>
 kwb5191 AT-SIGN psu PERIOD edu</br>
 
+Benjamin Johnson</br>
+bnj108 AT-SIGN psu PERIOD edu</br>
+
 Alicia Vallorani</br>
 auv27 AT-SIGN psu PERIOD edu</br>
 
@@ -34,7 +37,9 @@ auv27 AT-SIGN psu PERIOD edu</br>
 Thursday, August 16, 2018, 9:00 am - 4:30 pm</br>
 Friday, August 17, 2018, 9:00 am - 4:30 pm</br>
 104 [Keller Building](http://www.psumap.com/#Keller)</br>
-104 [Rackley Building](http://www.psumap.com/#Rackley)
+104 [Rackley Building](http://www.psumap.com/#Rackley%20Building)
+
+[Detailed schedule](schedule.html)</br>
 
 ## About this course
 
@@ -58,6 +63,7 @@ We will be walking through a number of demonstrations during the course and it m
 Here is the [GitHub repo](https://github.com/psu-psychology/r-bootcamp-2018/) where the course files are shared.
 
 To download all course materials, you can clone the entire Github repository using the command ```git clone https://github.com/psu-psychology/r-bootcamp-2018.git```.
+You can also use Github Desktop to clone the repository using a more user-friendly interface: <https://desktop.github.com>
 If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <https://github.com/psu-psychology/r-bootcamp-2018/archive/master.zip>
 
 ## Acknowledgments

@@ -4,6 +4,8 @@ title: "Resources"
 
 ## Penn State resources
 
+- PSU [QuantDev R tutorials](https://quantdev.ssri.psu.edu/tutorials) (mostly statistical methods)
+- [WeR User Group](https://www.facebook.com/groups/WeRPennStateRUsersGroup/)
 - Get your computer set up for access to [PSU's network services](before-the-bootcamp.html)
 - Running RStudio 'in the cloud' Penn State's (browser based) [RStudio Server](rstudio-tlt.html)
 
@@ -13,11 +15,12 @@ title: "Resources"
 - [Data import](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-import-cheatsheet.pdf)
 - [Data transformation](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
 - [Visualization with ggplot2](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
+- [Working with lists and functions using purrr](https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf)
+- [Working with dates and times](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf)
 - [R Markdown](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 
 ## Websites
 
-- [WeR User Group](http://sites.psu.edu/werclub/2016/10/09/the-goal-of-we-r-penn-state-r-users-group/)
 - [Jenny Bryan R course](http://stat545.com/topics.html)
 - [Jenny Bryan graphics tutorials](http://stat545.com/graph00_index.html)
 - [ggplot2 graphics catalog](http://shiny.stat.ubc.ca/r-graph-catalog/)
@@ -37,4 +40,4 @@ title: "Resources"
 
 - Gandrud, C. (2015). Reproducible Research with R and R Studio, Second Edition. CRC Press. https://www.crcpress.com/Reproducible-Research-with-R-and-R-Studio-Second-Edition/Gandrud/p/book/9781498715379.
 - Wickham, H. & Grolemund, G. (2016). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media. http://shop.oreilly.com/product/0636920034407.do.
-- Muenchen, R. (2009). R for SAS and SPSS Users. http://www.springer.com/us/book/9780387094182. Mentioned by Michael Hallquist at 2017-01-12 meeting.
+- Muenchen, R. (2009). R for SAS and SPSS Users. http://www.springer.com/us/book/9780387094182.

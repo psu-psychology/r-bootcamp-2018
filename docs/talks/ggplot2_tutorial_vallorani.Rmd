@@ -1,0 +1,160 @@
+---
+title: "ggplot2 tutorial - R Bootcamp 2018"
+author: "Alicia Vallorani"
+date: "August 13, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Install packman for subsequent package management
+```{r, include=FALSE}
+if (!("pacman" %in% installed.packages()[,])) {
+    install.packages("pacman")
+  }
+pacman::p_load(base, dplyr, tidyr, ggplot2, Hmisc, GGally, jtools)
+```
+
+
+## Set working directory and read-in data
+```{r}
+setwd("~/Penn State/Summer 2018/R Bootcamp 2018")
+
+read.csv("./DATA/ggplot2_tutorial.csv", stringsAsFactors = FALSE) %>%
+  mutate(bi = as.factor(bi),
+         sex = as.factor(sex),
+         socbid_group = as.factor(socbid_group),
+         prosoc_group = as.factor(prosoc_group)) -> df
+```
+
+
+## Examine data structure
+```{r}
+str(df)
+```
+
+
+## Examining distributions - histograms
+```{r}
+# Looking at a histogram for a single variable
+ggplot(df, aes(proportion_toys)) +
+  geom_histogram(bins = 5) # you can change the bin value to best fit your data
+
+# Looking at histrograms for all variables ggplot option
+ggplot(gather(df[c(-1, -2)]), aes(value)) + # numbers are removing id columns
+    geom_histogram(bins = 5) + 
+    facet_wrap(~key, scales = "free_x")
+
+# Looking at histrograms for all variables Hmisc option
+hist.data.frame(df[c(-1, -2)]) 
+```
+
+
+## Examining zero-order relations - scatterplots
+```{r}
+# Looking at a scatterplot for a single relation
+ggplot(df, aes(proportion_toys, proportion_socconv)) +
+  geom_point()
+  #stat_smooth() 
+  #stat_smooth(method = "lm", color = "black", se = TRUE)
+  #facet_wrap(~bi)
+  #facet_wrap(~socbid_group)
+  #face_grid(bi~sex)
+
+# Looking at a scatterplot matrix
+# Michael, I've never really found a ggplot option I am hapy with. Do you have good code?
+
+# Fancy distribution/relations option with GGally
+na.omit(df) -> df_na # removing na to reduce error messages
+ggpairs(df_na[c(-1, -2)])
+```
+
+
+## Examining group differences - bar graphs
+```{r}
+ggplot(df, aes(bi, proportion_peerbody)) +
+  geom_bar(stat = "identity") 
+  #theme_bw() 
+  #theme(panel.grid.major.x = element_blank(),
+        #panel.grid.minor.x = element_blank(),
+        #panel.grid.major.y = element_blank(),
+        #panel.grid.minor.y = element_blank(),
+        #panel.spacing = unit(1.5, "lines")) 
+  #labs(x = "Behavioral Inhibition Group",
+       #y = "Proportion of Time Looking at Peer Body") 
+  #scale_x_discrete(limits = c("1", "0"),
+                   #labels = c("BI", "BN"))
+```
+
+
+## Examining interactions - bar graphs
+```{r}
+ggplot(df, aes(bi, proportion_socconv, fill = sex)) +
+  geom_bar(stat = "identity", position = "dodge")
+  #labs(fill = "Sex") 
+  #scale_fill_manual(labels = c("Boys", "Girls"), values = c("#ff8c00", "#5898d7")) 
+  #theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) 
+  #coord_flip()
+```
+
+
+## Examining interactions - 3 variables and continuous interactions
+```{r}
+ggplot(df, aes(proportion_toys, proportion_socconv, color = sex)) +
+  geom_point() +
+  stat_smooth(method = lm, se = FALSE) 
+  #facet_wrap(~bi)
+
+
+# Advanced options using jtools
+with(df, lm(proportion_socconv~biq*proportion_toys)) -> lm1
+
+interact_plot(lm1, pred = biq, modx = proportion_toys,
+              plot.points = TRUE,
+              x.label = "Behavioral Inhibition",
+              y.label = "Proportion of Time Engaging in Social Conversation",
+              legend.main = "Prop Dwell Toys")
+
+johnson_neyman(lm1, pred = biq, modx = proportion_toys, alpha = 0.05)
+```
+
+
+## Publication quality graphs and exporting 
+```{r}
+df %>%
+  dplyr::select(id, bi, proportion_peerbody, proportion_socconv) %>%
+  gather(key = type, value = proportion, proportion_peerbody, proportion_socconv)  -> social
+
+  ggplot(social, aes(type, proportion, fill = bi)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  scale_x_discrete(limits = c("proportion_peerbody", 
+                              "proportion_socconv"), 
+                   labels = c("Dwell Peer", "Social Conversation")) +
+  labs(x = "Type of Behavior",
+       y = "Proportion of Time Engaged in Behavior",
+       fill = "Temperament") +
+  scale_fill_manual(labels = c("BN", "BI"), values = c("#ff8c00", "#5898d7")) +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.spacing = unit(1.5, "lines")) +
+  theme(axis.text = element_text(size = 12)) +
+  theme(axis.title = element_text(size = 14)) +
+  theme(legend.text = element_text(size = 12)) +
+  theme(legend.title = element_text(size = 14)) +
+  theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) -> social_plot
+
+ggsave("./OUTPUT/FIGURES/social_plot.png", plot = social_plot, 
+       width = NA, height = NA, dpi = 300)
+
+# For editable figures  
+svg("./OUTPUT/FIGURES/social_plot.svg")
+plot(social_plot)
+dev.off()
+```
+
