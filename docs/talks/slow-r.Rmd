@@ -1,5 +1,5 @@
 ---
-title: "slow-r"
+title: "Slow R"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
 output:
@@ -62,7 +62,7 @@ Other useful languages for behavioral scientists to learn include the following:
 
 [RStudio](http://rstudio.com) is an integrated development environment (IDE) for R.
 RStudio brings together a number of useful tools for talking to the computer in R.
-You don't have to use RStudio to use R, but you should use it for this bootcamp, and we strongly recommend using it in the future.
+You don't have to use RStudio to use R, but you should use it for this bootcamp, and we *strongly* recommend using it in the future.
 It's suitable for beginners and experts.
 
 # RStudio and the Console
@@ -136,7 +136,7 @@ You already knew about the cursor from your experiences in other computer progra
 It's where characters we type will be entered.
 The prompt is just a character to 'prompt' or remind us that R is waiting for us to say something.
 
-#### Interacting with R via the console
+### Interacting with R via the console
 
 Typing in the console is just one way to talk to the computer.
 It's *interactive*, meaning we type, it responds.
@@ -154,7 +154,7 @@ When you hit `return`, R tries to 'understand' what you typed and do something s
 
 > Complex programs are just long sequences of commands entered into something like the computer's console and the computer's responses to those commands.
 
-## Talking to R
+# Talking to R
 
 So, what can you say to R?
 You can give R commands and ask it simple questions.
@@ -174,7 +174,50 @@ Notice that there are two parts to the command: the 'what to do' part (`sum`) an
 We'll return to this later, but many, many things we want to do or say in life (and R life) have two parts, the 'verb' or action we want to do and the 'noun' or objects/people we want to involve in that action.
 The parentheses tell R which is which when it reads the command from the console.
 
-Here's another useful command: `my_age <- 55`
+## Files and folders/directories
+
+Before we talk about other things you can say to the computer, let's talk about where and how computers store data and instructions.
+
+Computers store data & instructions (programs, scripts etc.) in two types of memory:
+
+  - **Long-term** (between work sessions) in files
+  - **Short-term** (during your work session) in volatile memory. These items will not be saved across sesions unless you do something to save them.
+  
+We'll talk about files first.
+  
+Files are organised in directories or folders.
+Directories/folders often have a hierarchy.
+The set of directories to a file is called the **path**.
+
+I can list the files in a directory or folder using the `list.files()` command or list the directories using the `list.dirs()` command.
+
+```{r}
+# List the files in my current directory
+list.files()
+```
+
+Notice that files have names (e.g., `slow-r`) and extensions that start with a period (e.g., `.Rmd`).
+The extension is a way for the computer to communicate with itself and others what type of file is being stored.
+You're probably familiar with files that have one of these extensions: .docx, .xlsx, .html, and .pdf.
+
+In addition to knowing 'what' files are already stored, we often want to know 'where' they are stored.
+In computer terms, this means that we want to know where we are working in this hierarchy of directories or folders.
+The get working directory or `getwd()` command shows us this information.
+
+```{r}
+# Get and print the current working directory
+getwd()
+```
+
+As you continue your jouRney with R, you'll want to practice a form of 'situational awareness': Where am I now (in my computer's file system).
+Don't worry, this will eventually become second nature to you.
+
+In the next section, we'll see how we can store information in R's short-term memory.
+
+## Assignments
+
+Here's another useful command: `my_age <- 55`.
+
 ```{r}
 my_age <- 55 # Rick's age
 # Text that is preceded by the # character is called a comment.
@@ -183,10 +226,23 @@ my_age <- 55 # Rick's age
 ```
 
 This command tells R to 'assign the name "my_age" to the number 55'.
-The 'assign the name' command is the combination is that leftward arrow (`<-`) symbol.
+The 'assign the name' command is that leftward arrow (`<-`) symbol.
 You can type it the easy way by typing `option` and the minus `-` keys at the same time (Mac OS) or the `alt` and `-` keys on Windows.
 You can also type it the hard way by typing a `<` and then `-`.
 But train your fingers to type it the easy way.
+
+When we use the assignment command, we create a new object in R's short-term memory with that object's name.
+We can list the objects in R's current short-term memory with the list objects or `ls()` command:
+
+```{r}
+# List the objects in R's current environment
+ls()
+```
+
+The `ls()` command doesn't show me the *contents* of the object I just created, but it does show me that R has stored something.
+Unless I do something special to save it, this object will disappear when I quit R.
+But don't worry.
+We'll show you how to save information you care about for futuRe work sessions.
 
 ### (Optional) Assignments are another type of command
 
@@ -196,12 +252,14 @@ R's syntax assigns to the value (on the right side) the name (on the left).
 So, really, R is doing something like `assign('my_age', 55)` when you type `my_age <- 55`.
 In fact, they're the same thing.
 Try it.
+
 ```{r}
 assign('my_age', 55)
 my_age   # Tells R to print the current value assigned to 'my_age'
 your_age <- 25
 your_age # Print the value assigned to 'your_age' 
 ```
+
 So, if you want to be consistent in commanding R, you can always use the `command()` syntax.
 Even stranger, this works, too:
 
@@ -212,15 +270,17 @@ your_age
 ```
 
 By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right), just like the convention in math.
-**Don't use `=`. You can, but don't. Use `<-`**.
+
+> Don't use `=`. You can, but don't. Use `<-`.
 
 Why?
 It's a recommendation about style, not substance.
 But style matters.
 It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. 
 **Avoid flame wars**.
+Ok, there are more substantive reasons we'll talk about later.
 
-### Asking questions
+## Asking questions
 
 We can also ask R questions.
 By typing comparison operators (`==`, `!=`, `>`, `<`, etc.) we can ask R true/false questions.
@@ -249,7 +309,7 @@ If computers had invented math, rather than the reverse, they would have separat
 
 If you want to think of this in a "commanding" way, you could say that you are commanding R to 'compare these two things and print TRUE or FALSE depending on the outcome of the comparison'.
 
-### Rules for naming things
+## Rules for naming things
 
 R has rules for names.
 You'll be fine if you do the following:
@@ -260,12 +320,12 @@ You'll be fine if you do the following:
 So, `bigly`, `good_name`, `a_longer_good_name`, `Good_name1`, and even `thisIsCamelCaseNoUnderscores` but not `!good`, `bad name` or `1_very_bad_name`.
 There are other rules and exceptions, but this is a good place to start.
 
-### What can we talk about?
+## What can we talk about?
 
 You may be unimpressed with our conversations with R, at least so far.
 But let's recap.
 
-We can talk about numbers: `75` or `4^2` (4 to the 2nd power) or `3.14159`.
+We can talk about numbers: `75` or `4^2` (4 to the 2nd power), `3.14159`, or `1.5e-3` (0.0015).
 Notice that we type numbers 'in the nude' or without surrounding them with quotation marks.
 We *can* surround numbers with parentheses, though: `(75) == 75`.
 Here, parentheses function just like they do in math, so $(10-8)+1$ is equal to three:
@@ -275,7 +335,7 @@ Here, parentheses function just like they do in math, so $(10-8)+1$ is equal to 
 ```
 So, R is a very big pocket calculator.
 
-You can use R for other calculations: subtraction (`-`), multiplication (`*`), division (`/`), exponentiation (`^` or `**`, i.e. $4^2$ is written `4^2` or `4**2` in R).
+You can use R for other calculations: subtraction (`-`), multiplication (`*`), division (`/`), or exponentiation (`^` or `**`, i.e. $4^2$ is written `4^2` or `4**2` in R).
 
 We can also talk about strings, or sets of letters, numbers, and characters: `'Fourscore and seven years ago'` or `'RStudio'` or `'R 3.5'`.
 Unlike names, strings *can* have spaces (and special characters like $ or !) in them or start with numbers--as long as the string starts and ends with quotation marks.
@@ -296,7 +356,7 @@ R treats strings, numbers, and logical values (`TRUE` and `FALSE`) as different 
 identical(12, '12')
 ```
 
-We can also talk about *commands*, so `help('sum')` gives us helpful information about the `sum()` command.
+We can also talk about *commands*, so `help('sum')` commands R to give us helpful information about the `sum()` command.
 
 ```{r}
 help('sum')
@@ -305,7 +365,7 @@ help('sum')
 Notice that we have to put the name of the command in quotation marks.
 That tells R that we are telling R to 'help us learn about the command "sum"', not giving R the command to sum something.
 
-> You can use either single or double quotation marks for strings, but I recommend using single ones. And don't mix and match: `'R will hate this"`
+> You can use either single or double quotation marks for strings, but I recommend using double ones. And don't mix and match: `'R will hate this"`
 
 ## Summing up
 
@@ -415,7 +475,7 @@ That is a deep and unresolved question we won't touch, but one that computer sci
 
 ### (Optional) Your turn
 
-For more practice with these concepts, try these `swirl` lessons: `5: Missing Values` and `8: Logic`.
+For more practice with these concepts, try this `swirl` lesson: `8: Logic`.
 
 ## Classes
 
@@ -438,9 +498,20 @@ is.character(ten_number)
 is.character(ten_character)
 ```
 
-The `is.numeric()` command tells R to the inputs are 'numeric', and the `is.character()` command tells it to report whether the input contains a set of characters.
+The `is.numeric()` command tells R to tells us whether the inputs are 'numeric', and the `is.character()` command tells it to report whether the input contains a set of characters.
 
-R implements lots of different object classes.
+The `is.logical()` command reports whether its input is a Boolean (`TRUE`/`FALSE`) variable, and the `is.na()` command reports whether the item is a special type R reserves for *missing values*.
+Yes, R has a special value called `NA` it assigns to data elements that are missing for one reason or another:
+
+```{r}
+my_data_are_missing <- NA
+is.na(my_data_are_missing)
+```
+
+Note that `NA` is a 'naked' value like `TRUE` or `FALSE`, that is, it is not enclosed in quotation marks.
+This will be extremely useful later, as we can tell R exactly how to handle 'missingness' in our data.
+
+Beyond these simple ones, R implements many different object classes.
 To see some of them, type `is.` then pause or type the 'tab' character.
 This will show you a scrollable list of all of the `is.` commands you can try out on a given object.
 
@@ -541,6 +612,7 @@ If you've exited swirl, start it again.
 ```
 swirl()
 ```
+
 Enter your name (again), but this time in response to `| Would you like to continue with one of these lessons?` select `2: No. Let me start something new.`.
 
 Choose `1: R Programming` and then `3: Sequences of Numbers`.
@@ -602,7 +674,7 @@ my_named_array
 
 This is 'old school' though.
 These days, most R data analysts work with data frames.
-Let's talk about them.
+Let's talk about them now.
 
 ### Data frames
 
@@ -1139,6 +1211,43 @@ Because we've specified defaults and are naming our parameters when we call the 
 
 There are many subtleties about writing functions that we haven't covered here.
 I recommend the free [DataCamp](http://www.datacamp.com) course by Hadley Wickham on ["Writing Functions in R"](https://www.datacamp.com/courses/writing-functions-in-r) to learn more.
+
+### Hold on, what about the equal signs?
+
+The careful observer will note that I used the equal sign to give my function input when I called it from the console
+
+```
+my_hist_t(my_samples = 200, my_sd=5)
+```
+
+and even in the script where I created the function:
+
+```
+my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {
+  my_data <- rnorm(n = my_samples, mean = my_mean, sd = my_sd)
+  hist(my_data)
+  t.test(my_data)
+}
+```
+
+What gives?
+
+So, remember when I said that R stores objects in volatile memory?
+In fact, R stores objects in separate compartments called 'environments'.
+When I create a function, R stores any variable names (and values) I assign inside it, like `my_data <- rnorm(...)` to an environment specific to the function.
+This means that the value my function assigns to `my_data` is unique to that function.
+
+When I define the `my_hist_t()` function to have inputs called `my_samples`, `my_mean`, and `my_sd`, I'm telling R to add these names to the environment for my function.
+That way R is ready to use these names when their values are defined by the user when she calls my function.
+
+> Do not use the assignment `<-` operator when defining a function's parameters. Use `=`. That is use `my_function <- function(my_parameter = 2)` not `my_function <- function(my_parameter <-2)`
+
+Think of it this way.
+When you used `source()` to load your function into memory, you told R the names of the  variables your function will use in that function's environment.
+You don't need to assign those names again.
+R will remember them.
+You just need to some specific values to the names R already has set aside for them.
+The equal sign `=` does that.
 
 ## Summing up
 

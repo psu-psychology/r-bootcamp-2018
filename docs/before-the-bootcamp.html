@@ -9,7 +9,6 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Rick Gilmore" />
 
 
 <title>Before the R Bootcamp</title>
@@ -212,52 +211,57 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Before the R Bootcamp</h1>
-<h4 class="author"><em>Rick Gilmore</em></h4>
-<h4 class="date"><em>2018-08-13 15:20:39</em></h4>
 
 </div>
 
 
-<div id="purpose" class="section level2">
-<h2>Purpose</h2>
-<p>This document describes the steps you must take to ensure that you are able to use your computer during the 2018 R Bootcamp.</p>
-</div>
+<p>This document describes the steps you must take to ensure that you are able to use your laptop computer during the 2018 R Bootcamp.</p>
+<div id="mandatory" class="section level1">
+<h1>Mandatory</h1>
 <div id="get-a-penn-state-access-account" class="section level2">
-<h2>Get a Penn State access account</h2>
+<h2>1. Get a Penn State access account</h2>
 <p>You will need your Penn State <a href="http://www.identity.psu.edu/services/authentication-services/access-accounts/">Access Account</a> user ID (e.g. rog1) in order to access the <code>psu</code> wifi. Your home department should set this up for you.</p>
 </div>
 <div id="set-up-penn-state-psu-wifi-access" class="section level2">
-<h2>Set up Penn State (<code>psu</code>) wifi access</h2>
+<h2>2. Set up Penn State (<code>psu</code>) wifi access</h2>
 <p>If you want to use the <a href="rstudio-server-tlt.html">web-based version of RStudio</a> provided by the Teaching and Learning with Technology group, you will need to configure your computer to securely access the <code>psu</code> wifi system.</p>
 <p>You need to do this when you are on campus.</p>
 <p>Follow the instructions <a href="http://wireless.psu.edu/wireless.html">here</a> for your specific device and operating system.</p>
 </div>
 <div id="connect-to-penn-states-psu-wifi" class="section level2">
-<h2>Connect to Penn State’s <code>psu</code> wifi</h2>
+<h2>3. Connect to Penn State’s <code>psu</code> wifi</h2>
 <p>Once you have connected, try navigating to <a href="https://lxclusterapps.tlt.psu.edu:8787" class="uri">https://lxclusterapps.tlt.psu.edu:8787</a> to test whether you can connect to the cloud-based version of RStudio.</p>
 <hr />
 </div>
-<div id="optional-set-up-two-factor-authentication-2fa" class="section level2">
-<h2>(Optional) Set-up Two-Factor Authentication (2FA)</h2>
+</div>
+<div id="optional" class="section level1">
+<h1>Optional</h1>
+<div id="set-up-two-factor-authentication-2fa" class="section level2">
+<h2>1. Set-up Two-Factor Authentication (2FA)</h2>
 <p>You should not need 2FA for the bootcamp, but you will need it for other Penn State services. While you are setting up your device(s), you may as well set up 2FA.</p>
 <p>I find that 2FA works really well from my smartphone (iPhone). Follow the detailed instructions at <a href="https://www.identity.psu.edu/set-up-instructions/">www.identity.psu.edu/set-up-instructions/</a></p>
 </div>
-<div id="optional-download-r-and-rstudio" class="section level2">
-<h2>(Optional) Download R and RStudio</h2>
+<div id="download-r-and-rstudio" class="section level2">
+<h2>2. Download R and RStudio</h2>
 <p>If you want to use R and RStudio on your own machine, you will want to install and download them. If you are using a computer provided by Penn State (e.g., your supervisor’s laboratory), you may need assistance to install these tools.</p>
-<p>Install R first following instructions you can find at <a href="https://www.r-project.org/">www.r-project.org/</a>.</p>
+<p>Install R first following instructions you can find at <a href="https://www.r-project.org/">www.r-project.org</a>.</p>
 <p>Install RStudio second. Choose the installer for your computer platform from the files listed at <a href="https://www.rstudio.com/products/rstudio/download/#download">www.rstudio.com/products/rstudio/download/#download</a>.</p>
 <p>Once you have installed RStudio, try opening it.</p>
+<div id="install-packages" class="section level3">
+<h3>2.1 Install packages</h3>
+<p>For the Slow-R track, you’ll only need to install the <code>swirl</code> package. From the Console, enter <code>install.packages('swirl')</code>.</p>
 </div>
-<div id="optional-create-a-github-account" class="section level2">
-<h2>(Optional) Create a GitHub account</h2>
+</div>
+<div id="create-a-github-account" class="section level2">
+<h2>3. Create a GitHub account</h2>
 <p>It is not required for the bootcamp, but you may want to create a GitHub account so you can start using GitHub for your own reproducible workflows and contribute to other open source projects.</p>
 <p>Visit <a href="https://github.com">github.com</a> to create an account.</p>
 </div>
-<div id="optional-install-psus-cisco-anyconnect-virtual-private-network-vpn-client" class="section level2">
-<h2>(Optional) Install PSU’s Cisco AnyConnect Virtual Private Network (VPN) client</h2>
+<div id="install-psus-cisco-anyconnect-virtual-private-network-vpn-client" class="section level2">
+<h2>4. Install PSU’s Cisco AnyConnect Virtual Private Network (VPN) client</h2>
 <p>The VPN client allows you to connect to PSU’s network securely from an off campus location (like your home or favoriate coffee shop) and allows you to use some services that are otherwise only available to users who are on campus. The TLT RStudio server is one of these services. So, if you like the TLT RStudio server and want to use it while you are elsewhere, you’ll want to download, install, and use Cisco AnyConnect.</p>
 <p>Follow the instructions at <a href="http://kb.its.psu.edu/article/891">kb.its.psu.edu/article/891</a> to install the AnyConnect client on your device.</p>
+</div>
 </div>
 
 

@@ -172,8 +172,8 @@ RStudio has a 'projects' function that I strongly recommend you use.
 
 - Create using 'File/New Project'
 - Store in new directory with sensible name ('projects/1st_year_proj')
-- Creates *.Rproj file
-- Turn-off saving data to the .RData file
+- Creates *.Rproj file (the asterisk is a wildcard character meaning that any number of characters can precede the period)
+- Turn-off saving data to the .RData file (Tools/Global Options... and/or Tools/Project Options...)
 - 'File/Open Project...' command opens 'fresh' workspace
 
 I create a new project every time I start a new 'thing'.
@@ -186,21 +186,28 @@ Here's an example of some recent projects I've worked on.
 
 Using RStudio projects helps keep your files and settings organized.
 It's easy to switch between projects.
-It reduces mental effort (what directory am I in?), and especially avoids having to use directory-setting commands like `setwd()` that will only work on *your* computer
-RStudio projects also integrates with version control (e.g., GitHub).
+It reduces mental effort (what directory am I in?), and especially avoids having to use directory-setting commands like `setwd()` that will only work on *your* computer and are generally **not reproducible**.
+RStudio projects also integrates with version control systems (e.g., GitHub).
 
 ## Reproducible workflows
 
+So, besides using RStudio projects, what other characteristics do reproducible workflows have?
+Reproducible workflows are:
+
 - Scripted, automated = minimize human-dependent steps.
 - Well-documented
-- Be kind to your future (forgetful) self
+- Kind to your future (forgetful) self
 - Transparent to me & colleagues == transparent to others
 
 # Using R (and RStudio) for reproducible science
 
+So, how can we use R (and RStudio) to make our own work more reproducible?
+There are several ways.
+
 ## Scripting
 
-Think of each step of your data workflow
+Think of each step of your data workflow.
+Most data-related projects involve something like this:
 
 ```
 # Import/gather data
@@ -241,12 +248,17 @@ source("R/Visualize_data.R")
 
 ### Scripts: Strengths & Weaknesses
 
-- R commands in files that can be re-run
-- Separate pieces of workflow kept separate
-- "Master.R" script that can be run to regenerate full sequence of results
-    - Error in raw data file?
-    - No problem; fix data file and re-run "Master.R"
-- How to save results or share with collaborators?
+Automating workflows with scripts has many strengths.
+You keep R commands in files that can be re-run.
+Separate pieces of your workflow are kept separately.
+You can create a "Master.R" script that can be run to regenerate full sequence of results.
+Find an error in raw data file?
+No problem; just fix the data file and re-run the "Master.R" script.
+Get hit by a bus?
+No problem; your colleagues can easily pick-up where you left off.
+
+So, scripts are great.
+But there's a way to take the virtues of scripts and make them even more useful and powerful: R Markdown documents.
 
 ## [R Markdown](https://rmarkdown.rstudio.com/)
 
@@ -373,7 +385,7 @@ rmarkdown::render("test.Rmd", output_format = c('html_document',
 
 ### R Markdown using 2018 R bootcamp data
  
-I've analyzed the survey data you provided using an R Markdown document [bootcamp-survey.Rmd](bootcamp-survey.Rmd).
+Over the lunch break, I analyzed the survey data you provided using an R Markdown document [bootcamp-survey.Rmd](bootcamp-survey.Rmd).
 Let's open it up and see how it looks.
 
 The default format is an `html_document`, and I've added some additional parameters in the header to produce a table of contents `toc: yes` with numbered sections `number_section: TRUE`, that floats `toc_float: TRUE`.
@@ -390,12 +402,15 @@ I've also added parameters so I can easily produce outputs in different formats.
 Notice that I've added comments about what I did and why, so that the R Markdown file is like a combination lab notebook and data report.
 And by creating it in R Markdown, I can satisfy many audiences with different needs.
 
-Your adviser likes PDF?
+Your adviser likes PDFs?
 No problem.
+Just re-render your file with `output_format="pdf_document"`.
 Your collaborator prefers MS Word?
 Got it covered.
+Try `output_format="word_document"`.
 Need to give a quick brown bag talk you can give from any web browser?
 Easy.
+Use `output_format="ioslides_presentation"`.
 
 ### More about R Markdown
 
