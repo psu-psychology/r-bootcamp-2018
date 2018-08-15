@@ -13,15 +13,54 @@ Your home department should set this up for you.
 
 ## 2. Set up Penn State (`psu`) wifi access
 
-If you want to use the [web-based version of RStudio](rstudio-server-tlt.html) provided by the Teaching and Learning with Technology group, you will need to configure your computer to securely access the `psu` wifi system.
+We suggest that you setup access to the `psu` wifi prior to attending bootcamp. This will allow you to access all materials during the talks and to use the [web-based version of RStudio](rstudio-server-tlt.html) provided by the Teaching and Learning with Technology group.
 
-You need to do this when you are on campus.
+To setup access to the `psu` wifi, you need to be on campus.
 
 Follow the instructions [here](http://wireless.psu.edu/wireless.html) for your specific device and operating system.
 
 ## 3. Connect to Penn State's `psu` wifi
 
 Once you have connected, try navigating to <https://lxclusterapps.tlt.psu.edu:8787> to test whether you can connect to the cloud-based version of RStudio.
+
+***
+
+# Recommended
+
+## 1. Obtain the materials for bootcamp
+
+Although you need not access or use the materials from bootcamp during the meeting, many attendees may wish to step through the code in parallel with the instructor. You can access all data files and code at our [GitHub repo](https://github.com/psu-psychology/r-bootcamp-2018/). *Note:* We are still actively updating the materials in preparation for the workshop, so you may need to download updates to these materials over the course of the meeting (details below).
+
+To download all course materials, you can clone the entire Github repository using the command ```git clone https://github.com/psu-psychology/r-bootcamp-2018.git```. This should be run in a terminal window.
+
+If you've already downloaded the materials, but the instructor suggests getting the latest updates, go to the directory where you've stored this the materials on your computer. Then, on the command line, type ```git pull```. 
+
+You can also use Github Desktop to clone the repository using a more user-friendly interface: <https://desktop.github.com>
+
+If Git is unfamiliar, you can obtain a zip archive of the current version of all files here: <https://github.com/psu-psychology/r-bootcamp-2018/archive/master.zip>. This link should auto-update, so you get updates by simply downloading this again.
+
+## 2. Install R and RStudio
+
+We suggest having a copy of R and RStudio on your own machine so that you can use R whenever you like! Although you'll have access to the TLT R server (which can be accessed through the browser), we recommend installing R and RStudio before the meeting. 
+
+If you are using a computer provided by Penn State (e.g., your supervisor's laboratory), you may need assistance to install these tools. This software is provided under "Software Center" on Windows and "Self Service" on Macs, so with luck, you should be able to install them without needing IT to provide administrative permissions.
+
+Install R first following instructions: [www.r-project.org](https://www.r-project.org/).
+
+Install RStudio second.
+
+Choose the installer for your computer platform from the files listed at [www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download).
+
+Once you have installed RStudio, try opening it.
+
+### 2.1 Install packages
+
+For the Slow-R track, you'll only need to install the `swirl` package.
+From the R Console, enter `install.packages('swirl')`.
+
+For the meeting more generally, we suggest the following packages.
+
+From the R Console, enter `install.packages(c('ez', 'car', 'tidyverse', 'pacman', 'GGally', 'jtools'))`.
 
 ***
 
@@ -35,30 +74,13 @@ While you are setting up your device(s), you may as well set up 2FA.
 I find that 2FA works really well from my smartphone (iPhone).
 Follow the detailed instructions at [www.identity.psu.edu/set-up-instructions/](https://www.identity.psu.edu/set-up-instructions/)
 
-## 2. Download R and RStudio
-
-If you want to use R and RStudio on your own machine, you will want to install and download them.
-If you are using a computer provided by Penn State (e.g., your supervisor's laboratory), you may need assistance to install these tools.
-
-Install R first following instructions you can find at [www.r-project.org](https://www.r-project.org/).
-
-Install RStudio second.
-Choose the installer for your computer platform from the files listed at [www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download).
-
-Once you have installed RStudio, try opening it.
-
-### 2.1 Install packages
-
-For the Slow-R track, you'll only need to install the `swirl` package.
-From the Console, enter `install.packages('swirl')`.
-
-## 3. Create a GitHub account
+## 2. Create a GitHub account
 
 It is not required for the bootcamp, but you may want to create a GitHub account so you can start using GitHub for your own reproducible workflows and contribute to other open source projects.
 
 Visit [github.com](https://github.com) to create an account.
 
-## 4. Install PSU's Cisco AnyConnect Virtual Private Network (VPN) client
+## 3. Install PSU's Cisco AnyConnect Virtual Private Network (VPN) client
 
 The VPN client allows you to connect to PSU's network securely from an off campus location (like your home or favoriate coffee shop) and allows you to use some services that are otherwise only available to users who are on campus.
 The TLT RStudio server is one of these services.

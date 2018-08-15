@@ -33,6 +33,8 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Data visualization
 
+- Alicia Vallorani [ggplot2 walkthrough](talks/ggplot2_tutorial_vallorani.html)
+
 *Other resources*
 
 - Jenny Bryan [ggplot2 tutorial](https://github.com/jennybc/ggplot2-tutorial) | [Download](https://github.com/jennybc/ggplot2-tutorial/archive/master.zip)
@@ -59,4 +61,8 @@ This module provides a deliberately slow introduction to R that assumes that you
 - Alison Schreiber We R [lavaan walkthrough](https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan)
 - Michael Hallquist [PSY 597 SEM course in R](https://psu-psychology.github.io/psy-597-SEM/)
 
-##
+## Parallel computing and big data
+
+*Other resources*
+
+- Matt Jones [Parallel R tutorial](https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html)
