@@ -398,6 +398,7 @@ output:
     toc_float: TRUE
     number_section: TRUE
 ```
+
 I've also added parameters so I can easily produce outputs in different formats.
 Notice that I've added comments about what I did and why, so that the R Markdown file is like a combination lab notebook and data report.
 And by creating it in R Markdown, I can satisfy many audiences with different needs.
@@ -420,6 +421,10 @@ I've only just started digging in, but I really like what I see so far.
 I'm pretty sure I'll buy a hard copy, since I like to have paper copies of technical books.
 
 # Advanced topics in R-eproducible science
+
+There is so much more to say about how to do R-eproducible science.
+Here are some advanced topics we can spend a few minutes discussing, depending on your level of interest.
+These materials will remain available to you for later reference.
 
 - Write *reproducible papers* in R Markdown using [`papaja`](https://github.com/crsh/papaja)
     - Make [this](gilmore-hallquist-bootcamp-2018-papaja.pdf) from [this](gilmore-hallquist-bootcamp-2018-papaja.Rmd)
