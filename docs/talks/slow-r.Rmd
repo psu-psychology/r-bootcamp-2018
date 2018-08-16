@@ -6,8 +6,10 @@ output:
   html_document:
       toc:  TRUE
       toc_depth: 4
-      toc_float: TRUE
       number_section: TRUE
+  github_document:
+      toc:  TRUE
+      toc_depth: 4
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE,
                       collapse = FALSE,
                       warning = FALSE,
                       message = FALSE,
-                      cache = TRUE)
+                      cache = FALSE)
 ```
 
 # Preliminaries

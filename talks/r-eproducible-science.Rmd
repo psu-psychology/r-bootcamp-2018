@@ -2,22 +2,14 @@
 title: "R-eproducible Psychological Science"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-bibliography: bootcamp.bib
+bibliography: bib/bootcamp.bib
 logo: ../img/psu-logo.png
 output: 
   html_document:
-    toc: true
-    toc_depth: 3
+    theme: spacelab
+    toc: yes
+    toc_depth: 4
     toc_float: TRUE
-    number_section: TRUE
-  ioslides_presentation:
-    widescreen: true
-  pdf_document:
-    toc: true
-    toc_depth: 3
-  github_document:
-    toc: true
-    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
@@ -30,7 +22,7 @@ library(tidyverse)
 
 # Themes
 
-1. The reproducibility crisis
+1. The reproducibility 'crisis'
 2. What does reproducible science look like?
 3. Using R & RStudio for R-eproducible science
 4. Advanced topics in R-eproducible science
@@ -89,6 +81,8 @@ survey_plot <- survey %>%
   aes(x=Crisis, fill=Crisis) +
   geom_bar() +
   xlab("Response") +
+  theme(axis.text.x = element_blank()) +
+  theme(legend.title = element_blank()) +
   ggtitle("Is there a reproducibility crisis in psychology?")
 ```
 
@@ -157,7 +151,7 @@ How do we record enough details about all of our data, materials, and methods so
 - Manuscript, talk, poster preparation.
 
 One way to answer the question is to think about that introductory video.
-Another way is to think about the 'hit by a truck' scenario
+Another way is to think about the 'hit by a truck' scenario:
 
 <div class="centered">
 <img src="http://www.clipartguide.com/_named_clipart_images/0511-0902-0200-0035_Black_and_White_Cartoon_of_a_Man_Just_Hit_By_a_Truck_clipart_image.jpg"/>
@@ -248,21 +242,60 @@ source("R/Visualize_data.R")
 ...
 ```
 
-### Scripts: Strengths & Weaknesses
+### Strengths of scripts
 
 Automating workflows with scripts has many strengths.
 You keep R commands in files that can be re-run.
 Separate pieces of your workflow are kept separately.
+
 You can create a "Master.R" script that can be run to regenerate full sequence of results.
 Find an error in raw data file?
 No problem; just fix the data file and re-run the "Master.R" script.
 Get hit by a bus?
 No problem; your colleagues can easily pick-up where you left off.
+Here's the `Make_site.R` script for this bootcamp:
+
+```
+# Make_site.R
+#
+# Updates and makes R bootcamp site
+
+# Survey data (update first because later items depend on it)
+source("R/Make_test_survey.R")
+source("R/Get_bootcamp_googlesheet.R")
+rmarkdown::render("talks/bootcamp-survey.Rmd", 
+                  output_format = "html_document")
+
+# Gilmore's talks
+rmarkdown::render(input = "talks/bootcamp-day-1-intro.Rmd", 
+                  output_format = "ioslides_presentation")
+
+rmarkdown::render(input = "talks/slow-r.Rmd", 
+                  output_format = c("html_document"))
+
+rmarkdown::render(input = "talks/r-eproducible-science.Rmd", 
+                  output_format = c("html_document"))
+
+# Sample papja document
+rmarkdown::render(input = "talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd")
+
+# Vallorani tutorial
+rmarkdown::render(input = "talks/ggplot2_tutorial_vallorani.Rmd")
+
+# Hallquist talks
+rmarkdown::render(input = "parallel_r.Rmd")
+
+# Ram talk
+rmarkdown::render(input = "talks/IntroBasicEFA_2018_0815.Rmd")
+
+# Render site last so that updated versions get copied to docs/
+rmarkdown::render_site()
+```
 
 So, scripts are great.
 But there's a way to take the virtues of scripts and make them even more useful and powerful: R Markdown documents.
 
-## Reproducible workflows with [R Markdown](https://rmarkdown.rstudio.com/)
+## Reproducible reports and papers with [R Markdown](https://rmarkdown.rstudio.com/)
 
 [R Markdown](https://rmarkdown.rstudio.com/) is an add-on package to R, developed by the RStudio team.
 R Markdown allows you to write a single text document that combines text, code, images, videos, and equations into one document.
@@ -420,6 +453,31 @@ Here is a link to the e-version of the book: <https://bookdown.org/yihui/rmarkdo
 I've only just started digging in, but I really like what I see so far.
 I'm pretty sure I'll buy a hard copy, since I like to have paper copies of technical books.
 
+### *Why* write reproducible papers/reports in R Markdown?
+
+The previous example showed *how* we might create reproducible data analysis reports in R Markdown.
+It's only a short step to writing full papers this way.
+But let's talk about *why* we might want to do this.
+
+**The following is section is copied verbatim from [Mike Frank & Chris Hartgerink's tutorial](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd) on GitHub**.
+
+> There are three reasons to write reproducible papers. To be right, to be reproducible, and to be efficient. There are more, but these are convincing to us. In more depth:
+
+> **To avoid errors**. Using an automated method for scraping APA-formatted stats out of PDFs, [[@Nuijten2015-ul]](http://doi.org/10.3758/s13428-015-0664-2) found that over 10% of p-values in published papers were inconsistent with the reported details of the statistical test, and 1.6% were what they called "grossly" inconsistent, e.g. difference between the p-value and the test statistic meant that one implied statistical significance and the other did not. 
+Nearly half of all papers had errors in them.
+
+> **To promote computational reproducibility**. 
+Computational reproducibility means that other people can take your data and get the same numbers that are in your paper. 
+Even if you don't have errors, it can still be very hard to recover the numbers from published papers because of ambiguities in analysis. 
+Creating a document that literally specifies where all the numbers come from in terms of code that operates over the data removes all this ambiguity.
+
+> **To create spiffy documents that can be revised easily**. 
+This is actually a really big neglected one for us. 
+At least one of us used to tweak tables and figures by hand constantly, leading to a major incentive never to rerun analyses because it would mean re-pasting and re-illustratoring all the numbers and figures in a paper. 
+That's a bad thing! 
+It means you have an incentive to be lazy and to avoid redoing your stuff. And you waste tons of time when you do. 
+In contrast, with a reproducible document, you can just rerun with a tweak to the code. You can even specify what you want the figures and tables to look like before you're done with all the data collection (e.g., for purposes of preregistraion or a registered report).
+
 # Advanced topics in R-eproducible science
 
 There is so much more to say about how to do R-eproducible science.
@@ -430,36 +488,6 @@ These materials will remain available to you for later reference.
     - Make [this](gilmore-hallquist-bootcamp-2018-papaja.pdf) from [this](gilmore-hallquist-bootcamp-2018-papaja.Rmd)
 - Version control with git and [GitHub](http://github.com)
 - [Web sites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), [blogs](https://bookdown.org/yihui/blogdown/), (even [books](https://bookdown.org/)) with R Markdown
-
-## Writing reproducible papers in R Markdown
-
-The previous example showed how we might create reproducible data analysis reports in R Markdown.
-It's only a short step to writing full papers this way.
-But let's talk about *why* we might want to do this.
-
-### Why write reproducible papers? ([Frank & Hartgerink](https://github.com/mcfrank/openscience_tutorial/blob/master/rmarkdown_handout.Rmd))
-
-**The following is section is copied verbatim from Mike Frank & Chris Hartgerink's tutorial on GitHub**.
-
-There are three reasons to write reproducible papers. 
-To be right, to be reproducible, and to be efficient. 
-There are more, but these are convincing to us. In more depth:
-
-**To avoid errors**. 
-Using an automated method for scraping APA-formatted stats out of PDFs, [[@Nuijten2015-ul]](http://doi.org/10.3758/s13428-015-0664-2) found that over 10% of p-values in published papers were inconsistent with the reported details of the statistical test, and 1.6% were what they called "grossly" inconsistent, e.g. difference between the p-value and the test statistic meant that one implied statistical significance and the other did not. 
-Nearly half of all papers had errors in them.
-
-**To promote computational reproducibility**. 
-Computational reproducibility means that other people can take your data and get the same numbers that are in your paper. 
-Even if you don't have errors, it can still be very hard to recover the numbers from published papers because of ambiguities in analysis. 
-Creating a document that literally specifies where all the numbers come from in terms of code that operates over the data removes all this ambiguity.
-
-**To create spiffy documents that can be revised easily**. 
-This is actually a really big neglected one for us. 
-At least one of us used to tweak tables and figures by hand constantly, leading to a major incentive never to rerun analyses because it would mean re-pasting and re-illustratoring all the numbers and figures in a paper. 
-That's a bad thing! 
-It means you have an incentive to be lazy and to avoid redoing your stuff. And you waste tons of time when you do. 
-In contrast, with a reproducible document, you can just rerun with a tweak to the code. You can even specify what you want the figures and tables to look like before you're done with all the data collection (e.g., for purposes of preregistraion or a registered report).
 
 ### Example of a reproducible paper using the `papaja` package
 
@@ -715,8 +743,6 @@ But you can learn from my mistakes:
 - Don't be afraid to work in the open
 - Learn from others
 - Just do it!
-
-<iframe src="https://giphy.com/embed/pvDp7Ewpzt0o8" width="480" height="264" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/star-wars-yoda-the-empire-strikes-back-pvDp7Ewpzt0o8">via GIPHY</a></p>
 
 In many ways, learning R is like acquiring a super power.
 

@@ -1,28 +1,24 @@
 ---
-title: "We-R Going to Learn Some R"
-author: "Rick Gilmore"
+title: "R Bootcamp"
+author: "Rick Gilmore, Michael Hallquist, & Nilam Ram"
 date: "`r Sys.time()`"
-css: gilmore.css
-bibliography: bootcamp.bib
+css: css/gilmore.css
+bibliography: bib/bootcamp.bib
 logo: ../img/psu-logo.png
 output: 
   ioslides_presentation:
     widescreen: true
-  pdf_document:
-    toc: true
-    toc_depth: 3
-  github_document:
-    toc: true
-    toc_depth: 3
-  html_document:
-    toc: true
-    toc_depth: 3
-    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      cache = TRUE)
 library(tidyverse)
+library(readr)
+library(dplyr)
+library(haven)
+library(tidyr)
+library(ggplot2)
 ```
 
 ## Acknowledgments
@@ -56,12 +52,6 @@ library(tidyverse)
 
 ```{r, include=FALSE}
 # Modified by ROG on 2018-08-15 from Hallquist code
-
-library(readr)
-library(dplyr)
-library(haven)
-library(tidyr)
-library(ggplot2)
 
 survey_file_name <- "../data/R+Bootcamp+2018_August+13%2C+2018_10.49.sav"
 
@@ -266,10 +256,11 @@ table(df$Fr_4, useNA = "always") #58
 table(df$Fr_5, useNA = "always") #59
 
 df_agg <- df %>% 
-  gather(key="Event", value="Count", starts_with("Fr"), starts_with("Th")) %>%
+  gather(key="Event", value="Count", 
+         starts_with("Fr"), starts_with("Th")) %>%
   group_by(Event) %>% 
   summarize(Attendance=sum(Count, na.rm=TRUE)) %>%
-  mutate(Event=factor(Event, 
+  dplyr::mutate(Event=factor(Event, 
                       levels=c("ThIntro_1", 
                                "ThParallel_1", 
                                "ThParallel_2", 

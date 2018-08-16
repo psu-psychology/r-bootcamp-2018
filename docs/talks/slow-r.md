@@ -1,7 +1,83 @@
-slow-r
+Slow R
 ================
 Rick Gilmore
-2018-08-14 08:43:10
+2018-08-16 04:19:08
+
+-   [Preliminaries](#preliminaries)
+    -   [Talking to the computer](#talking-to-the-computer)
+    -   [Why learn R?](#why-learn-r)
+    -   [Why RStudio?](#why-rstudio)
+-   [RStudio and the Console](#rstudio-and-the-console)
+    -   [RStudio](#rstudio)
+    -   [Console](#console)
+        -   [Parts of the console](#parts-of-the-console)
+        -   [Interacting with R via the console](#interacting-with-r-via-the-console)
+-   [Talking to R](#talking-to-r)
+    -   [Files and folders/directories](#files-and-foldersdirectories)
+    -   [Assignments](#assignments)
+        -   [(Optional) Assignments are another type of command](#optional-assignments-are-another-type-of-command)
+    -   [Asking questions](#asking-questions)
+    -   [Rules for naming things](#rules-for-naming-things)
+    -   [What can we talk about?](#what-can-we-talk-about)
+    -   [Summing up](#summing-up)
+    -   [Your turn](#your-turn)
+        -   [Help with `swirl`](#help-with-swirl)
+-   [Object types and classes](#object-types-and-classes)
+    -   [Types of things](#types-of-things)
+        -   [(Optional aside) Why 1's and 0's?](#optional-aside-why-1s-and-0s)
+        -   [(Optional aside) What sort of computations?](#optional-aside-what-sort-of-computations)
+        -   [(Optional) Your turn](#optional-your-turn)
+    -   [Classes](#classes)
+    -   [Groups of things](#groups-of-things)
+        -   [Combine (or concatenate) `c()` command](#combine-or-concatenate-c-command)
+        -   [Sequence `seq()` and replicate `rep()` commands](#sequence-seq-and-replicate-rep-commands)
+        -   [Your turn](#your-turn-1)
+        -   [Matrices and Arrays](#matrices-and-arrays)
+        -   [Data frames](#data-frames)
+        -   [Lists](#lists)
+        -   [Your turn](#your-turn-2)
+    -   [Indexing (getting parts out)](#indexing-getting-parts-out)
+        -   [Accessing elements via 'indices'](#accessing-elements-via-indices)
+        -   [Indexing data frames](#indexing-data-frames)
+            -   [Accessing elements by name](#accessing-elements-by-name)
+            -   [Accessing elements by logical (Boolean) values](#accessing-elements-by-logical-boolean-values)
+        -   [Indexing lists](#indexing-lists)
+    -   [Summing up](#summing-up-1)
+    -   [Your turn](#your-turn-3)
+-   [Packages, scripts, and functions](#packages-scripts-and-functions)
+    -   [R packages](#r-packages)
+        -   [Installing packages](#installing-packages)
+        -   [Using a package's data or functions](#using-a-packages-data-or-functions)
+    -   [Scripts and functions](#scripts-and-functions)
+        -   [Source pane](#source-pane)
+        -   [Scripts](#scripts)
+        -   ['Sourcing' a script](#sourcing-a-script)
+        -   [PaRameteRize your (R) life](#parameterize-your-r-life)
+    -   [From scripts to functions](#from-scripts-to-functions)
+        -   [Hold on, what about the equal signs?](#hold-on-what-about-the-equal-signs)
+    -   [Summing up](#summing-up-2)
+-   [Honing your expertise](#honing-your-expertise)
+    -   [Practice](#practice)
+    -   [Use the keyboard](#use-the-keyboard)
+    -   [Reading code will improve your writing](#reading-code-will-improve-your-writing)
+    -   [Getting help](#getting-help)
+    -   [Control/view the local environment](#controlview-the-local-environment)
+        -   [What's assigned to what](#whats-assigned-to-what)
+    -   [Finding your way around](#finding-your-way-around)
+        -   [Working directories and navigation](#working-directories-and-navigation)
+        -   [Directory structures](#directory-structures)
+    -   [Configuring RStudio](#configuring-rstudio)
+-   [Getting data in](#getting-data-in)
+    -   [Data from R packages](#data-from-r-packages)
+    -   [Data from the internet](#data-from-the-internet)
+        -   [Public data from the Open Science Framework (OSF)](#public-data-from-the-open-science-framework-osf)
+    -   [An aside about comma-separated value (CSV) files](#an-aside-about-comma-separated-value-csv-files)
+        -   [Reading 'foreign' file formats](#reading-foreign-file-formats)
+    -   [Local data](#local-data)
+    -   [Exploring data](#exploring-data)
+    -   [Summing up](#summing-up-3)
+-   [Materials](#materials)
+    -   [Notes](#notes)
 
 Preliminaries
 =============
@@ -33,7 +109,7 @@ Awesome! Good for you. Learn a bunch of languages. They're a bit like human lang
 Why RStudio?
 ------------
 
-[RStudio](http://rstudio.com) is an integrated development environment (IDE) for R. RStudio brings together a number of useful tools for talking to the computer in R. You don't have to use RStudio to use R, but you should use it for this bootcamp, and we strongly recommend using it in the future. It's suitable for beginners and experts.
+[RStudio](http://rstudio.com) is an integrated development environment (IDE) for R. RStudio brings together a number of useful tools for talking to the computer in R. You don't have to use RStudio to use R, but you should use it for this bootcamp, and we *strongly* recommend using it in the future. It's suitable for beginners and experts.
 
 RStudio and the Console
 =======================
@@ -104,7 +180,7 @@ The console refers to the whole window or panel. Notice that as we type text or 
 
 The greater-than (`>`) character is called the 'prompt', and the vertical line or pipe character (`|`) is called the 'cursor'. You already knew about the cursor from your experiences in other computer programs. It's where characters we type will be entered. The prompt is just a character to 'prompt' or remind us that R is waiting for us to say something.
 
-#### Interacting with R via the console
+### Interacting with R via the console
 
 Typing in the console is just one way to talk to the computer. It's *interactive*, meaning we type, it responds. Or really, we command, it responds (if it can). This way of talking to computers is very old school. It goes back to the 60s. It might seems less powerful than say clicking buttons or menu items or talking to Siri or Alexa. But just wait and see. The console is our window into the computer's brain.
 
@@ -113,7 +189,7 @@ What's happening under the hood here? When the console displays the prompt it me
 > Complex programs are just long sequences of commands entered into something like the computer's console and the computer's responses to those commands.
 
 Talking to R
-------------
+============
 
 So, what can you say to R? You can give R commands and ask it simple questions.
 
@@ -129,7 +205,80 @@ sum(1, 4, 7)
 
 This command says 'calculate and print the sum of the numbers 1, 4, and 7'. R responds with the answer: 12. Notice that there are two parts to the command: the 'what to do' part (`sum`) and the 'what to do it with or on' part inside the parentheses, here `(1,4,7)`. We'll return to this later, but many, many things we want to do or say in life (and R life) have two parts, the 'verb' or action we want to do and the 'noun' or objects/people we want to involve in that action. The parentheses tell R which is which when it reads the command from the console.
 
-Here's another useful command: `my_age <- 55`
+Files and folders/directories
+-----------------------------
+
+Before we talk about other things you can say to the computer, let's talk about where and how computers store data and instructions.
+
+Computers store data & instructions (programs, scripts etc.) in two types of memory:
+
+-   **Long-term** (between work sessions) in files
+-   **Short-term** (during your work session) in volatile memory. These items will not be saved across sesions unless you do something to save them.
+
+We'll talk about files first.
+
+Files are organised in directories or folders. Directories/folders often have a hierarchy. The set of directories to a file is called the **path**.
+
+I can list the files in a directory or folder using the `list.files()` command or list the directories using the `list.dirs()` command.
+
+``` r
+# List the files in my current directory
+list.files()
+```
+
+    ##  [1] "bootcamp-day-1-intro.html"                   
+    ##  [2] "bootcamp-day-1-intro.Rmd"                    
+    ##  [3] "bootcamp-survey_cache"                       
+    ##  [4] "bootcamp-survey_files"                       
+    ##  [5] "bootcamp-survey.html"                        
+    ##  [6] "bootcamp-survey.nb.html"                     
+    ##  [7] "bootcamp-survey.pdf"                         
+    ##  [8] "bootcamp-survey.Rmd"                         
+    ##  [9] "bootcamp-survey.tex"                         
+    ## [10] "bootcamp.bib"                                
+    ## [11] "codebook_survey.pdf"                         
+    ## [12] "codebook_survey.Rmd"                         
+    ## [13] "ggplot2_tutorial_vallorani.html"             
+    ## [14] "ggplot2_tutorial_vallorani.Rmd"              
+    ## [15] "gilmore-hallquist-bootcamp-2018-papaja_files"
+    ## [16] "gilmore-hallquist-bootcamp-2018-papaja.fff"  
+    ## [17] "gilmore-hallquist-bootcamp-2018-papaja.pdf"  
+    ## [18] "gilmore-hallquist-bootcamp-2018-papaja.Rmd"  
+    ## [19] "gilmore-hallquist-bootcamp-2018-papaja.tex"  
+    ## [20] "gilmore-hallquist-bootcamp-2018-papaja.ttt"  
+    ## [21] "gilmore.css"                                 
+    ## [22] "github_document"                             
+    ## [23] "r-eproducible-science_cache"                 
+    ## [24] "r-eproducible-science_files"                 
+    ## [25] "r-eproducible-science.html"                  
+    ## [26] "r-eproducible-science.Rmd"                   
+    ## [27] "r-references.bib"                            
+    ## [28] "references.bib"                              
+    ## [29] "slow-r_files"                                
+    ## [30] "slow-r.html"                                 
+    ## [31] "slow-r.md"                                   
+    ## [32] "slow-r.Rmd"                                  
+    ## [33] "slow-r.tex"
+
+Notice that files have names (e.g., `slow-r`) and extensions that start with a period (e.g., `.Rmd`). The extension is a way for the computer to communicate with itself and others what type of file is being stored. You're probably familiar with files that have one of these extensions: .docx, .xlsx, .html, and .pdf.
+
+In addition to knowing 'what' files are already stored, we often want to know 'where' they are stored. In computer terms, this means that we want to know where we are working in this hierarchy of directories or folders. The get working directory or `getwd()` command shows us this information.
+
+``` r
+# Get and print the current working directory
+getwd()
+```
+
+    ## [1] "/Users/rick/github/psu-psychology/r-bootcamp-2018/talks"
+
+As you continue your jouRney with R, you'll want to practice a form of 'situational awareness': Where am I now (in my computer's file system). Don't worry, this will eventually become second nature to you.
+
+In the next section, we'll see how we can store information in R's short-term memory.
+
+Assignments
+-----------
+
+Here's another useful command: `my_age <- 55`.
 
 ``` r
 my_age <- 55  # Rick's age
@@ -138,7 +287,29 @@ my_age <- 55  # Rick's age
 # something. Here, R ignores the part after the #: ' Rick's age'
 ```
 
-This command tells R to 'assign the name "my\_age" to the number 55'. The 'assign the name' command is the combination is that leftward arrow (`<-`) symbol. You can type it the easy way by typing `option` and the minus `-` keys at the same time (Mac OS) or the `alt` and `-` keys on Windows. You can also type it the hard way by typing a `<` and then `-`. But train your fingers to type it the easy way.
+This command tells R to 'assign the name "my\_age" to the number 55'. The 'assign the name' command is that leftward arrow (`<-`) symbol. You can type it the easy way by typing `option` and the minus `-` keys at the same time (Mac OS) or the `alt` and `-` keys on Windows. You can also type it the hard way by typing a `<` and then `-`. But train your fingers to type it the easy way.
+
+When we use the assignment command, we create a new object in R's short-term memory with that object's name. We can list the objects in R's current short-term memory with the list objects or `ls()` command:
+
+``` r
+# List the objects in R's current environment
+ls()
+```
+
+    ##  [1] "all_you_need_is"     "bad_matrix"          "fav_day_mon"        
+    ##  [4] "favorite_color"      "guzzlers"            "hr_mit"             
+    ##  [7] "just_evens"          "lyrics"              "mehr_etal_survey"   
+    ## [10] "more_numbers"        "more_numbers_alt"    "mtcars"             
+    ## [13] "my_age"              "my_array"            "my_data_are_missing"
+    ## [16] "my_df"               "my_hist_t"           "my_initials"        
+    ## [19] "my_list"             "my_list_wnames"      "my_name"            
+    ## [22] "my_named_array"      "my_numbers"          "my_quest"           
+    ## [25] "not_square_matrix"   "one_to_ten"          "only_females"       
+    ## [28] "only_males"          "r_100"               "square_matrix"      
+    ## [31] "t_test_r_100"        "ten_character"       "ten_number"         
+    ## [34] "your_age"
+
+The `ls()` command doesn't show me the *contents* of the object I just created, but it does show me that R has stored something. Unless I do something special to save it, this object will disappear when I quit R. But don't worry. We'll show you how to save information you care about for futuRe work sessions.
 
 ### (Optional) Assignments are another type of command
 
@@ -173,11 +344,14 @@ your_age
 
     ## [1] 27
 
-By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right), just like the convention in math. **Don't use `=`. You can, but don't. Use `<-`**.
+By the way, R accepts the equal sign `=` character to assign names (on the left) to values (on the right), just like the convention in math.
 
-Why? It's a recommendation about style, not substance. But style matters. It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. **Avoid flame wars**.
+> Don't use `=`. You can, but don't. Use `<-`.
 
-### Asking questions
+Why? It's a recommendation about style, not substance. But style matters. It's like saying 'like' all the time. Like people will like understand you, but they'll wonder why you like say like all the time when you really need not. It's also a topic that will get you in a 'flame war'. **Avoid flame wars**. Ok, there are more substantive reasons we'll talk about later.
+
+Asking questions
+----------------
 
 We can also ask R questions. By typing comparison operators (`==`, `!=`, `>`, `<`, etc.) we can ask R true/false questions.
 
@@ -231,7 +405,8 @@ Notice that `==` asks if the two things are equal and `!=` asks if they are uneq
 
 If you want to think of this in a "commanding" way, you could say that you are commanding R to 'compare these two things and print TRUE or FALSE depending on the outcome of the comparison'.
 
-### Rules for naming things
+Rules for naming things
+-----------------------
 
 R has rules for names. You'll be fine if you do the following:
 
@@ -240,11 +415,12 @@ R has rules for names. You'll be fine if you do the following:
 
 So, `bigly`, `good_name`, `a_longer_good_name`, `Good_name1`, and even `thisIsCamelCaseNoUnderscores` but not `!good`, `bad name` or `1_very_bad_name`. There are other rules and exceptions, but this is a good place to start.
 
-### What can we talk about?
+What can we talk about?
+-----------------------
 
 You may be unimpressed with our conversations with R, at least so far. But let's recap.
 
-We can talk about numbers: `75` or `4^2` (4 to the 2nd power) or `3.14159`. Notice that we type numbers 'in the nude' or without surrounding them with quotation marks. We *can* surround numbers with parentheses, though: `(75) == 75`. Here, parentheses function just like they do in math, so (10 − 8)+1 is equal to three:
+We can talk about numbers: `75` or `4^2` (4 to the 2nd power), `3.14159`, or `1.5e-3` (0.0015). Notice that we type numbers 'in the nude' or without surrounding them with quotation marks. We *can* surround numbers with parentheses, though: `(75) == 75`. Here, parentheses function just like they do in math, so (10 − 8)+1 is equal to three:
 
 ``` r
 (10 - 8) + 1 == 3
@@ -254,7 +430,7 @@ We can talk about numbers: `75` or `4^2` (4 to the 2nd power) or `3.14159`. Noti
 
 So, R is a very big pocket calculator.
 
-You can use R for other calculations: subtraction (`-`), multiplication (`*`), division (`/`), exponentiation (`^` or `**`, i.e. 4<sup>2</sup> is written `4^2` or `4**2` in R).
+You can use R for other calculations: subtraction (`-`), multiplication (`*`), division (`/`), or exponentiation (`^` or `**`, i.e. 4<sup>2</sup> is written `4^2` or `4**2` in R).
 
 We can also talk about strings, or sets of letters, numbers, and characters: `'Fourscore and seven years ago'` or `'RStudio'` or `'R 3.5'`. Unlike names, strings *can* have spaces (and special characters like $ or !) in them or start with numbers--as long as the string starts and ends with quotation marks. The quotation marks tell R where the string starts and where it ends.
 
@@ -279,7 +455,7 @@ identical(12, "12")
 
     ## [1] FALSE
 
-We can also talk about *commands*, so `help('sum')` gives us helpful information about the `sum()` command.
+We can also talk about *commands*, so `help('sum')` commands R to give us helpful information about the `sum()` command.
 
 ``` r
 help("sum")
@@ -287,7 +463,7 @@ help("sum")
 
 Notice that we have to put the name of the command in quotation marks. That tells R that we are telling R to 'help us learn about the command "sum"', not giving R the command to sum something.
 
-> You can use either single or double quotation marks for strings, but I recommend using single ones. And don't mix and match: `'R will hate this"`
+> You can use either single or double quotation marks for strings, but I recommend using double ones. And don't mix and match: `'R will hate this"`
 
 Summing up
 ----------
@@ -397,7 +573,7 @@ It turns out that these simple operations are *incredibly powerful* when combine
 
 ### (Optional) Your turn
 
-For more practice with these concepts, try these `swirl` lessons: `5: Missing Values` and `8: Logic`.
+For more practice with these concepts, try this `swirl` lesson: `8: Logic`.
 
 Classes
 -------
@@ -449,9 +625,20 @@ is.character(ten_character)
 
     ## [1] TRUE
 
-The `is.numeric()` command tells R to the inputs are 'numeric', and the `is.character()` command tells it to report whether the input contains a set of characters.
+The `is.numeric()` command tells R to tells us whether the inputs are 'numeric', and the `is.character()` command tells it to report whether the input contains a set of characters.
 
-R implements lots of different object classes. To see some of them, type `is.` then pause or type the 'tab' character. This will show you a scrollable list of all of the `is.` commands you can try out on a given object.
+The `is.logical()` command reports whether its input is a Boolean (`TRUE`/`FALSE`) variable, and the `is.na()` command reports whether the item is a special type R reserves for *missing values*. Yes, R has a special value called `NA` it assigns to data elements that are missing for one reason or another:
+
+``` r
+my_data_are_missing <- NA
+is.na(my_data_are_missing)
+```
+
+    ## [1] TRUE
+
+Note that `NA` is a 'naked' value like `TRUE` or `FALSE`, that is, it is not enclosed in quotation marks. This will be extremely useful later, as we can tell R exactly how to handle 'missingness' in our data.
+
+Beyond these simple ones, R implements many different object classes. To see some of them, type `is.` then pause or type the 'tab' character. This will show you a scrollable list of all of the `is.` commands you can try out on a given object.
 
 <img src="../img/is-help.jpg"/>
 
@@ -720,7 +907,7 @@ my_named_array
     ## M  19  21  23
     ## F  20  22  24
 
-This is 'old school' though. These days, most R data analysts work with data frames. Let's talk about them.
+This is 'old school' though. These days, most R data analysts work with data frames. Let's talk about them now.
 
 ### Data frames
 
@@ -806,13 +993,13 @@ r_100 <- rnorm(n = 100, mean = 3, sd = 1)
     ##  One Sample t-test
     ## 
     ## data:  r_100
-    ## t = 30.017, df = 99, p-value < 2.2e-16
+    ## t = 31.265, df = 99, p-value < 2.2e-16
     ## alternative hypothesis: true mean is not equal to 0
     ## 95 percent confidence interval:
-    ##  2.732963 3.119851
+    ##  2.642872 3.001062
     ## sample estimates:
     ## mean of x 
-    ##  2.926407
+    ##  2.821967
 
 ``` r
 is.list(t_test_r_100)
@@ -1153,13 +1340,13 @@ Remember our *t* test from a bit ago?
     ##  One Sample t-test
     ## 
     ## data:  r_100
-    ## t = 30.017, df = 99, p-value < 2.2e-16
+    ## t = 31.265, df = 99, p-value < 2.2e-16
     ## alternative hypothesis: true mean is not equal to 0
     ## 95 percent confidence interval:
-    ##  2.732963 3.119851
+    ##  2.642872 3.001062
     ## sample estimates:
     ## mean of x 
-    ##  2.926407
+    ##  2.821967
 
 What if we want to use these data without having to copy and paste? Can we pull the values out?
 
@@ -1175,7 +1362,7 @@ t_test_r_100$statistic  # t value
 ```
 
     ##        t 
-    ## 30.01709
+    ## 31.26495
 
 ``` r
 t_test_r_100$parameter  # df value
@@ -1188,11 +1375,11 @@ t_test_r_100$parameter  # df value
 t_test_r_100$p.value  # p value
 ```
 
-    ## [1] 1.61653e-51
+    ## [1] 4.196093e-53
 
 So, using this information along with some syntax we'll learn later, we can retrieve the information we need from R **without error-prone copying and pasting**!:
 
-Our randomly generated set of numbers has a mean value of 2.9264071, *t*(99) = 30.0170882, *p*&lt;1.616529610^{-51}.
+Our randomly generated set of numbers has a mean value of 2.8219667, *t*(99) = 31.2649502, *p*&lt;4.196093410^{-53}.
 
 We'll talk about how to use R Markdown to implement this technique later this afternoon.
 
@@ -1251,7 +1438,7 @@ Once you've installed a package, you'll need to tell R that you want to use the 
 ggplot2::qplot(rnorm(100))
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-52-1.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-56-1.png)
 
 This tells R to use the `qplot()` function from the `ggplot2` package to i) generate a random normal set of 100 numbers and ii) plot them.
 
@@ -1410,59 +1597,83 @@ Now switch to the `Environment` pane (`ctrl-8`). See how there is now a function
 my_hist_t()
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-54-1.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-58-1.png)
 
     ## 
     ##  One Sample t-test
     ## 
     ## data:  my_data
-    ## t = 0.92183, df = 99, p-value = 0.3589
+    ## t = -2.3378, df = 99, p-value = 0.02141
     ## alternative hypothesis: true mean is not equal to 0
     ## 95 percent confidence interval:
-    ##  -0.1091221  0.2984911
+    ##  -0.39843853 -0.03259669
     ## sample estimates:
     ##  mean of x 
-    ## 0.09468452
+    ## -0.2155176
 
 ``` r
 my_hist_t(my_mean = 10)
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-54-2.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-58-2.png)
 
     ## 
     ##  One Sample t-test
     ## 
     ## data:  my_data
-    ## t = 98.791, df = 99, p-value < 2.2e-16
+    ## t = 101.81, df = 99, p-value < 2.2e-16
     ## alternative hypothesis: true mean is not equal to 0
     ## 95 percent confidence interval:
-    ##   9.70766 10.10561
+    ##   9.988914 10.386025
     ## sample estimates:
     ## mean of x 
-    ##  9.906635
+    ##  10.18747
 
 ``` r
 my_hist_t(my_samples = 200, my_sd = 5)
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-54-3.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-58-3.png)
 
     ## 
     ##  One Sample t-test
     ## 
     ## data:  my_data
-    ## t = -0.61176, df = 199, p-value = 0.5414
+    ## t = -1.2691, df = 199, p-value = 0.2059
     ## alternative hypothesis: true mean is not equal to 0
     ## 95 percent confidence interval:
-    ##  -0.9529332  0.5016708
+    ##  -1.1474859  0.2488417
     ## sample estimates:
     ##  mean of x 
-    ## -0.2256312
+    ## -0.4493221
 
 Because we've specified defaults and are naming our parameters when we call the function, R will just use the defaults when we don't specify a parameter.
 
 There are many subtleties about writing functions that we haven't covered here. I recommend the free [DataCamp](http://www.datacamp.com) course by Hadley Wickham on ["Writing Functions in R"](https://www.datacamp.com/courses/writing-functions-in-r) to learn more.
+
+### Hold on, what about the equal signs?
+
+The careful observer will note that I used the equal sign to give my function input when I called it from the console
+
+    my_hist_t(my_samples = 200, my_sd=5)
+
+and even in the script where I created the function:
+
+    my_hist_t <- function(my_samples = 100, my_mean = 0, my_sd = 1) {
+      my_data <- rnorm(n = my_samples, mean = my_mean, sd = my_sd)
+      hist(my_data)
+      t.test(my_data)
+    }
+
+What gives?
+
+So, remember when I said that R stores objects in volatile memory? In fact, R stores objects in separate compartments called 'environments'. When I create a function, R stores any variable names (and values) I assign inside it, like `my_data <- rnorm(...)` to an environment specific to the function. This means that the value my function assigns to `my_data` is unique to that function.
+
+When I define the `my_hist_t()` function to have inputs called `my_samples`, `my_mean`, and `my_sd`, I'm telling R to add these names to the environment for my function. That way R is ready to use these names when their values are defined by the user when she calls my function.
+
+> Do not use the assignment `<-` operator when defining a function's parameters. Use `=`. That is use `my_function <- function(my_parameter = 2)` not `my_function <- function(my_parameter <-2)`
+
+Think of it this way. When you used `source()` to load your function into memory, you told R the names of the variables your function will use in that function's environment. You don't need to assign those names again. R will remember them. You just need to some specific values to the names R already has set aside for them. The equal sign `=` does that.
 
 Summing up
 ----------
@@ -1513,7 +1724,7 @@ plot(x = rnorm(10), y = rnorm(10), main = "Random scatterplot", ylab = "Random Y
     xlab = "Random X")
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-55-1.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-59-1.png)
 
 Creates a scatter plot with a title and labels for the x and y axes.
 
@@ -1675,7 +1886,7 @@ Then we can plot it using `plot(hr_mit$HR)`
 plot(hr_mit$HR)
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-60-1.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-64-1.png)
 
 ### Public data from the Open Science Framework (OSF)
 
@@ -1847,7 +2058,7 @@ And, we can even plot all of the data.
 plot(mtcars)
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-67-1.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-71-1.png)
 
 We can choose specific subsets of variables like before, and even customize the way the histogram looks:
 
@@ -1857,7 +2068,7 @@ hist(mtcars$mpg[guzzlers], main = "Gas Guzzling Cars in the mtcars dataset",
     xlab = "Miles Per Gallon (mpg)")
 ```
 
-![](slow-r_files/figure-markdown_github/unnamed-chunk-68-1.png)
+![](slow-r_files/figure-markdown_github/unnamed-chunk-72-1.png)
 
 Summing up
 ----------
@@ -1873,7 +2084,7 @@ Summing up
 Materials
 =========
 
-This document was produced on 2018-08-14 08:43:18 in [RStudio](http://rstudio.com) version 1.1.453 using R Markdown. The code and materials used to generate the slides may be found at <https://github.com/psu-psychology/r-bootcamp-2018/>. Information about the R Session that produced the slides is as follows:
+This document was produced on 2018-08-16 04:19:12 in [RStudio](http://rstudio.com) version 1.1.453 using R Markdown. The code and materials used to generate the slides may be found at <https://github.com/psu-psychology/r-bootcamp-2018/>. Information about the R Session that produced the slides is as follows:
 
 ``` r
 sessionInfo()
@@ -1899,20 +2110,19 @@ sessionInfo()
     ##  [9] tidyverse_1.2.1 tufte_0.4      
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] tinytex_0.6      tidyselect_0.2.4 xfun_0.3         haven_1.1.2     
-    ##  [5] lattice_0.20-35  colorspace_1.3-2 htmltools_0.3.6  yaml_2.1.19     
-    ##  [9] base64enc_0.1-3  rlang_0.2.1      pillar_1.3.0     withr_2.1.2     
-    ## [13] glue_1.3.0       modelr_0.1.2     readxl_1.1.0     bindrcpp_0.2.2  
-    ## [17] bindr_0.1.1      plyr_1.8.4       munsell_0.5.0    gtable_0.2.0    
-    ## [21] cellranger_1.1.0 rvest_0.3.2      codetools_0.2-15 evaluate_0.11   
-    ## [25] labeling_0.3     knitr_1.20       highr_0.7        broom_0.5.0     
-    ## [29] Rcpp_0.12.18     scales_0.5.0     backports_1.1.2  formatR_1.5     
-    ## [33] jsonlite_1.5     hms_0.4.2        digest_0.6.15    stringi_1.2.4   
-    ## [37] grid_3.5.1       rprojroot_1.3-2  cli_1.0.0        tools_3.5.1     
-    ## [41] magrittr_1.5     lazyeval_0.2.1   crayon_1.3.4     pkgconfig_2.0.1 
-    ## [45] xml2_1.2.0       lubridate_1.7.4  assertthat_0.2.0 rmarkdown_1.10  
-    ## [49] httr_1.3.1       rstudioapi_0.7   R6_2.2.2         nlme_3.1-137    
-    ## [53] compiler_3.5.1
+    ##  [1] tidyselect_0.2.4 haven_1.1.2      lattice_0.20-35  colorspace_1.3-2
+    ##  [5] htmltools_0.3.6  yaml_2.1.19      base64enc_0.1-3  rlang_0.2.1     
+    ##  [9] pillar_1.3.0     glue_1.3.0       withr_2.1.2      modelr_0.1.2    
+    ## [13] readxl_1.1.0     bindrcpp_0.2.2   bindr_0.1.1      plyr_1.8.4      
+    ## [17] munsell_0.5.0    gtable_0.2.0     cellranger_1.1.0 rvest_0.3.2     
+    ## [21] codetools_0.2-15 evaluate_0.11    labeling_0.3     knitr_1.20      
+    ## [25] highr_0.7        broom_0.5.0      Rcpp_0.12.18     scales_0.5.0    
+    ## [29] backports_1.1.2  formatR_1.5      jsonlite_1.5     hms_0.4.2       
+    ## [33] digest_0.6.15    stringi_1.2.4    grid_3.5.1       rprojroot_1.3-2 
+    ## [37] cli_1.0.0        tools_3.5.1      magrittr_1.5     lazyeval_0.2.1  
+    ## [41] crayon_1.3.4     pkgconfig_2.0.1  xml2_1.2.0       lubridate_1.7.4 
+    ## [45] assertthat_0.2.0 rmarkdown_1.10   httr_1.3.1       rstudioapi_0.7  
+    ## [49] R6_2.2.2         nlme_3.1-137     compiler_3.5.1
 
 Notes
 -----
