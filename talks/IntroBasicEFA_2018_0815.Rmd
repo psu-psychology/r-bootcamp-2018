@@ -1,0 +1,435 @@
+---
+title: "Exploratory Factor Analysis - Basic"
+output: html_document
+---
+
+## Overview
+In this tutorial we walk through the very basics of conducting exploratory factor analysis (EFA) in R. This is not a comprehensive coverage, just something to get started.
+
+## Outline
+In this session we cover ...
+
+A. Introduction to the Factor Analyis Model      
+B. Example 1: Basic EFA orientation & interpretation   
+C. Example 2: Choosing the number of factors, comparing solutions, etc...     
+
+
+#### Prelim - Loading libraries used in this script.
+```{r, message=FALSE}
+library(psych)
+library(ggplot2)
+library(corrplot) #plotting correlation matrices
+library(GPArotation) #methods for factor rotation
+library(nFactors)  #methods for determining the number of factors
+```
+
+
+##A. Introduction to the Factor Analyis Model   
+
+The basic factor analysis model is written as 
+
+$$y_{pi} = \lambda_{pq} f_{qi} + u_{pi}$$
+where $y_{pi}$ is individual *i*'s score on the *p*th observed variable, $f_{qi}$ is individual *i*'s score on the *q*th latent common factor, $u_{pi}$ is individual *i*'s score on the *p*th latent unique factor, and $\lambda_{pq}$ is the factor loading that indicates the relation between the *p*th observed variable and the *q*th latent common factor. 
+
+Typically, we have multiple observed variables and one or more common factors. FOr instance in the 6 variable, 2 factor case we would have ... 
+
+$$y_{1i} = \lambda_{11} f_{1i} + \lambda_{12} f_{2i} + u_{1i}$$
+$$y_{2i} = \lambda_{21} f_{1i} + \lambda_{22} f_{2i} + u_{2i}$$
+$$y_{3i} = \lambda_{31} f_{1i} + \lambda_{32} f_{2i} + u_{3i}$$
+$$y_{4i} = \lambda_{41} f_{1i} + \lambda_{42} f_{2i} + u_{4i}$$
+$$y_{5i} = \lambda_{51} f_{1i} + \lambda_{52} f_{2i} + u_{5i}$$
+$$y_{6i} = \lambda_{61} f_{1i} + \lambda_{62} f_{2i} + u_{6i}$$
+which can be written in a compact matrix form as
+
+$$ \boldsymbol{Y_{i}} = \boldsymbol{\Lambda}\boldsymbol{F_{i}} + \boldsymbol{U_{i}} $$
+where $\boldsymbol{Y_{i}}$ is a $p$ x 1 vector of observed variable scores, $\boldsymbol{\Lambda}$ is a *p* x *q* matrix of factor loadings, $\boldsymbol{F_{i}}$ is a $q$ x 1 vector of common factor scores, and $\boldsymbol{U_{i}}$ is a *p* x 1 vector of unique factor scores. 
+
+Extension to multiple persons provided for mapping to the observed correlation matrix, $\boldsymbol{\Sigma} = \boldsymbol{Y}'\boldsymbol{Y}$
+and the common factor model becomes 
+
+$$ \boldsymbol{\Sigma} = \boldsymbol{\Lambda}\boldsymbol{\Psi}\boldsymbol{\Lambda}' + \boldsymbol{\Theta} $$
+where $\boldsymbol{\Sigma}$ is a *p* x *p* covariance (or correlation) matrix of the observed variables, $\boldsymbol{\Lambda}$ is a *p* x *q* matrix of factor loadings, $\boldsymbol{\Psi}$ is a *q* x *q* covariance matrix of the latent factor variables, and $\boldsymbol{\Theta}$ is a diagonal matrix of unique factor variances.  
+
+ 
+#### Prelim - Reading in Repeated Measures Data
+
+For this example, we use data from the web that are collected and distributed at https://openpsychometrics.org/_rawdata/.
+The data were obtained from 19,719 participants (rows) who provided answers to the Big Five Personality Test, constructed with items from the International Personality Item Pool. Data columns include gender, age, race, native language, country, and answers to the 50 likert rated statements (1-5;0 if missed; 1 was labeled as "strongly disagree", 2 was labeled as "disagree", 3 was labeled as "neither agree not disagree", 4 was labeled as "agree" and 5 was labeled as "strongly agree".)
+The original files can be obtaned at http://openpsychometrics.org/_rawdata/BIG5.zip
+
+```{r}
+#Setting the working directory
+#setwd("~/Desktop/FactorAnalysis")  #Person 1 Computer
+#setwd("~/Desktop/FactorAnalysis")  #Person 2 Computer
+
+#Reading the data from web location
+dat = read.csv(file="../data/dataBIG5.csv.gz", header=TRUE)
+
+
+```
+
+
+Lets have a quick look at the data file and the descriptives.
+```{r}
+#data structure
+head(dat,10)
+```
+
+Note that for ease, there is no `id` variable. We simply assume each row is a separate person. 
+For convenience, we remove the first 8 variables that are not part of the item pool and recode 0 to NA; 
+
+```{r}
+#remiving first 7 columns
+dat <- dat[ ,8:57]
+#replacing 0 with NA
+dat[dat == 0] <- NA
+#descriptives
+describe(dat)
+```
+
+Of particular interest for what we are doing is the correlation matrix. We can look at both the numeric and visual versions
+```{r}
+round(cor(dat, use="complete.obs"),2)
+```
+
+And a re-organized compact visual version from the `corrplot` package.
+```{r}
+#visusal correlation matrix
+corrplot(cor(dat, use="complete.obs"), order = "original", tl.col='black', tl.cex=.75) 
+```
+
+That is a bit messy for interpretation (mix of positive and negative correlations), so the function has some reordering options that are helpful.
+```{r}
+corrplot(cor(dat, use="complete.obs"), order = "hclust", tl.col='black', tl.cex=.75) 
+```
+
+We see that there are some "clumps" of items that are positively correlated - evidence of some common factors. 
+
+The correlations are all based on standardized data. 
+Lets standardize for ease. 
+```{r}
+dat_standard <- data.frame(scale(dat, center=TRUE, scale=TRUE))
+#descriptives
+describe(dat_standard)
+```
+
+##B. Example 1: Basic EFA orientation & interpretation
+
+The base package in R has the function `factanal()` for doing EFA. This function uses ‘maximum likelihood’ (ML, as opposed to, say, ‘principal components’, PC) to derive the factors. When ML is used, there exists a (conservative) significance test for the null hypothesis that the *q* extracted factors are sufficient. This is convenient.
+
+The `psych` package has the function `fa()` for doing EFA that has many additional options. 
+
+For the moment, we use the function in the base package `factanal()`.
+By default the function factanal() will rotate the factors using varimax rotation (rotation = 'varimax'). Let’s start by just looking at the unrotated factors.    
+On a technical note, here we are doing maximum likelihood (ML) estimation, assuming that our observed variables come from a mixture of several Gaussian distributions (i.e., each latent variable is from a unique Gaussian distribution with some noise). Options embedded in the `fa()` function allow for other possibiites. 
+
+Our goal is to figure out which variables “belong” to which distribution/latent factor.
+
+### Factor analysis with no rotation
+```{r}
+EFAresult1 = factanal(~ ., data=dat_standard, factors = 10, rotation = "none", 
+                      na.action = na.exclude) #note the formula specification allows NA 
+EFAresult1
+```
+
+First, we can look at the sums of squared (SS) loadings; these are the eigenvalues, or the variance in all variables which is accounted for by that factor (i.e., the eigenvalue/# of variables = proportion variance). If a factor has a “high” SS loading (i.e., eigenvalue), then it is helping to explain the variances in the variables. In the factanal() output, the factors are ordered by their eigenvalues, with higher eigenvalues first. 
+
+A general rule-of-thumb called the *Kaiser Rule*, is that a factor is important/useful if its eigenvalue is greater than 1 (i.e., the average), Here, factors 1-6 appear to be important. There are other ways to choose the number of factors, we will look at later.
+
+To illustrate how the eigenvalue is calculated.
+```{r}
+#Calculate eigenvalue
+loadings_fac1 = EFAresult1$loadings[,1] #loadings for first factor (1st column of Lambda)
+loadings_fac1
+eigenv_fac1 = sum(loadings_fac1^2)  #SS of factor loadings
+eigenv_fac1
+```
+
+
+
+We can also look at the *uniquenesses*. 
+```{r}
+EFAresult1$uniquenesses
+```
+$Uniqueness = 1 - Communality$ where *Communality* is the SS of all the factor loadings for a given variable. If all the factors jointly explain a large percent of variance in a given variable, that variable has high Communality (and thus low uniqueness). 
+
+To illustrate, lets calculate uniqueness for the variable `E1`.
+```{r}
+# Calculate communality
+loadings_E1 = EFAresult1$loadings[1,]  #loadings for first variable (1st row of Lambda)
+loadings_E1
+communality_E1 = sum(loadings_E1^2)  #SS of factor loadings
+communality_E1
+
+# Calculate uniqueness
+uniqueness_E1 = 1-communality_E1
+uniqueness_E1
+```
+
+Our goal is to name the factors. Sometimes visualizations help.
+Plotting the factor loadings for the first two factors
+```{r}
+#Plot loadings of the first 2 factors against one another
+load = EFAresult1$loadings[,1:2]
+plot(load, type="n") # set up plot 
+text(load,labels=names(dat_standard),cex=.7) # add variable names
+```
+
+Still difficult in this case. 
+
+It can be difficult to label factors when they are unrotated, since a description of one factor might overlap with a description of another factor. For instance, Factor 1 could be conceptualized as *extraverted & open vs. conscientious & neurotic*, and Factor 2 could be conceptualized as *agreeable & neurotic vs. agreeable & neurotic*. However, that is not conceptually clean. 
+
+We can rotate the factors to obtain more straightforward interpretations. 
+Note that when the “best-fitting” factors are found, these factors are not unique. Any rotation of the best-fittng factors is also best-fitting. Lucky for us, fit is not compromised in the process of seeking easier interpretation. 
+
+Lots of ways to rotate. The default method in `factanal()` is called varimax. Varimax rotation orthogonally rotates the factor axes with the goal of maximizing the variance of the squared loadings of a factor on all the variables in the factor matrix. In other words, varimax rotation looks for a rotation (i.e., a linear combination) of the original factors that maximizes the variance of the loadings (i.e., maximizing $variance=\Sigma(l^2_{i,f}−mean(l^{2}))$ where $l^2_{i,f}$ is the squared loadings of the *i*th variable on the *f*th factor, and $mean(l^2)$ is the mean of the squared loadings). As a result, each variable tends to load more heavily on a single factor (and load very little on other factors), making the interpretation of a factor easier.
+```{r}
+#Factor analysis with rotation
+EFAresult2 = factanal(~ ., data=dat_standard, factors = 10, rotation = "varimax", 
+                      na.action = na.exclude)
+EFAresult2
+```
+
+And lets plot the new loadings for the first two factors.
+```{r}
+#Plot loadings of the first 2 factors against one another
+load = EFAresult2$loadings[,1:2]
+plot(load, type="n") # set up plot 
+text(load,labels=names(dat_standard),cex=.7) # add variable names
+```
+
+Now the variales are organized for easier interpretation. Here we can see that now all the E variables load heavily on Factor 1, but have very low loadings on Factor 2. In the vertical direction, we see that the N variable variables load heavily on Factor 2 but less so on Factor 1. 
+
+As a result, we can define or label the factors using those terms, e.g., Factor 1 might be labeled *extraversion*, and Factor 2 might be labeled *neuroticism* (labels are chosen so that higher scores are more of that construct, in this case have to look at the items).
+
+Lets check that indeed the model is as expected. 
+Recall that ... 
+$$ \boldsymbol{\Sigma} = \boldsymbol{\Lambda}\boldsymbol{\Psi}\boldsymbol{\Lambda}' + \boldsymbol{\Theta} $$
+We can pull all of the matrices from the data (to get sigma), the factanal output (for lambda, theta), or assumptions of the model fitting process (to get psi).
+```{r}
+sigma <- cor(dat_standard, use="complete.obs")
+sigma
+lambda <- EFAresult2$loadings[1:50,1:10]
+lambda
+psi <- diag(1, nrow=10, ncol=10)   #10 orthogonal factors
+psi
+theta <- diag(EFAresult2$uniquenesses)
+theta
+```
+We do the multiplication and addition on the right side of the equation.
+```{r}
+rightside <- lambda %*% psi %*% t(lambda) + theta
+```
+And check the difference 
+```{r}
+diff <- sigma - rightside
+round(diff,2)
+```
+Very good - just a bit of crumbs!
+
+OK - so we have done a *quick & dirty* factor analyis - just to get the general prinicples in place.
+We now expand with more detail. 
+
+##C. Example 2: Choosing the number of factors, etc... 
+
+For the second example, we use a smaller data set. 
+
+#### Prelim - Reading in Repeated Measures Data
+
+This is simulated data - modeled after a private data set.
+There are 2 samples in the data - designated by `id`.
+```{r}
+#Reading the data from web location
+#set filepath for data file
+filepath <- "../data/ptechdata.csv"
+#read in the .csv file using the url() function
+pdat <- read.csv(file=filepath,header=TRUE)
+```
+
+Lets split the data and remove the id variable
+```{r}
+#splitting data
+pdat1 <- pdat[pdat$id==1,-1] 
+pdat2 <- pdat[pdat$id==2,-1]
+```
+
+Lets have a quick look at the first sample and the descriptives.
+```{r}
+#data structure
+head(pdat1,10)
+#descriptives
+describe(pdat1)
+```
+Data appear to already be in standardized form.
+
+Lets look at the raw data. 
+```{r}
+pairs.panels(pdat1)
+```
+
+The research question is - can these data be represented by a smaller number of factors?
+
+Store and examine the correlation matrices
+```{r}
+#correlation matrix
+round(cor(pdat1),2)
+corrplot(cor(pdat1), order = "original", tl.col='black', tl.cex=.75) 
+```
+
+We see three "groups" of variables that are positively correlated. This gives us hope.
+
+Traditionally, EFA was an analysis of a correlation matrix. Most programs now can also read the raw data directly. We make the correlation matrix to be explicit (and so that we know how that matrix was made - e.g, how the missing data were treated).
+#Store the correlation matrix of the data into an object
+```{r}
+corpdat1 <- cor(pdat1, use="pairwise.complete.obs")
+corpdat1
+```
+
+We can inform our choice of number of factors with a number of functions. 
+We can use `fa.parallel()` in the `psych` package, or the `nScree()` function in the `nScree` package.
+```{r}
+#parallel analysis for number of factors 
+fa.parallel(x=corpdat1, fm="minres", fa="fa")
+
+#multiple methods for number of factors
+nScree(x=corpdat1,model="factors")
+plot(nScree(x=corpdat1,model="factors"))
+```
+
+The output here is number of components/factors according to *optimal coordinates* (noc), *acceleration factor* (naf), *parallel analysis* (nparallel), and *Kaiser rule* (nkaiser).
+
+For these data - everything points to choice of 3 factors. 
+
+Now lets run the factor analysis. This time we use the `fa()` in the `psych` package, with oblique *oblimin* rotation (rotate="oblimin") and *principal factor* extraction (fm="pa").
+```{r}
+EFApdat1_3factor <- fa(r = corpdat1, nfactors = 3, 
+                       rotate = "oblimin", 
+                       fm = "pa")
+EFApdat1_3factor
+```
+
+The solution looks pretty good.
+
+Our objective here was data reduction. To make that explicit, we can obtain the factor scores by inputing the raw data matrix instead of the correlation matrix. Additionally, we can specify the 'scores' argument as below to get factor scores by a factor score regression method.
+To get estimated factor scores we must input the raw data. 
+```{r}
+EFApdat1_3factor <- fa(r = pdat1, nfactors = 3, 
+                       rotate = "oblimin", 
+                       fm = "pa",
+                       scores="regression")
+head(EFApdat1_3factor$scores,10)
+```
+
+**NOTE: We do have factor score indeterminacy!** So, be careful.
+
+Lets look at the "reduced" data.
+```{r}
+pairs.panels(EFApdat1_3factor$scores)
+```
+
+But do not forget that there are also unique factors too. The factors only capture common variance. There may be quite a bit of stuff left over. 
+
+Remember that the variance accounted for by the 3 factors is only part of the total variance.
+Specifically, `r EFApdat1_3factor$Vaccounted[3,3]`, which we see in the main output
+```{r}
+EFApdat1_3factor$Vaccounted[3,3]
+```
+All the other parts are in the uniquenesses and misfit.
+```{r}
+#Uniquenesses
+round(EFApdat1_3factor$uniquenesses,3)
+#residuals (diagonal removed)
+round(EFApdat1_3factor$residual - EFApdat1_3factor$uniquenesses,3)
+```
+
+####Intersample comparisons - 
+
+We can look at the comparison of the factor solutions in a second sample (e.g., cross-validation). 
+
+Lets run the factor analysis on our second sample, `pdat2`. 
+First we should check if the number of factors is the same. 
+```{r}
+#correlation matrix
+round(cor(pdat2),2)
+corrplot(cor(pdat2), order = "original", tl.col='black', tl.cex=.75) 
+
+#parallel analysis for number of factors 
+fa.parallel(x=pdat2, fm="minres", fa="fa")
+
+#multiple methods for number of factors
+nScree(x=pdat2,model="factors")
+plot(nScree(x=pdat2,model="factors"))
+```
+
+Hmmm... that is a bit problematic for the intersample comparison. The information points towards 2 factors. What are those eigen values?
+```{r}
+eigen(cor(pdat2))$values
+```
+
+Hmm... Ok lets look at the 2-factor and 3-factor solutions. 
+```{r}
+#2-factor model
+EFApdat2_2factor <- fa(r = pdat1, nfactors = 2, 
+                       rotate = "oblimin", 
+                       fm = "pa",
+                       scores="regression")
+EFApdat2_2factor
+
+#3-factor model
+EFApdat2_3factor <- fa(r = pdat1, nfactors = 3, 
+                       rotate = "oblimin", 
+                       fm = "pa",
+                       scores="regression")
+EFApdat2_3factor
+```
+
+Let's go with the 3 factor solution. It looks a bit better all around.
+
+With the same size *p* x *q* factor loading matrix for the two samples (here 9 x 3), we can compare the pattern of loadings between the two samples using the *Tucker Index of Factor Congruence*.
+
+This is easily obatined by applying the `factor.congruence` function in the `psych` package to *two factor loading matrices*. 
+
+```{r}
+fa.congruence(EFApdat1_3factor,EFApdat2_3factor)
+```
+We see very good alignment across the two samples! 
+
+We've done something clever here to make a point. 
+These two samples are actually two different persons, each of whom completed 100 days of reports (repeated measures). We have actually conducted two  *person-specific* factor analyses. The mechanics of cross-sectional factor analysis (R-technique) and (P-technique) are identical - just the data and interpretation are different. 
+
+Our data reduction has allowed us to reduce the complexity of the 9-dimensional data. 
+
+```{r}
+#preparing data
+day <- 1:100
+str(day)
+pdat1_plot <- cbind(day,pdat1,EFApdat1_3factor$scores)
+#Plotting observed scores
+ggplot(data=pdat1_plot, aes(x=day)) +
+  geom_line(aes(y=v1), color= 1) + 
+  geom_line(aes(y=v2), color= 2) + 
+  geom_line(aes(y=v3), color= 3) + 
+  geom_line(aes(y=v4), color= 4) + 
+  geom_line(aes(y=v5), color= 5) + 
+  geom_line(aes(y=v6), color= 6) + 
+  geom_line(aes(y=v7), color= 7) + 
+  geom_line(aes(y=v8), color= 8) + 
+  geom_line(aes(y=v9), color= 9) +
+  xlab("Day") + ylab("Observed Score") + 
+  scale_x_continuous(limits=c(0,100)) +
+  scale_y_continuous(limits=c(-3,3)) 
+```
+
+to 3-dimensional data - by *setting aside* 50% of the variance. 
+```{r}
+#Plotting factor scores
+ggplot(data=pdat1_plot, aes(x=day)) +
+  geom_line(aes(y=PA1), color= 1) + 
+  geom_line(aes(y=PA2), color= 2) + 
+  geom_line(aes(y=PA3), color= 3) + 
+  xlab("Day") + ylab("Factor Score") + 
+  scale_x_continuous(limits=c(0,100)) +
+  scale_y_continuous(limits=c(-3,3)) 
+```
+
+####Thanks for playing! 
