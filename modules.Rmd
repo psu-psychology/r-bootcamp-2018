@@ -69,7 +69,8 @@ This module provides a deliberately slow introduction to R that assumes that you
 ## Parallel computing and big data
 
 - Michael Hallquist [introduction to parallel R](talks/parallel_r.html) | [zip](zips/hallquist_parallel.zip) | [Rmd](talks/parallel_r.Rmd)
-- [Example of parallel computation](R/clock_MEG_lmer.R) on large neuroimaging dataset using foreach package
+- [Example of parallel computation](R/clock_MEG_lmer.R.txt) on large neuroimaging dataset using foreach package | [Download](R/clock_MEG_lmer.R)
+- Example of [setting a progress bar in a parallel foreach loop](https://gist.github.com/michaelhallquist/530035827ba46d16900b9f5b0169fb45) | [Download the whole script](R/fitVoxelwiseARMA.R) (for context)
 
 *Other parallel computing resources*
 
