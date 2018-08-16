@@ -2,13 +2,14 @@
 title: "R-eproducible Psychological Science"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
-bibliography: bootcamp.bib
+bibliography: bib/bootcamp.bib
 logo: ../img/psu-logo.png
 output: 
   html_document:
-    toc: true
-    toc_depth: 3
-    number_section: TRUE
+    theme: spacelab
+    toc: yes
+    toc_depth: 4
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -80,6 +81,8 @@ survey_plot <- survey %>%
   aes(x=Crisis, fill=Crisis) +
   geom_bar() +
   xlab("Response") +
+  theme(axis.text.x = element_blank()) +
+  theme(legend.title = element_blank()) +
   ggtitle("Is there a reproducibility crisis in psychology?")
 ```
 
@@ -244,11 +247,50 @@ source("R/Visualize_data.R")
 Automating workflows with scripts has many strengths.
 You keep R commands in files that can be re-run.
 Separate pieces of your workflow are kept separately.
+
 You can create a "Master.R" script that can be run to regenerate full sequence of results.
 Find an error in raw data file?
 No problem; just fix the data file and re-run the "Master.R" script.
 Get hit by a bus?
 No problem; your colleagues can easily pick-up where you left off.
+Here's the `Make_site.R` script for this bootcamp:
+
+```
+# Make_site.R
+#
+# Updates and makes R bootcamp site
+
+# Survey data (update first because later items depend on it)
+source("R/Make_test_survey.R")
+source("R/Get_bootcamp_googlesheet.R")
+rmarkdown::render("talks/bootcamp-survey.Rmd", 
+                  output_format = "html_document")
+
+# Gilmore's talks
+rmarkdown::render(input = "talks/bootcamp-day-1-intro.Rmd", 
+                  output_format = "ioslides_presentation")
+
+rmarkdown::render(input = "talks/slow-r.Rmd", 
+                  output_format = c("html_document"))
+
+rmarkdown::render(input = "talks/r-eproducible-science.Rmd", 
+                  output_format = c("html_document"))
+
+# Sample papja document
+rmarkdown::render(input = "talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd")
+
+# Vallorani tutorial
+rmarkdown::render(input = "talks/ggplot2_tutorial_vallorani.Rmd")
+
+# Hallquist talks
+rmarkdown::render(input = "parallel_r.Rmd")
+
+# Ram talk
+rmarkdown::render(input = "talks/IntroBasicEFA_2018_0815.Rmd")
+
+# Render site last so that updated versions get copied to docs/
+rmarkdown::render_site()
+```
 
 So, scripts are great.
 But there's a way to take the virtues of scripts and make them even more useful and powerful: R Markdown documents.

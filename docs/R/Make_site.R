@@ -21,5 +21,14 @@ rmarkdown::render(input = "talks/r-eproducible-science.Rmd",
 # Sample papja document
 rmarkdown::render(input = "talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd")
 
+# Vallorani tutorial
+rmarkdown::render(input = "talks/ggplot2_tutorial_vallorani.Rmd")
+
+# Hallquist talks
+rmarkdown::render(input = "parallel_r.Rmd")
+
+# Ram talk
+rmarkdown::render(input = "talks/IntroBasicEFA_2018_0815.Rmd")
+
 # Render site last so that updated versions get copied to docs/
 rmarkdown::render_site()
