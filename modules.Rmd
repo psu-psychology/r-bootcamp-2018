@@ -58,12 +58,13 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Structual equation modeling
 
-- Structural equation modeling in lavaan tutorial | Rmd
+- Structural equation modeling in [lavaan tutorial](talks/lavaan_tutorial.html) | [zip](zips/hallquist_lavaan.zip) | [Rmd](docs/talks/lavaan_tutorial.Rmd)
 
 *Other resources*
 
 - Alison Schreiber We R [lavaan walkthrough](https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan)
 - Michael Hallquist [PSY 597 SEM course in R](https://psu-psychology.github.io/psy-597-SEM/)
+- [lavaan tutorial](http://lavaan.ugent.be/tutorial/index.html)
 
 ## Parallel computing and big data
 
