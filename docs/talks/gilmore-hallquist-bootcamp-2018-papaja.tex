@@ -197,8 +197,8 @@ Simonsohn, 2011).
 We asked participants in an optional \enquote{R Bootcamp} held at the
 Pennsylvania State University Department of Psychology on August 16 and
 17, 2018 to complete an anonymous survey using a Google Form. We asked
-participants to report how old they felt. A total of \(n=\) 46
-respondents answered the survey with a reported felt age of \(M\)=55.33
+participants to report how old they felt. A total of \(n=\) 56
+respondents answered the survey with a reported felt age of \(M\)=50.75
 and a range of {[}5-1000{]} years.
 
 \subsection{Material}\label{material}
@@ -235,32 +235,30 @@ or during lunch.
 
 \subsection{Data analysis}\label{data-analysis}
 
-We used R (Version 3.5.1; R Core Team, 2017b) and the R-packages
+We used R (Version 3.5.1; R Core Team, 2018) and the R-packages
 \emph{afex} (Version 0.21.2; Singmann, Bolker, Westfall, \& Aust, 2018),
-\emph{bindrcpp} (Version 0.2.2; Müller, 2016), \emph{dplyr} (Version
-0.7.6; Wickham \& Francois, 2016), \emph{emmeans} (Version 1.2.3; Lenth,
-2018), \emph{forcats} (Version 0.3.0; Wickham, 2018a), \emph{foreign}
-(Version 0.8.71; R Core Team, 2017a), \emph{Formula} (Version 1.2.3;
-Zeileis \& Croissant, 2010), \emph{ggplot2} (Version 3.0.0; Wickham,
-2009), \emph{gmodels} (Version 2.18.1; Warnes et al., 2015),
-\emph{googlesheets} (Version 0.3.0; Bryan \& Zhao, 2017), \emph{Hmisc}
-(Version 4.1.1; Harrell Jr, Charles Dupont, \& others., 2017),
+\emph{bindrcpp} (Version 0.2.2; Müller, 2018), \emph{dataMaid} (Version
+1.1.2; Petersen \& Ekstrøm, 2018), \emph{dplyr} (Version 0.7.6; Wickham,
+François, Henry, \& Müller, 2018), \emph{emmeans} (Version 1.2.3; Lenth,
+2018), \emph{forcats} (Version 0.3.0; Wickham, 2018a), \emph{Formula}
+(Version 1.2.3; Zeileis \& Croissant, 2010), \emph{ggplot2} (Version
+3.0.0; Wickham, 2016), \emph{gmodels} (Version 2.18.1; Warnes et al.,
+2018), \emph{googlesheets} (Version 0.3.0; Bryan \& Zhao, 2018),
+\emph{haven} (Version 1.1.2; Wickham \& Miller, 2018), \emph{Hmisc}
+(Version 4.1.1; Harrell Jr, Charles Dupont, \& others., 2018),
 \emph{lattice} (Version 0.20.35; Sarkar, 2008), \emph{lme4} (Version
-1.1.17; Bates, Mächler, Bolker, \& Walker, 2015), \emph{MASS} (Version
-7.3.50; Venables \& Ripley, 2002), \emph{Matrix} (Version 1.2.14; Bates
-\& Maechler, 2018), \emph{multilevel} (Version 2.6; Bliese, 2016),
-\emph{nlme} (Version 3.1.137; Pinheiro, Bates, DebRoy, Sarkar, \& R Core
-Team, 2017), \emph{papaja} (Version 0.1.0.9709; Aust \& Barth, 2017),
-\emph{plyr} (Wickham, 2011; Version 1.8.4; Wickham \& Francois, 2016),
-\emph{psych} (Version 1.8.4; Revelle, 2017), \emph{purrr} (Version
-0.2.5; Henry \& Wickham, 2017), \emph{readr} (Version 1.1.1; Wickham,
-Hester, \& Francois, 2017), \emph{stringr} (Version 1.3.1; Wickham,
-2018b), \emph{survival} (Version 2.42.6; Terry M. Therneau \& Patricia
-M. Grambsch, 2000), \emph{tibble} (Version 1.4.2; Wickham, Francois, \&
-Müller, 2017), \emph{tidyr} (Version 0.8.1; Wickham, 2017a), and
-\emph{tidyverse} (Version 1.2.1; Wickham, 2017b) for all our analyses.
-The code used to generate these analyses is embedded in this document.
-To view it, see the R Markdown file in the
+1.1.17; Bates, Mächler, Bolker, \& Walker, 2015), \emph{Matrix} (Version
+1.2.14; Bates \& Maechler, 2018), \emph{pander} (Version 0.6.2; Daróczi
+\& Tsegelskyi, 2018), \emph{papaja} (Version 0.1.0.9709; Aust \& Barth,
+2018), \emph{purrr} (Version 0.2.5; Henry \& Wickham, 2018),
+\emph{readr} (Version 1.1.1; Wickham, Hester, \& Francois, 2017),
+\emph{stringr} (Version 1.3.1; Wickham, 2018b), \emph{survival} (Version
+2.42.6; Terry M. Therneau \& Patricia M. Grambsch, 2000), \emph{tibble}
+(Version 1.4.2; Müller \& Wickham, 2018), \emph{tidyr} (Version 0.8.1;
+Wickham \& Henry, 2018), \emph{tidyverse} (Version 1.2.1; Wickham,
+2017), and \emph{tufte} (Version 0.4; Xie \& Allaire, 2018) for all our
+analyses. The code used to generate these analyses is embedded in this
+document. To view it, see the R Markdown file in the
 \href{http://github.com/psu-psychology/r-bootcamp-2018/talks}{GitHub
 repository} associated with this paper.
 
@@ -274,9 +272,9 @@ repository} associated with this paper.
 \toprule
 R\_exp & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{Median} & \multicolumn{1}{c}{SD} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max}\\
 \midrule
-none & 4.33 & 5.00 & 2.42 & 1.00 & 7.00\\
-limited & 4.48 & 3.00 & 3.11 & 1.00 & 10.00\\
-lots & 4.40 & 4.00 & 1.84 & 2.00 & 7.00\\
+none & 3.90 & 4.00 & 2.08 & 1.00 & 7.00\\
+limited & 4.75 & 4.00 & 3.05 & 1.00 & 10.00\\
+lots & 4.09 & 3.00 & 2.02 & 1.00 & 7.00\\
 pro & 6.00 & 6.00 & 5.66 & 2.00 & 10.00\\
 NA & 1.00 & 1.00 & NA & 1.00 & 1.00\\
 \bottomrule
@@ -298,8 +296,8 @@ NA & 1.00 & 1.00 & NA & 1.00 & 1.00\\
  & \multicolumn{1}{c}{Banjo} & \multicolumn{1}{c}{Psych\_age\_yrs}\\
 \midrule
 Banjo &  & \\
-Psych\_age\_yrs & -0.18 & \\
-Sleep\_hrs & 0.08 & 0.60***\\
+Psych\_age\_yrs & -0.15 & \\
+Sleep\_hrs & 0.06 & 0.59***\\
 \bottomrule
 \addlinespace
 \end{tabular}
@@ -332,7 +330,7 @@ of sleep}
 \toprule
 Effect & \multicolumn{1}{c}{$F$} & \multicolumn{1}{c}{$\mathit{df}_1$} & \multicolumn{1}{c}{$\mathit{df}_2$} & \multicolumn{1}{c}{$\mathit{MSE}$} & \multicolumn{1}{c}{$p$} & \multicolumn{1}{c}{$\hat{\eta}^2_p$}\\
 \midrule
-R exp & 0.19 & 3 & 41 & 8.35 & .902 & .014\\
+R exp & 0.51 & 3 & 51 & 7.84 & .679 & .029\\
 \bottomrule
 \addlinespace
 \end{tabular}
@@ -350,19 +348,19 @@ banjo music.
 
 Let's examine the correlations between our continuous variables. As
 indicated in Table \ref{tab:apa-corr-table}, there is a non-significant
-negative correlation (\(r = -.18\), 95\% CI \([-.44\), \(.12]\)) between
-banjo music enthusiasm and age (\(t(44) = -1.18\), \(p = .244\)), no
-correlation (\(r = .08\), 95\% CI \([-.22\), \(.36]\)) between banjo
-music enthusiasm and sleep (\(t(44) = 0.50\), \(p = .620\)), but a
-positive correlation (\(r = .60\), 95\% CI \([.38\), \(.76]\)) between
-age and sleep (\(t(44) = 4.99\), \(p < .001\)). Figures
+negative correlation (\(r = -.15\), 95\% CI \([-.40\), \(.12]\)) between
+banjo music enthusiasm and age (\(t(54) = -1.10\), \(p = .275\)), no
+correlation (\(r = .06\), 95\% CI \([-.21\), \(.31]\)) between banjo
+music enthusiasm and sleep (\(t(54) = 0.41\), \(p = .683\)), but a
+positive correlation (\(r = .59\), 95\% CI \([.39\), \(.74]\)) between
+age and sleep (\(t(54) = 5.44\), \(p < .001\)). Figures
 \ref{fig:Banjo-by-age-exp} and \ref{fig:Banjo-by-sleep} depict these
 patterns.
 
 To test the hypothesis that banjo music enthusiasm varies as a function
 of R expertise, we carried out a one-way ANOVA. R experience
-(\(F(3, 41) = 0.19\), \(\mathit{MSE} = 8.35\), \(p = .902\),
-\(\hat{\eta}^2_p = .014\)) did not predict enthusiasm for banjo music,
+(\(F(3, 51) = 0.51\), \(\mathit{MSE} = 7.84\), \(p = .679\),
+\(\hat{\eta}^2_p = .029\)) did not predict enthusiasm for banjo music,
 so Gilmore will have to continue searching for userRs who appreciate the
 banjo. Table \ref{tab:Banjo-aov-table} summarizes these results.
 
@@ -384,7 +382,7 @@ So, let's get to it.
 
 \hypertarget{refs}{}
 \hypertarget{ref-R-papaja}{}
-Aust, F., \& Barth, M. (2017). \emph{papaja: Create APA manuscripts with
+Aust, F., \& Barth, M. (2018). \emph{papaja: Create APA manuscripts with
 R Markdown}. Retrieved from \url{https://github.com/crsh/papaja}
 
 \hypertarget{ref-R-Matrix}{}
@@ -398,21 +396,22 @@ mixed-effects models using lme4. \emph{Journal of Statistical Software},
 \emph{67}(1), 1--48.
 doi:\href{https://doi.org/10.18637/jss.v067.i01}{10.18637/jss.v067.i01}
 
-\hypertarget{ref-R-multilevel}{}
-Bliese, P. (2016). \emph{Multilevel: Multilevel functions}. Retrieved
-from \url{https://CRAN.R-project.org/package=multilevel}
-
 \hypertarget{ref-R-googlesheets}{}
-Bryan, J., \& Zhao, J. (2017). \emph{Googlesheets: Manage google
+Bryan, J., \& Zhao, J. (2018). \emph{Googlesheets: Manage google
 spreadsheets from r}. Retrieved from
 \url{https://CRAN.R-project.org/package=googlesheets}
 
+\hypertarget{ref-R-pander}{}
+Daróczi, G., \& Tsegelskyi, R. (2018). \emph{Pander: An r 'pandoc'
+writer}. Retrieved from \url{https://CRAN.R-project.org/package=pander}
+
 \hypertarget{ref-R-Hmisc}{}
-Harrell Jr, F. E., Charles Dupont, \& others. (2017). \emph{Hmisc:
-Harrell miscellaneous}.
+Harrell Jr, F. E., Charles Dupont, \& others. (2018). \emph{Hmisc:
+Harrell miscellaneous}. Retrieved from
+\url{https://CRAN.R-project.org/package=Hmisc}
 
 \hypertarget{ref-R-purrr}{}
-Henry, L., \& Wickham, H. (2017). \emph{Purrr: Functional programming
+Henry, L., \& Wickham, H. (2018). \emph{Purrr: Functional programming
 tools}. Retrieved from \url{https://CRAN.R-project.org/package=purrr}
 
 \hypertarget{ref-R-emmeans}{}
@@ -421,30 +420,24 @@ least-squares means}. Retrieved from
 \url{https://CRAN.R-project.org/package=emmeans}
 
 \hypertarget{ref-R-bindrcpp}{}
-Müller, K. (2016). \emph{Bindrcpp: An 'rcpp' interface to active
+Müller, K. (2018). \emph{Bindrcpp: An 'rcpp' interface to active
 bindings}. Retrieved from
 \url{https://CRAN.R-project.org/package=bindrcpp}
 
-\hypertarget{ref-R-nlme}{}
-Pinheiro, J., Bates, D., DebRoy, S., Sarkar, D., \& R Core Team. (2017).
-\emph{nlme: Linear and nonlinear mixed effects models}. Retrieved from
-\url{https://CRAN.R-project.org/package=nlme}
+\hypertarget{ref-R-tibble}{}
+Müller, K., \& Wickham, H. (2018). \emph{Tibble: Simple data frames}.
+Retrieved from \url{https://CRAN.R-project.org/package=tibble}
 
-\hypertarget{ref-R-foreign}{}
-R Core Team. (2017a). \emph{Foreign: Read data stored by 'minitab', 's',
-'sas', 'spss', 'stata', 'systat', 'weka', 'dBase', ...} Retrieved from
-\url{https://CRAN.R-project.org/package=foreign}
+\hypertarget{ref-R-dataMaid}{}
+Petersen, A. H., \& Ekstrøm, C. T. (2018). \emph{DataMaid: A suite of
+checks for identification of potential errors in a data frame as part of
+the data screening process}. Retrieved from
+\url{https://CRAN.R-project.org/package=dataMaid}
 
 \hypertarget{ref-R-base}{}
-R Core Team. (2017b). \emph{R: A language and environment for
-statistical computing}. Vienna, Austria: R Foundation for Statistical
-Computing. Retrieved from \url{https://www.R-project.org/}
-
-\hypertarget{ref-R-psych}{}
-Revelle, W. (2017). \emph{Psych: Procedures for psychological,
-psychometric, and personality research}. Evanston, Illinois:
-Northwestern University. Retrieved from
-\url{https://CRAN.R-project.org/package=psych}
+R Core Team. (2018). \emph{R: A language and environment for statistical
+computing}. Vienna, Austria: R Foundation for Statistical Computing.
+Retrieved from \url{https://www.R-project.org/}
 
 \hypertarget{ref-R-lattice}{}
 Sarkar, D. (2008). \emph{Lattice: Multivariate data visualization with
@@ -467,36 +460,21 @@ Analysis of factorial experiments}. Retrieved from
 Terry M. Therneau, \& Patricia M. Grambsch. (2000). \emph{Modeling
 survival data: Extending the Cox model}. New York: Springer.
 
-\hypertarget{ref-R-MASS}{}
-Venables, W. N., \& Ripley, B. D. (2002). \emph{Modern applied
-statistics with s} (Fourth.). New York: Springer. Retrieved from
-\url{http://www.stats.ox.ac.uk/pub/MASS4}
-
 \hypertarget{ref-R-gmodels}{}
 Warnes, G. R., Bolker, B., Lumley, T., Randall C. Johnson are Copyright
 SAIC-Frederick, R. C. J. C. from, Intramural Research Program, I. F. by
 the, NIH, \ldots{} Cancer Research under NCI Contract NO1-CO-12400., C.
-for. (2015). \emph{Gmodels: Various r programming tools for model
+for. (2018). \emph{Gmodels: Various r programming tools for model
 fitting}. Retrieved from
 \url{https://CRAN.R-project.org/package=gmodels}
 
 \hypertarget{ref-R-ggplot2}{}
-Wickham, H. (2009). \emph{Ggplot2: Elegant graphics for data analysis}.
+Wickham, H. (2016). \emph{Ggplot2: Elegant graphics for data analysis}.
 Springer-Verlag New York. Retrieved from \url{http://ggplot2.org}
 
-\hypertarget{ref-R-plyr}{}
-Wickham, H. (2011). The split-apply-combine strategy for data analysis.
-\emph{Journal of Statistical Software}, \emph{40}(1), 1--29. Retrieved
-from \url{http://www.jstatsoft.org/v40/i01/}
-
-\hypertarget{ref-R-tidyr}{}
-Wickham, H. (2017a). \emph{Tidyr: Easily tidy data with 'spread()' and
-'gather()' functions}. Retrieved from
-\url{https://CRAN.R-project.org/package=tidyr}
-
 \hypertarget{ref-R-tidyverse}{}
-Wickham, H. (2017b). \emph{Tidyverse: Easily install and load
-'tidyverse' packages}. Retrieved from
+Wickham, H. (2017). \emph{Tidyverse: Easily install and load the
+'tidyverse'}. Retrieved from
 \url{https://CRAN.R-project.org/package=tidyverse}
 
 \hypertarget{ref-R-forcats}{}
@@ -509,26 +487,36 @@ Wickham, H. (2018b). \emph{Stringr: Simple, consistent wrappers for
 common string operations}. Retrieved from
 \url{https://CRAN.R-project.org/package=stringr}
 
-\hypertarget{ref-R-dplyr}{}
-Wickham, H., \& Francois, R. (2016). \emph{Dplyr: A grammar of data
-manipulation}. Retrieved from
-\url{https://CRAN.R-project.org/package=dplyr}
+\hypertarget{ref-R-tidyr}{}
+Wickham, H., \& Henry, L. (2018). \emph{Tidyr: Easily tidy data with
+'spread()' and 'gather()' functions}. Retrieved from
+\url{https://CRAN.R-project.org/package=tidyr}
 
-\hypertarget{ref-R-tibble}{}
-Wickham, H., Francois, R., \& Müller, K. (2017). \emph{Tibble: Simple
-data frames}. Retrieved from
-\url{https://CRAN.R-project.org/package=tibble}
+\hypertarget{ref-R-haven}{}
+Wickham, H., \& Miller, E. (2018). \emph{Haven: Import and export
+'spss', 'stata' and 'sas' files}. Retrieved from
+\url{https://CRAN.R-project.org/package=haven}
+
+\hypertarget{ref-R-dplyr}{}
+Wickham, H., François, R., Henry, L., \& Müller, K. (2018). \emph{Dplyr:
+A grammar of data manipulation}. Retrieved from
+\url{https://CRAN.R-project.org/package=dplyr}
 
 \hypertarget{ref-R-readr}{}
 Wickham, H., Hester, J., \& Francois, R. (2017). \emph{Readr: Read
 rectangular text data}. Retrieved from
 \url{https://CRAN.R-project.org/package=readr}
 
+\hypertarget{ref-R-tufte}{}
+Xie, Y., \& Allaire, J. (2018). \emph{Tufte: Tufte's styles for r
+markdown documents}. Retrieved from
+\url{https://CRAN.R-project.org/package=tufte}
+
 \hypertarget{ref-R-Formula}{}
 Zeileis, A., \& Croissant, Y. (2010). Extended model formulas in R:
 Multiple parts and multiple responses. \emph{Journal of Statistical
-Software}, \emph{34}(1), 1--13. Retrieved from
-\url{http://www.jstatsoft.org/v34/i01/}
+Software}, \emph{34}(1), 1--13.
+doi:\href{https://doi.org/10.18637/jss.v034.i01}{10.18637/jss.v034.i01}
 
 
 

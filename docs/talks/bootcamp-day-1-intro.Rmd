@@ -2,8 +2,8 @@
 title: "R Bootcamp"
 author: "Rick Gilmore, Michael Hallquist, & Nilam Ram"
 date: "`r Sys.time()`"
-css: gilmore.css
-bibliography: bootcamp.bib
+css: css/gilmore.css
+bibliography: bib/bootcamp.bib
 logo: ../img/psu-logo.png
 output: 
   ioslides_presentation:

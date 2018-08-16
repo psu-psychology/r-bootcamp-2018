@@ -4,10 +4,10 @@ author: "Rick Gilmore"
 date: '`r Sys.time()`'
 output:
   html_document:
-    toc: TRUE
-    toc_depth: 3
+    theme: spacelab
+    toc: yes
+    toc_depth: 4
     toc_float: TRUE
-    number_section: TRUE
 params:
   data_file_in: '../data/raw_survey.csv'
   data_file_out: '../data/survey_2018.csv'
@@ -21,7 +21,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Download and clean data from 2018 R Bootcamp Survey
 - Visualize data
-- Prepare reports in `ioslides_presentation`, `pdf_document`, and `word_document` formats
 
 # Preliminaries
 
@@ -39,6 +38,7 @@ We'll use the `googlesheets` package to open it and create a data frame. Documen
 
 There are some idiosyncrasies in using the `googlesheets` package in an R Markdown document because it requires interaction with the console, so I created a separate R script, `Get_bootcamp_googlesheet.R` to extract the survey data.
 If you try to execute the next chunk, it may give you an error, or it may ask you to allow `googlesheets` to access information in your Google profile.
+This just allows R to grab the data from the Googlesheet using your Google account.
 
 ```
 survey_url <- "https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit?usp=sharing"
@@ -63,11 +63,8 @@ It's a great, reproducible practice to **simulate the data you expect**, then ru
 ---
 
 ```{r load-data}
-# Created test data set for testing.
+# Choose data from respondents
 survey <- read_csv(params$data_file_in)
-survey <- read_csv("../data/raw_survey.csv")
-# Or choose data from respondents
-#survey <- read_csv(data_file_in)
 ```
 
 ```{r}
@@ -81,6 +78,8 @@ str(survey)
 ```
 
 Clearly, we need to do some cleaning before we can do anything with this.
+
+## Cleaning data
 
 Let's start by renaming variables.
 
@@ -164,7 +163,7 @@ Sleep_hrs_hist
 Banjo_hist <- survey %>%
   ggplot() +
   aes(x=Banjo) +
-  geom_histogram()
+  geom_histogram(bins = 10)
 Banjo_hist
 ```
 

@@ -22,7 +22,7 @@ abstract: |
   
 keywords          : "APA, R Markdown"
 wordcount         : "Not that many."
-bibliography      : ["r-references.bib", "references.bib"]
+bibliography      : ["bib/r-references.bib", "bib/references.bib"]
 figsintext        : no
 figurelist        : no
 tablelist         : no
