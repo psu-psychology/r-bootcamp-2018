@@ -54,7 +54,7 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Exploratory factor analysis
 
-- [Exploratory factor analysis tutorial](talks/IntroBasicEFA_2018_0815.html) (Nilam Ram) | [Rmd](docs/talks/IntroBasicEFA_2018_0815.Rmd)
+- [Exploratory factor analysis tutorial](talks/IntroBasicEFA_2018_0815.html) (Nilam Ram) | [zip](zips/ram_efa.zip) | [Slides](docs/talks/RBootcamp_IntroFactorAnalysis_2018_0816.pdf) | [Rmd](docs/talks/IntroBasicEFA_2018_0815.Rmd) | [QuantDev link](https://quantdev.ssri.psu.edu/tutorials/intro-basic-exploratory-factor-analysis)
 
 ## Structual equation modeling
 
