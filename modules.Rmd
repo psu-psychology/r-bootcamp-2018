@@ -54,20 +54,21 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Exploratory factor analysis
 
-- [Exploratory factor analysis tutorial](talks/IntroBasicEFA_2018_0815.html) (Nilam Ram) | [zip](zips/ram_efa.zip) | [Slides](docs/talks/RBootcamp_IntroFactorAnalysis_2018_0816.pdf) | [Rmd](docs/talks/IntroBasicEFA_2018_0815.Rmd) | [QuantDev link](https://quantdev.ssri.psu.edu/tutorials/intro-basic-exploratory-factor-analysis)
+- [Exploratory factor analysis tutorial](talks/IntroBasicEFA_2018_0815.html) (Nilam Ram) | [zip](zips/ram_efa.zip) | [Slides](talks/RBootcamp_IntroFactorAnalysis_2018_0816.pdf) | [Rmd](talks/IntroBasicEFA_2018_0815.Rmd) | [QuantDev link](https://quantdev.ssri.psu.edu/tutorials/intro-basic-exploratory-factor-analysis)
 
 ## Structual equation modeling
 
-- Structural equation modeling in lavaan tutorial | Rmd
+- Structural equation modeling in [lavaan tutorial](talks/lavaan_tutorial.html) | [zip](zips/hallquist_lavaan.zip) | [Rmd](talks/lavaan_tutorial.Rmd)
 
 *Other resources*
 
 - Alison Schreiber We R [lavaan walkthrough](https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan)
 - Michael Hallquist [PSY 597 SEM course in R](https://psu-psychology.github.io/psy-597-SEM/)
+- [lavaan tutorial](http://lavaan.ugent.be/tutorial/index.html)
 
 ## Parallel computing and big data
 
-- Michael Hallquist [introduction to parallel R](talks/parallel_r.html) | [Rmd](docs/talks/parallel_r.Rmd)
+- Michael Hallquist [introduction to parallel R](talks/parallel_r.html) | [Rmd](talks/parallel_r.Rmd)
 - [Example of parallel computation](R/clock_MEG_lmer.R) on large neuroimaging dataset using foreach package
 
 *Other parallel computing resources*
