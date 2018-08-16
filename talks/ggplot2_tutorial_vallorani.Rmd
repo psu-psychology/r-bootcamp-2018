@@ -9,65 +9,94 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 if (!("pacman" %in% installed.packages()[,"Package"])) { install.packages("pacman") } #handy package manager that installs and loads packages used in this document
-pacman::p_load(dplyr, tidyr, ggplot2, Hmisc, GGally, jtools) #install (if needed) and load packages
+pacman::p_load(dplyr, tidyr, ggplot2, GGally, Rmisc, jtools) #install (if needed) and load packages
 ```
+
+
+## Goals of this markdown
+This markdown is designed to provide an introduction to data visualization in R. Primarily it will cover ggplot2; although a few advanced options are also covered. Questions about code can be directed to Alicia Vallorani (auv27@psu.edu).
+
 
 ## Read in data
 ```{r}
 df <- read.csv("../data/ggplot2_tutorial_vallorani.csv", stringsAsFactors = FALSE) %>%
-  mutate_at(vars(bi, sex, socbid_group, prosoc_group), as.factor) ### Consider clarifying the levels of the group and bi variables so the data.frame is self-describing
+  mutate_at(vars(bi, sex, socbid_group, prosoc_group), as.factor) 
 ```
 
+
 ## Examine data structure
+These data are drawn from a cross-sectional study assessing attention to the social environment and socio-emotional behaviors. Children are 5-7 and complete a social dyad with a novel peer. Children are of differing temperament: one fearful (BI) and one non-fearful (BN). Mobile eyetracking and behavioral data are collected across the 5 free-play interaction. General expecations for analysis would be to see BI children engaging in fewer social behaviors than BN children.
+
+### Describe data structure
+id: participant id
+did: dyad id
+sex: 1 = boy; 2 = girl
+bi: 0 = BN; 1 = BI
+biq: continuous measure of temperamental fearfulness
+proportion_peerbody: dwell time to peer body
+proportion_peerface: dwell time to peer face
+proportion_self: dwell time to self
+proportion_toys: dwell time to toys
+proportion_other: dwell time to other stimuli
+proportion_socconv: time in social conversation (discussion about topics other than play)
+proportion_playconv: time in play conversation (discussion about ongoing play)
+socialbid_group: 0 = few social bids; 1 = medium social bids; 2 = many social bids
+prosoc_group: 0 = few prosocial behaviors; 1 = medium prosocial behaviors; 2 = many prosocial behaviors
 ```{r}
 str(df)
 ```
 
+
 ## Examining univariate distributions - histograms
+This section walks through making histograms for single and multiple variables.
 ```{r}
 # Looking at a histogram for a single variable
 ggplot(df, aes(proportion_toys)) +
   geom_histogram(bins = 5) # you can change the bin value to best fit your data
 
 # Looking at histograms for all variables ggplot option
-### Alicia, I wasn't sure which columns should be included since binary don't make sense
-###      (this was throwing an error). I Took a guess here
-ggplot(df %>% select(starts_with("proportion"), age) %>% gather(), aes(value)) +
+ggplot(df %>% select(starts_with("proportion"), age) %>% # selecting non-binary variables
+         gather(), aes(value)) + # grouping for visualization
     geom_histogram(bins = 5) + 
-    facet_wrap(~key, scales = "free_x")
-
+    facet_wrap(~key, scales = "free_x") # free_x allows for differing x-axes 
 ```
 
-### Alternative approach to histograms for all variables using Hmisc package
-```{r, fig.height=9, fig.width=8}
-hist.data.frame(df %>% select(-id, -did)) ### I'm ambivalent about the value of showing people 2 ways of doing the same thing in an introductory walkthrough
-```
 
 ## Examining zero-order relations - scatterplots
+This section walks through how to make a simple scatterplot between two variables. Additionally, you can add a fit line and look at how scatterplots may vary across groups.
 ```{r, fig.height=5, fig.width=10, messages=FALSE, warnings=FALSE}
-# Looking at a scatterplot for a single relation
-ggplot(df, aes(proportion_toys, proportion_socconv)) +
+ggplot(df, aes(x=proportion_toys, y=proportion_socconv)) +
   geom_point()
   #stat_smooth() 
-  #stat_smooth(method = "lm", color = "black", se = TRUE)
-  #facet_wrap(~bi)
+  #stat_smooth(method = "lm", color = "black", se = TRUE) 
+  #facet_wrap(~bi) 
   #facet_wrap(~socbid_group)
   #face_grid(bi~sex)
 ```
 
-```{r, fig.height=10, fig.width=10, messages=FALSE, warnings=FALSE}
-# Looking at a scatterplot matrix
-# Michael, I've never really found a ggplot option I am hapy with. Do you have good code?
-### Do you mean customizing the overall appearance of ggpairs?
 
-# Fancy distribution/relations option with GGally
-ggpairs(df %>% select(-id, -did) %>% na.omit(), progress=FALSE, lower = list(combo = wrap("facethist", bins=6))) ### Consider plotting a somewhat smaller variable set for aiding discussion (e.g., 6 x 6)
+## Examining zero-order relations - scatterplot matrices 
+This section walks through examining multiple relations simultaneoulsly. These plots are created using GGally which couples with ggplot2.
+```{r, fig.height=4, fig.width=7, messages=FALSE, warnings=FALSE}
+ggpairs(df %>%
+          select(starts_with("proportion")) %>%
+                 na.omit(), progress=FALSE, lower = list(combo = wrap("facethist", bins=6)))
+
+# Matrix including dichotomous variables
+ggpairs(df %>% 
+          select(bi, socbid_group, proportion_peerbody, 
+                 proportion_socconv) %>% # subsetting for visualization
+          rename(socbid = socbid_group, peerbody = proportion_peerbody, 
+                 socconv = proportion_socconv) %>% # renaming variables for figure
+          na.omit(), progress=FALSE, lower = list(combo = wrap("facethist", bins=6)))
+        #mapping = aes(color = bi)) # coloring the plot by group
 ```
 
 
 ## Examining group differences - bar graphs
+This section walks through a basic bar graph. Once the base graph is made, you can make edits to the theme and axes to your preference. You can also include error bars
 ```{r}
-ggplot(df, aes(x=bi, y=proportion_peerbody)) +
+ggplot(df, aes(x = bi, y = proportion_peerbody)) +
   geom_bar(stat = "identity") 
   #theme_bw() 
   #theme(panel.grid.major.x = element_blank(),
@@ -79,23 +108,35 @@ ggplot(df, aes(x=bi, y=proportion_peerbody)) +
        #y = "Proportion of Time Looking at Peer Body") 
   #scale_x_discrete(limits = c("1", "0"),
                    #labels = c("BI", "BN"))
+
+## Adding error bars
+df_sum <- summarySE(df, measurevar="proportion_peerbody", groupvars=c("bi")) # creating a summary of the variables of interest to extract error bars using Rmisc package
+df_sum
+
+ggplot(df_sum, aes(x=bi, y=proportion_peerbody)) + # we use the summary we created to plot
+    geom_bar(position=position_dodge(), stat="identity") +
+    geom_errorbar(aes(ymin=proportion_peerbody-se,
+                      ymax=proportion_peerbody+se), 
+                  width=.2, position=position_dodge(.9))
 ```
 
 
 ## Examining interactions - bar graphs
+This section walks through how to look at a interaction between dichotomous variables using a bar graph. After creating the base graph, you can make additional changes to asthetic elements such as changing colors, legends and bar direction.
 ```{r}
 ggplot(df, aes(x=bi, y=proportion_socconv, fill = sex)) +
-  geom_bar(stat = "identity", position = "dodge") #+
-  #labs(fill = "Sex") +
-  #scale_fill_manual(labels = c("Boys", "Girls"), values = c("#ff8c00", "#5898d7")) + ### What do you think about highlighting some of the built-in palettes (e.g., in the scale_fill_brewer function)?
-  #theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) +
+  geom_bar(stat = "identity", position = "dodge") 
+  #scale_fill_brewer(palette = "Set2") # pre-designed color palettes
+  #labs(fill = "Sex") 
+  #scale_fill_manual(labels = c("Boys", "Girls"), # Rename fills
+                    #values = c("#ff8c00", "#5898d7")) # select your own color options
+  #theme(legend.justification=c(-0.1,1), legend.position=c(.75,.95)) 
   #coord_flip()
-
-### I guess this dataset may not lend itself to this, but showing error bars (geom_errorbar) is a common request.
 ```
 
 
-## Examining interactions - 3 variables and continuous interactions
+## Examining interactions - 3 variable interactions
+This section provides an example of how to examine a three-way interaction where one variable is dichotomous.
 ```{r, warnings=FALSE}
 ggplot(df, aes(x=proportion_toys, y=proportion_socconv, color = sex)) +
   geom_point() +
@@ -103,24 +144,28 @@ ggplot(df, aes(x=proportion_toys, y=proportion_socconv, color = sex)) +
   #facet_wrap(~bi)
 ```
 
-### Add subheading detail here
-```{r}
-# Advanced options using jtools
-lm1 <- lm(proportion_socconv~biq*proportion_toys, df)
 
+### Examining interactions - continuous
+This section provides some advanced options for examining continuous interactions using the jtools package.
+```{r}
+# Run your model to feed into jtools functions
+lm1 <- lm(proportion_socconv~biq*proportion_toys, df) 
+
+# Creating a +/- 1SD plot
 interact_plot(lm1, pred = biq, modx = proportion_toys,
               plot.points = TRUE,
               x.label = "Behavioral Inhibition",
               y.label = "Proportion of Time Engaging in Social Conversation",
               legend.main = "Prop Dwell Toys")
 
+# Creating a regions of significance plot
 johnson_neyman(lm1, pred = biq, modx = proportion_toys, alpha = 0.05)
 ```
 
 
 ## Publication quality graphs and exporting
+This is an example of the work that goes into creating a plot worthy of publication. There are also a couple of ways to export your final plot depending on if you would like to make further edits in a program such as inkscape or illustrator. 
 ```{r, warnings=FALSE}
-### you'll probably need to document/describe right-hand assignment, since it's a bit unconventional
 df %>%
   dplyr::select(id, bi, proportion_peerbody, proportion_socconv) %>%
   gather(key = type, value = proportion, proportion_peerbody, proportion_socconv) -> social
