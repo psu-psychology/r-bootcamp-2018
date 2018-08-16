@@ -8,7 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-if (!("pacman" %in% installed.packages()[,"Package"])) { install.packages("pacman") } #handy package manager that installs and loads packages used in this document
+#handy package manager that installs and loads packages used in this document
+if (!("pacman" %in% installed.packages()[,"Package"])) { install.packages("pacman") } 
 pacman::p_load(dplyr, tidyr, ggplot2, GGally, Rmisc, jtools) #install (if needed) and load packages
 ```
 
@@ -84,9 +85,9 @@ ggpairs(df %>%
 
 # Matrix including dichotomous variables
 ggpairs(df %>% 
-          select(bi, socbid_group, proportion_peerbody, 
+          dplyr::select(bi, socbid_group, proportion_peerbody, 
                  proportion_socconv) %>% # subsetting for visualization
-          rename(socbid = socbid_group, peerbody = proportion_peerbody, 
+          dplyr::rename(socbid = socbid_group, peerbody = proportion_peerbody, 
                  socconv = proportion_socconv) %>% # renaming variables for figure
           na.omit(), progress=FALSE, lower = list(combo = wrap("facethist", bins=6)))
         #mapping = aes(color = bi)) # coloring the plot by group
@@ -198,5 +199,8 @@ ggsave("../figures/social_plot.png", plot = social_plot,
 svg("../figures/social_plot.svg")
 plot(social_plot)
 dev.off()
+
+#And for fun, just print it here (for html display)
+plot(social_plot)
 ```
 

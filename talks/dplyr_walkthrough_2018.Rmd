@@ -1,0 +1,275 @@
+---
+title: "R Bootcamp 2018: dplyr and tidyr walkthrough"
+author: "Michael Hallquist"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+---
+<style type="text/css">
+body{ font-size: 18px; max-width: 1400px; margin: auto; padding: 1em; }
+code.r{ font-size: 20px; }
+pre { font-size: 16px; }
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if (!require(pacman)) { install.packages("pacman"); library(pacman) }
+p_load(dplyr, readr, tidyr, knitr, multilevel)
+```
+
+The goal of this document is to provide a basic introduction to using the *tidyr* and *dplyr* packages in R for data tidying and wrangling.
+
+## tidyr walkthough
+
+The tidyr package provides a small number of functions for reshaping data into a tidy format. Tidy data are defined by:
+
+1. Each variable forms a column
+2. Each observation forms a row
+3. Each type of observational unit (e.g., persons, schools, counties) forms a table.
+
+Imagine a dataset where you have ratings of well-being and anxiety measured 4 times in a longitudinal study.
+
+Imagine that someone sends you a dataset that looks like this:
+
+```{r}
+df <- data.frame(subid=1:10, 
+                 sub_w1=rnorm(10, 5, 1), sub_w2=rnorm(10, 6, 1), sub_w3=rnorm(10, 7, 1),
+                 anx_w1=rnorm(10, 9, 1), anx_w2=rnorm(10, 6, 1), anx_w3=rnorm(10, 7, 1))
+
+kable(round(df,3))
+```
+
+### gather: gather many related columns into a key-value pair
+
+This is not especially tidy. We have three columns that represent the same variable on three occasions. It would be cleaner to have a time variable (key) and two variables representing well-being and anxiety.
+
+```{r}
+  df_long <- df %>% gather(key=time, value=wellbeing, sub_w1, sub_w2, sub_w3)
+```
+
+Better, but now our time variable is a mix of variable information and time information. We can retain just the last character as time using mutate from *dplyr* and parse_number from *readr*.
+
+```{r}
+df_long <- df_long %>% mutate(time=parse_number(time))
+kable(round(df_long, 3))
+```
+
+Okay, but now anxiety feels left out... shouldn't the same approach apply?
+
+When you use the subtraction syntax (subtracting a variable), gather assumes that all variables *except* subid should be gathered.
+
+```{r}
+df_long <- df %>% gather(key=time, value=value, -subid)
+```
+
+### separate: split the values of a variable at a position in the character string
+
+Now, the time variable has both information about the measure (sub versus anx) and time (1-3). This is a job for separate!
+
+```{r}
+df_long <- df_long %>% separate(time, into=c("measure", "time"), sep = "_")
+head(df_long)
+```
+
+Cool, but we see that time has the 'w' prefix and isn't a number. If your analysis uses a numeric (continuous) time representation (e.g., multilevel models), this won't work. Let's parse the number out of it.
+
+```{r}
+df_long <- df_long %>% mutate(time=parse_number(time))
+head(df_long)
+```
+
+This now qualifies as tidy. But it is not necessarily right for every application. For example, in longitudinal SEM (e.g., latent curve models), time is usually encoded by specific loadings onto intercept and slope factors. This requires a 'wide' data format similar to where we started. Let's use tidyr to demonstrate how to go backwards in our transformation process -- long-to-wide.
+
+### spread: convert a key-value 
+
+We can imagine an intermediate step in which we have the values of each measure as columns, instead of encoding them with respect to both measure and time.
+
+```{r}
+df_long %>% spread(key=measure, value=value)
+```
+
+### unite: paste together values of two variables (usually as string)
+
+This is moving in the right direction, but if we want the column to encode both time and variable, we need to unite the time- and measure-related information. The unite function does exactly this, essentially pasting together the values of multiple columns into a single column.
+
+```{r}
+df_wide <- df_long %>% unite(col="vartime", measure, time)
+head(df_wide)
+```
+
+Looks promising. Let's go back to spread now that we have a key that encodes all variable (column) information.
+
+```{r}
+df_wide <- df_wide %>% spread(key=vartime, value=value)
+```
+
+We've now transformed our long-form dataset back into a wide dataset.
+
+### advanced reshaping
+
+If you find yourself needing more advanced reshaping powers, look at the `reshape2` package, a predecessor of `tidyr`. Even though `tidyr` is more recent, it is also more simplified and does not offer robust facilities for reshaping lists and arrays. Moreover, for `data.frame` objects, the `dcast` function from `reshape2` offers a flexible syntax for specifying how multi-dimensional data should be reshaped into a 2-D data.frame. Here are a couple of resources:
+
+Reshape2 tutorial: <http://seananderson.ca/2013/10/19/reshape.html>
+
+Further extensions using data.table package: <https://cran.r-project.org/web/packages/data.table/vignettes/datatable-reshape.html>
+
+## dplyr walkthrough
+
+Now that we have basic tools to tidy data, let's discuss data wrangling using `dplyr`.
+
+Let's start with the survey from our bootcamp. What's the average age of individuals in the bootcamp, stratified by R expertise?
+
+Note that `summarize` removes a single level of ungrouping. Here, we only have one grouping variable, so the output of `summarize` will be 'ungrouped.'
+
+```{r}
+survey <- read_csv("../data/survey_clean.csv")
+
+survey %>% group_by(R_exp) %>% dplyr::summarize(m_age=mean(Psych_age_yrs), sd_age=sd(Psych_age_yrs))
+
+```
+
+What if I want to have means and SDs for several continuous variables by R expertise? The `summarize_at` function provides functionality to specify several variables using `vars()` and potentially several summary functions using `funs()`.
+
+```{r}
+survey %>% group_by(R_exp) %>% summarize_at(vars(Psych_age_yrs, Sleep_hrs, Banjo), funs(m=mean, sd=sd))
+```
+
+We can also make this more beautiful using techniques we've already seen above... R is programming with data. We just extend out our data pipeline a bit. The `extract` function here is like separate, but with a bit more oomph using regular expressions. This is a more intermediate topic, but there is a tutorial here: <http://www.regular-expressions.info/tutorial.html>.
+
+```{r}
+survey %>% group_by(R_exp) %>% summarize_at(vars(Psych_age_yrs, Sleep_hrs, Banjo), funs(m=mean, sd=sd)) %>%
+  gather(key=var, value=value, -R_exp) %>% 
+  extract(col="var", into=c("variable", "statistic"), regex=("(.*)_(.*)$")) %>%
+  spread(key=statistic, value=value) %>% arrange(variable, R_exp)
+```
+
+### Revisiting univbct dataset using dplyr.
+
+Let's now return to the univbct data where we have longitudinal observations of job satisfaction, commitment, and readiness to deploy. Let's enact the core 'verbs' of dplyr.
+
+### filter: obtaining observations (rows) based on some criteria
+```{r}
+  data(univbct, package="multilevel")
+```
+
+Filter only men in company A
+
+```{r}
+  company_A_men <- filter(univbct, COMPANY=="A" & GENDER==1)
+  #print 10 observations at random to check the accuracy of the filter
+  kable(company_A_men %>% sample_n(10))
+```
+
+What about the number of people in companies A and B?
+```{r}
+  filter(univbct, COMPANY %in% c("A","B")) %>% nrow()
+```
+
+Or counts by company and battalion
+```{r}
+  univbct %>% group_by(BTN, COMPANY) %>% count()
+```
+
+
+### select: obtaining variables (columns) based on some criteria
+
+Let's start by keeping only the three core dependent variables over time: jobsat, commit, ready. Keep SUBNUM as well for unique identification.
+```{r}
+dvs_only <- univbct %>% dplyr::select(SUBNUM, JOBSAT1, JOBSAT2, JOBSAT3, COMMIT1, COMMIT2, COMMIT3, READY1, READY2, READY3)
+```
+
+If you have many variables of a similar name, you might try `starts_with()`. Note in this case that it brings in "READY", too. Note that you can mix different selection mechanisms within select. Look at the cheatsheet.
+
+```{r}
+dvs_only <- univbct %>% dplyr::select(SUBNUM, starts_with("JOBSAT"), starts_with("COMMIT"), starts_with("READY"))
+```
+
+Other selection mechanisms:
+* contains: variable name contains a literal string
+* starts_with
+* ends_with
+* matches: variable name matches a regular expression
+* one_of: variable is one of the elements in a character vector. Example: select(one_of(c("A", "B")))
+
+Note that select and filter can be combined to subset both observations and variables of interest. For example, look at readiness to deploy in battalion 299 only
+
+```{r}
+univbct %>% filter(BTN==299) %>% dplyr::select(SUBNUM, READY1, READY2, READY3) %>% head
+```
+
+Select is also useful for dropping variables that are not of interest.
+
+```{r}
+nojobsat <- univbct %>% dplyr::select(-starts_with("JOBSAT"))
+names(nojobsat)
+```
+
+### mutate: add one or more variables that are a function of other variables
+
+(Row-wise) mean of commit scores over waves. Note how you can used `select()` within a mutate to run a function on a subset of the data.
+
+```{r}
+  univbct <- univbct %>% mutate(commitmean=rowMeans(dplyr::select(., COMMIT1, COMMIT2, COMMIT3)))
+```
+
+Mutate can manipulate several variables in one call. Here, mean center any variable that starts with COMMIT
+and add the suffix _cm for clarity. Also compute the percentile rank for each of these columns, with _pct as suffix. Note the use of the `vars` function here, which acts identically to `select`, but in the context of a summary or mutation operation on specific variables.
+
+```{r}
+  meancent <- function(x) { x - mean(x, na.rm=TRUE) } #simple worker function to mean center a variable
+  univbct <- univbct %>% mutate_at(vars(starts_with("COMMIT")), funs(cm=meancent, pct=percent_rank))
+  univbct %>% dplyr::select(starts_with("COMMIT")) %>% summarize_all(mean, na.rm=TRUE) %>% gather()
+```
+
+### arrange: reorder observations in specific order
+
+Order data by ascending battalion, company, then subnum
+```{r}
+  univbct <- univbct %>% arrange(BTN, COMPANY, SUBNUM)
+```
+
+Descending sort: descending battalion, ascending company, ascending subnum
+```{r}
+  univbct <- univbct %>% arrange(desc(BTN), COMPANY, SUBNUM)
+```
+
+### A more realistic example: preparation for multilevel analysis
+
+In MLM, one strategy for disentangling within- versus between-person effects is to include both within-person-centered variables and person means in the model (Curran & Bauer, 2011).
+
+We can achieve this easily for our three DVs here using a single pipeline that combines tidying and mutation. Using -1 as the `sep` argument to `separate` splits the string at the second-to-last position (i.e., starting at the right).
+
+For reshaping to work smoothly, we need a unique identifier for each row. Also, `univbct` is stored in a dangerously untidy format in which variables with suffix 1-3 indicate a 'wide format', but the data is also in long format under variables such as 'JSAT' and 'COMMIT.'
+
+Take a look:
+```{r}
+  univbct %>% dplyr::select(SUBNUM, starts_with("JOBSAT"), JSAT) %>% head(n=20)
+```
+
+We first need to eliminate this insanity. Group by subject number and retain only the first row (i.e., keep the wide version).
+
+```{r}
+  univbct <- univbct %>% group_by(SUBNUM) %>% filter(row_number() == 1) %>% 
+  dplyr::select(-JSAT, -COMMIT, -READY) %>% ungroup()
+```
+
+First, let's get the data into a conventional format (long) for MLM (e.g., using `lmer`)
+```{r}
+  #use -1 as argument to separate to split at the last character
+  forMLM <- univbct %>% dplyr::select(SUBNUM, JOBSAT1, JOBSAT2, JOBSAT3, COMMIT1, COMMIT2, COMMIT3, READY1, READY2, READY3) %>% 
+  gather(key="key", value="value", -SUBNUM) %>% 
+  separate(col="key", into=c("variable", "occasion"), -1) %>%
+  spread(key=variable, value=value) %>% mutate(occasion=as.numeric(occasion))
+```
+
+Now, let's perform the centering described above. You could do this in one pipeline -- I just separated things here for conceptual clarity.
+```{r}
+  forMLM <- forMLM %>% group_by(SUBNUM) %>% 
+  mutate_at(vars(COMMIT, JOBSAT, READY), funs(wicent=meancent, pmean=mean)) %>%
+  ungroup()
+
+  head(forMLM)
+```
