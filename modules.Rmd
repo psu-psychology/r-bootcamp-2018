@@ -39,11 +39,11 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 - Jenny Bryan [ggplot2 tutorial](https://github.com/jennybc/ggplot2-tutorial) | [Download](https://github.com/jennybc/ggplot2-tutorial/archive/master.zip)
 - [ggplot2 documentation](http://ggplot2.tidyverse.org/reference/)
+- ggplot2 tutorial that provides useful guidance on detailed formatting: <https://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html>
 
 ***
 
 ## Best practices in R programming
-
 
 - Setting up a Github repo as an R project | [Video](mov/rstudio-project-on-github.mp4)
 - Using Github within RStudio | [Video](mov/edit-save-commit-push.mp4)
@@ -52,7 +52,11 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 - [Wickham R style guide](http://adv-r.had.co.nz/Style.html)
 
-## SEM using lavaan
+## Exploratory factor analysis
+
+- [Exploratory factor analysis tutorial](talks/IntroBasicEFA_2018_0815.html) (Nilam Ram) | [Rmd](docs/talks/IntroBasicEFA_2018_0815.Rmd)
+
+## Structual equation modeling
 
 - Structural equation modeling in lavaan tutorial | Rmd
 
@@ -63,6 +67,18 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Parallel computing and big data
 
-*Other resources*
+- Michael Hallquist [introduction to parallel R](talks/parallel_r.html) | [Rmd](docs/talks/parallel_r.Rmd)
+- [Example of parallel computation](R/clock_MEG_lmer.R) on large neuroimaging dataset using foreach package
 
+*Other parallel computing resources*
+
+- R [parallel package documentation](https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf)
+- R [doParallel package documentation](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
 - Matt Jones [Parallel R tutorial](https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html)
+- Jonathan Dursi 'Beyond Single Core' [tutorial](https://ljdursi.github.io/beyond-single-core-R)
+
+*Other big data resources*
+
+- Rstudio [webinar about big data](https://www.rstudio.com/resources/webinars/working-with-big-data-in-r/)
+- Useful big data presentation: <http://www.columbia.edu/~sjm2186/EPIC_R/EPIC_R_BigData.pdf>
+- Programming with big data in R (pbdr): <https://pbdr.org>
