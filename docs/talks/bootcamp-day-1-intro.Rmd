@@ -1,5 +1,5 @@
 ---
-title: "We-R Going to Learn Some R"
+title: "R Bootcamp"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
 css: gilmore.css
