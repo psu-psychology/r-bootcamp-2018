@@ -8,16 +8,6 @@ output:
     toc_depth: 3
     toc_float: TRUE
     number_section: TRUE
-  html_notebook: default
-  github_document:
-    toc: yes
-    toc_depth: 3
-  pdf_document:
-    toc: yes
-    toc_depth: 3
-  word_document:
-    toc: yes
-    toc_depth: 3
 params:
   data_file_in: '../data/raw_survey.csv'
   data_file_out: '../data/survey_2018.csv'

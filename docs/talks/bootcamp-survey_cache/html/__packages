@@ -5,6 +5,7 @@ utils
 grDevices
 graphics
 stats
+tufte
 tidyverse
 ggplot2
 tibble
@@ -15,3 +16,7 @@ dplyr
 stringr
 forcats
 googlesheets
+dataMaid
+pander
+haven
+bindrcpp
