@@ -344,7 +344,7 @@ ggplot(df_agg, aes(x=Event, y=Attendance)) +
 
 - Why do you want to learn R?
 - If you know some R, what else do you want to learn?
-- Complete the [survey!](https://docs.google.com/forms/d/1QrzdVYRu70uCfVN8AkHrdgH1odC0tUpqAHzfJ79monw/edit)
+- Complete the [survey!](https://docs.google.com/forms/d/e/1FAIpQLSeGqic9Hrj-XvkESZmu_0t6H02R-U6yzYnRLuX6HDFDp4R39g/viewform?usp=sf_link)
 - Testimonials?
 
 ## Next steps

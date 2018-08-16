@@ -8,11 +8,11 @@
 \toprule
 R\_exp & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{Median} & \multicolumn{1}{c}{SD} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Max}\\
 \midrule
-none & 6.90 & 7.50 & 2.56 & 2.00 & 9.00\\
-limited & 6.00 & 6.50 & 2.98 & 1.00 & 10.00\\
-some & 5.90 & 7.00 & 3.07 & 1.00 & 10.00\\
-lots & 5.70 & 5.50 & 3.20 & 2.00 & 10.00\\
-pro & 6.00 & 7.00 & 2.87 & 2.00 & 10.00\\
+none & 6.50 & 6.50 & 0.71 & 6.00 & 7.00\\
+limited & 4.77 & 3.50 & 3.37 & 1.00 & 10.00\\
+lots & 4.40 & 4.00 & 1.84 & 2.00 & 7.00\\
+pro & 6.00 & 6.00 & 5.66 & 2.00 & 10.00\\
+NA & 1.00 & 1.00 & NA & 1.00 & 1.00\\
 \bottomrule
 \addlinespace
 \end{tabular}
@@ -35,8 +35,8 @@ pro & 6.00 & 7.00 & 2.87 & 2.00 & 10.00\\
  & \multicolumn{1}{c}{Banjo} & \multicolumn{1}{c}{Psych\_age\_yrs}\\
 \midrule
 Banjo &  & \\
-Psych\_age\_yrs & -0.04 & \\
-Sleep\_hrs & 0.06 & -0.13\\
+Psych\_age\_yrs & -0.21 & \\
+Sleep\_hrs & 0.04 & 0.60***\\
 \bottomrule
 \addlinespace
 \end{tabular}
@@ -58,7 +58,7 @@ Sleep\_hrs & 0.06 & -0.13\\
 \toprule
 Effect & \multicolumn{1}{c}{$F$} & \multicolumn{1}{c}{$\mathit{df}_1$} & \multicolumn{1}{c}{$\mathit{df}_2$} & \multicolumn{1}{c}{$\mathit{MSE}$} & \multicolumn{1}{c}{$p$} & \multicolumn{1}{c}{$\hat{\eta}^2_p$}\\
 \midrule
-R exp & 0.25 & 4 & 45 & 8.66 & .909 & .022\\
+R exp & 0.36 & 3 & 32 & 9.40 & .780 & .033\\
 \bottomrule
 \addlinespace
 \end{tabular}

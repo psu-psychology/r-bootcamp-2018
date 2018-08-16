@@ -1,51 +1,38 @@
 Timestamp,R_exp,Banjo,Psych_age_yrs,Sleep_hrs,Fav_day,Crisis
-2018-07-24T14:54:13Z,limited,4,74,6.972677560349621,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,some,8,27,7.74476307222159,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,none,3,26,6.81098815099283,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,limited,8,80,6.21432419872323,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,none,7,17,7.7328375350347205,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,some,10,37,8.726117091133828,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,limited,10,46,6.674284855717219,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,lots,2,32,8.33928564752857,2018-07-24,No
-2018-07-24T14:54:13Z,lots,3,55,7.708709749724862,2018-07-24,No
-2018-07-24T14:54:13Z,lots,10,55,8.572957031129501,2018-07-24,No
-2018-07-24T14:54:13Z,limited,8,59,7.593249342345321,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,none,9,24,9.824617852070642,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,pro,8,70,7.935029331688361,2018-07-24,Don't know
-2018-07-24T14:54:13Z,pro,8,32,8.13648212933651,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,limited,6,50,7.886437870194589,2018-07-24,No
-2018-07-24T14:54:13Z,pro,2,39,9.256055378459301,2018-07-24,No
-2018-07-24T14:54:13Z,none,9,25,7.424201356278029,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,none,9,80,6.688077550826579,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,some,2,55,9.09473097125303,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,lots,6,32,8.05627643259413,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,none,7,70,7.416525434863801,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,pro,8,20,8.101323756617058,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,limited,9,84,7.5812347236229005,2018-07-24,Don't know
-2018-07-24T14:54:13Z,limited,7,36,9.378809652644682,2018-07-24,Don't know
-2018-07-24T14:54:13Z,pro,2,68,8.068516997100712,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,lots,9,78,7.78125084290923,2018-07-24,No
-2018-07-24T14:54:13Z,pro,6,70,7.25118720567068,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,some,8,15,6.67194901699171,2018-07-24,Don't know
-2018-07-24T14:54:13Z,limited,2,44,6.40374656161803,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,none,8,64,7.635818114996909,2018-07-24,Don't know
-2018-07-24T14:54:13Z,pro,8,83,10.036119909076099,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,some,1,60,6.8673847805068196,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,limited,5,47,9.124480003089293,2018-07-24,Don't know
-2018-07-24T14:54:13Z,some,7,47,8.453238994841742,2018-07-24,No
-2018-07-24T14:54:13Z,pro,10,51,7.850831243463549,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,some,7,22,9.94543808314242,2018-07-24,No
-2018-07-24T14:54:13Z,some,7,26,8.292504239537344,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,none,9,51,7.665605563477659,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,lots,3,40,5.645911249602978,2018-07-24,Don't know
-2018-07-24T14:54:13Z,pro,3,13,8.69360577219069,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,limited,1,74,9.020409034810791,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,lots,2,49,7.300524107586839,2018-07-24,No
-2018-07-24T14:54:13Z,some,2,44,6.988720888643461,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,some,7,76,8.02292049308125,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,lots,5,51,7.272642924535691,2018-07-24,No
-2018-07-24T14:54:13Z,none,6,27,7.727980588889359,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,lots,10,19,9.932493396568383,2018-07-24,"Yes, significant"
-2018-07-24T14:54:13Z,none,2,78,9.9741732978275,2018-07-24,"Yes, slight"
-2018-07-24T14:54:13Z,pro,5,51,8.504934524207213,2018-07-24,Don't know
-2018-07-24T14:54:13Z,lots,7,76,7.635182593862,2018-07-24,"Yes, slight"
+7/24/2018 14:18:42,pro,10,45,8,Sunday,"Yes, a significant crisis"
+8/14/2018 11:37:15,lots,5,29,8.5,Saturday,"Yes, a slight crisis"
+8/15/2018 9:37:17,limited,1,35,6,Sunday,"Yes, a significant crisis"
+8/15/2018 9:37:37,limited,2,25,8,Friday,"Yes, a significant crisis"
+8/15/2018 9:41:33,limited,1,27,10,Saturday,"Yes, a slight crisis"
+8/15/2018 9:46:56,lots,3,19,7.5,Friday,"Yes, a slight crisis"
+8/15/2018 9:49:14,limited,2,30,10,Saturday,"Yes, a slight crisis"
+8/15/2018 9:53:34,pro,2,26,9,Saturday,"Yes, a slight crisis"
+8/15/2018 9:54:02,limited,1,26,8,Sunday,"Yes, a slight crisis"
+8/15/2018 9:55:01,limited,3,25,10,Saturday,"Yes, a slight crisis"
+8/15/2018 9:59:33,lots,7,26,8,Friday,"Yes, a significant crisis"
+8/15/2018 10:04:11,limited,10,22,16,Saturday,"Yes, a significant crisis"
+8/15/2018 10:03:25,limited,10,22,16,Saturday,"Yes, a significant crisis"
+8/15/2018 10:09:34,limited,6,25,8,Friday,"Yes, a significant crisis"
+8/15/2018 10:12:48,limited,10,22,16,Saturday,"Yes, a significant crisis"
+8/15/2018 10:13:35,limited,5,150,7,Thursday,"Yes, a significant crisis"
+8/15/2018 10:16:09,limited,8,30,9,Thursday,"Yes, a slight crisis"
+8/15/2018 10:22:35,lots,5,30,8,Friday,"Yes, a slight crisis"
+8/15/2018 10:23:56,limited,3,27,9,Friday,"Yes, a significant crisis"
+8/15/2018 10:30:11,lots,3,159,8,Friday,"Yes, a slight crisis"
+8/15/2018 10:45:38,limited,3,30,9,Saturday,"Yes, a significant crisis"
+8/15/2018 11:30:51,limited,1,26,9,Saturday,"Yes, a slight crisis"
+8/15/2018 11:40:07,"none, limited, lots, pro",1,1000,24,Monday,Don't know
+8/15/2018 11:47:00,lots,6,39,9,Friday,No crisis
+8/15/2018 11:56:30,limited,10,21,0,Friday,Don't know
+8/15/2018 12:50:49,none,6,70,8,Saturday,"Yes, a significant crisis"
+8/15/2018 12:53:38,limited,1,30,8,Friday,"Yes, a significant crisis"
+8/15/2018 13:40:27,limited,8,62,9,Thursday,No crisis
+8/15/2018 13:49:21,limited,6,24,8,Sunday,"Yes, a slight crisis"
+8/15/2018 14:58:29,limited,3,30,8,Friday,"Yes, a slight crisis"
+8/15/2018 15:48:03,lots,7,21,12,Saturday,"Yes, a slight crisis"
+8/15/2018 16:14:55,limited,7,27,8,Friday,"Yes, a significant crisis"
+8/15/2018 16:21:58,lots,3,30,7,Friday,"Yes, a significant crisis"
+8/15/2018 16:28:46,lots,3,21,7,Saturday,"Yes, a significant crisis"
+8/15/2018 18:37:54,limited,4,28,8,Saturday,"Yes, a slight crisis"
+8/15/2018 18:54:23,none,7,30,12,Saturday,"Yes, a slight crisis"
+8/15/2018 18:55:26,lots,2,25,15,Saturday,No crisis

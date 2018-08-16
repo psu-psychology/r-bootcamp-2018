@@ -24,7 +24,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       message = FALSE,
-                      cache = TRUE)
+                      cache = FALSE)
 library(tidyverse)
 ```
 
@@ -80,7 +80,9 @@ survey <- read.csv("../data/survey_clean.csv")
 
 # Change order of responses for printing
 survey$Crisis <- factor(survey$Crisis, 
-                        levels = c("Yes, significant", "Yes, slight", "No", "Don't know"))
+                        levels = c("Yes, a significant crisis", 
+                                   "Yes, a slight crisis", 
+                                   "No crisis", "Don't know"))
 
 survey_plot <- survey %>%
   ggplot() +
@@ -164,16 +166,21 @@ Another way is to think about the 'hit by a truck' scenario
 In other words, **could someone else (in your lab or another lab) pick up where you left off without significant loss of time and momentum if you weren't there?**.
 This is a high bar to reach, but it's feasible with the right tools and mindset.
 
-> No one is irreplaceable, but strive to be indispensible.
+> No one is irreplaceable, but we can all strive to be indispensible.
+
+# Using R (and RStudio) for reproducible science
+
+So, how can we use R (and RStudio) to make our own work more reproducible?
+There are several ways.
 
 ## RStudio projects
 
 RStudio has a 'projects' function that I strongly recommend you use.
 
-- Create using 'File/New Project'
-- Store in new directory with sensible name ('projects/1st_year_proj')
-- Creates *.Rproj file (the asterisk is a wildcard character meaning that any number of characters can precede the period)
-- Turn-off saving data to the .RData file (Tools/Global Options... and/or Tools/Project Options...)
+- You create a new project using the 'File/New Project' menu item
+- I recommend storing all projects in a new directory with a sensible name ('projects/1st_year_proj')
+- This creates an *.Rproj file (the asterisk is a wildcard character meaning that any number of characters can precede the period)
+- I recommend turning-off saving data to the .RData file (Tools/Global Options... and/or Tools/Project Options...)
 - 'File/Open Project...' command opens 'fresh' workspace
 
 I create a new project every time I start a new 'thing'.
@@ -199,12 +206,7 @@ Reproducible workflows are:
 - Kind to your future (forgetful) self
 - Transparent to me & colleagues == transparent to others
 
-# Using R (and RStudio) for reproducible science
-
-So, how can we use R (and RStudio) to make our own work more reproducible?
-There are several ways.
-
-## Scripting
+## Scripting a reproducible workflow
 
 Think of each step of your data workflow.
 Most data-related projects involve something like this:
@@ -260,11 +262,11 @@ No problem; your colleagues can easily pick-up where you left off.
 So, scripts are great.
 But there's a way to take the virtues of scripts and make them even more useful and powerful: R Markdown documents.
 
-## [R Markdown](https://rmarkdown.rstudio.com/)
+## Reproducible workflows with [R Markdown](https://rmarkdown.rstudio.com/)
 
 [R Markdown](https://rmarkdown.rstudio.com/) is an add-on package to R, developed by the RStudio team.
 R Markdown allows you to write a single text document that combines text, code, images, videos, and equations into one document.
-R Markdown then let's you render that document in a number of formats: a PDF or MS Word document, a web page or site, slides, a blog, or even a book.
+R Markdown then lets you render that document in a number of formats: a PDF or MS Word document, a web page or site, slides, a blog, or even a book.
 
 > One tool to rule them all and in the R-ness, bind them.
 
@@ -388,7 +390,7 @@ rmarkdown::render("test.Rmd", output_format = c('html_document',
 Over the lunch break, I analyzed the survey data you provided using an R Markdown document [bootcamp-survey.Rmd](bootcamp-survey.Rmd).
 Let's open it up and see how it looks.
 
-The default format is an `html_document`, and I've added some additional parameters in the header to produce a table of contents `toc: yes` with numbered sections `number_section: TRUE`, that floats `toc_float: TRUE`.
+The default format is an `html_document`, and I've added some additional parameters in the header to produce a table of contents `toc: yes` with numbered sections `number_section: TRUE`, that create a 'floating' menu-like table of contents via `toc_float: TRUE`.
 
 ```
 output:
@@ -405,13 +407,11 @@ And by creating it in R Markdown, I can satisfy many audiences with different ne
 
 Your adviser likes PDFs?
 No problem.
-Just re-render your file with `output_format="pdf_document"`.
 Your collaborator prefers MS Word?
 Got it covered.
-Try `output_format="word_document"`.
 Need to give a quick brown bag talk you can give from any web browser?
 Easy.
-Use `output_format="ioslides_presentation"`.
+R Markdown can become one of your super-powers.
 
 ### More about R Markdown
 
@@ -680,7 +680,9 @@ That's Databrary's motto, by the way.
 
 So, I think that in the very near future we'll see the following:
 
-- transparent, reproducible, open workflows across the publication cycle
+- Transparent, reproducible, open workflows across the publication cycle
+- Pregistration common
+- Replications commonly conducted and published
 - Openly shared materials + data + code
 - [[@Munafo2017-dc]](http://doi.org/10.1038/s41562-016-0021): reproducible practices across the workflow
     - Including procedure videos [[@Gilmore2017-eh]](http://doi.org/10.1038/s41562-017-0128)
@@ -693,6 +695,8 @@ So, I think that in the very near future we'll see the following:
 These will help us build a 'cumulative' science  [[@Mischel2011-br]](https://www.psychologicalscience.org/observer/becoming-a-cumulative-science) of behavior.
 
 ## Learn from my mistakes
+
+<img src="https://i.pinimg.com/564x/96/2f/95/962f9517fb95f229c260ecfc271487d1.jpg"/>
 
 I still consider myself a 'student of R'.
 I learn new tricks and techniques all the time.

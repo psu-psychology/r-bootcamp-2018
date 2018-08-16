@@ -34,7 +34,7 @@ output            : papaja::apa6_pdf
 editor_options: 
   chunk_output_type: console
 params:
-  data_file_in: '../data/survey_test.csv'
+  data_file_in: '../data/survey_clean.csv'
 ---
 
 ```{r setup, include=FALSE}
@@ -92,11 +92,11 @@ Consistent with open and transparent science practices, we report how we determi
 
 We asked participants in an optional "R Bootcamp" held at the Pennsylvania State University Department of Psychology on August 16 and 17, 2018 to complete an anonymous survey using a Google Form.
 We asked participants to report how old they felt.
-A total of $n=$`r length(survey$Psych_age_yrs)` respondents answered the survey with a reported felt age of $M$=`r mean(survey$Psych_age_yrs)` and a range of [`r min(survey$Psych_age_yrs)`-`r max(survey$Psych_age_yrs)`] years. 
+A total of $n=$ `r length(survey$Psych_age_yrs)` respondents answered the survey with a reported felt age of $M$=`r mean(survey$Psych_age_yrs)` and a range of [`r min(survey$Psych_age_yrs)`-`r max(survey$Psych_age_yrs)`] years. 
 
 ## Material {#material}
 
-The survey can be found at this URL: <https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit>.
+The survey can be found at this URL: <https://docs.google.com/forms/d/e/1FAIpQLSeGqic9Hrj-XvkESZmu_0t6H02R-U6yzYnRLuX6HDFDp4R39g/viewform>.
 There were six questions asked:
 
 1. Your current level of experience/expertise with R
@@ -198,17 +198,20 @@ apa_table(Banjo_aov_results$table,
           note = "This is a table created using apa_print() and apa_table().")
 ```
 
-Table \@ref(tab:Banjo-by-experience) summarizes the banjo music enthusiasm ratings data by levels of R experience. 
+Table \@ref(tab:Banjo-by-experience) summarizes the banjo music enthusiasm ratings data by levels of R experience.
+As Gilmore predicted, the more participants know about R, the more they come to appreciate banjo music. 
 
 Let's examine the correlations between our continuous variables.
-As indicated in Table \@ref(tab:apa-corr-table), there is a negative correlation (`r corr_Banjo_age$estimate`) between banjo music enthusiasm and age (`r corr_Banjo_age$statistic`), a negative correlation (`r corr_Banjo_sleep$estimate`) between banjo music enthusiasm and sleep (`r corr_Banjo_sleep$statistic`), but no correlation (`r corr_age_sleep$estimate`) between age and sleep (`r corr_age_sleep$statistic`). Figures \@ref(fig:Banjo-by-age-exp) and \@ref(fig:Banjo-by-sleep) depict these patterns.
+As indicated in Table \@ref(tab:apa-corr-table), there is a non-significant negative correlation (`r corr_Banjo_age$estimate`) between banjo music enthusiasm and age (`r corr_Banjo_age$statistic`), no correlation (`r corr_Banjo_sleep$estimate`) between banjo music enthusiasm and sleep (`r corr_Banjo_sleep$statistic`), but a positive correlation (`r corr_age_sleep$estimate`) between age and sleep (`r corr_age_sleep$statistic`). Figures \@ref(fig:Banjo-by-age-exp) and \@ref(fig:Banjo-by-sleep) depict these patterns.
 
 To test the hypothesis that banjo music enthusiasm varies as a function of R expertise, we carried out a one-way ANOVA.
-R experience (`r Banjo_aov_results$full$R_exp`) did not predict enthusiasm for banjo music. Table \@ref(tab:Banjo-aov-table) summarizes these results.
+R experience (`r Banjo_aov_results$full$R_exp`) did not predict enthusiasm for banjo music, so Gilmore will have to continue searching for userRs who appreciate the banjo. 
+Table \@ref(tab:Banjo-aov-table) summarizes these results.
 
 # Discussion {#discussion}
 
-These results show how awesome it can be to use R, R Markdown, and literate programming principles to conduct and open, transparent, and reproducible psychological science. Yay, us!
+These results aren't going to set the world on fire, but they do show how awesome it can be to use R, R Markdown, and literate programming principles to conduct and open, transparent, and reproducible psychological science. 
+Yay, us!
 
 There are no limitations to what we can accomplish using these tools. So, let's get to it.
 

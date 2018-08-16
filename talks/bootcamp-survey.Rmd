@@ -19,7 +19,7 @@ output:
     toc: yes
     toc_depth: 3
 params:
-  data_file_in: '../data/survey_test.csv'
+  data_file_in: '../data/raw_survey.csv'
   data_file_out: '../data/survey_2018.csv'
 ---
 
@@ -27,13 +27,13 @@ params:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Goals
+# Goals
 
 - Download and clean data from 2018 R Bootcamp Survey
 - Visualize data
 - Prepare reports in `ioslides_presentation`, `pdf_document`, and `word_document` formats
 
-## Preliminaries
+# Preliminaries
 
 Load required packages.
 
@@ -42,7 +42,7 @@ library(tidyverse)
 library(googlesheets)
 ```
 
-## Load data and examine
+# Load data and examine
 
 The survey data are stored in a [Google Sheet](https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit#gid=2108979913). 
 We'll use the `googlesheets` package to open it and create a data frame. Documentation about the package can be found [here](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html).
@@ -53,9 +53,7 @@ If you try to execute the next chunk, it may give you an error, or it may ask yo
 ```
 survey_url <- "https://docs.google.com/spreadsheets/d/1-YB0iWUNN_9oxBhz221NFiyBOcwMfHziFeUiUvQwn7k/edit?usp=sharing"
 
-bootcamp_by_url <- survey_url %>%
-  extract_key_from_url() %>%
-  gs_key()
+bootcamp_by_url <- gs_url(survey_url)
 
 bootcamp_sheets <- gs_ws_ls(bootcamp_by_url)
 
@@ -77,6 +75,7 @@ It's a great, reproducible practice to **simulate the data you expect**, then ru
 ```{r load-data}
 # Created test data set for testing.
 survey <- read_csv(params$data_file_in)
+survey <- read_csv("../data/raw_survey.csv")
 # Or choose data from respondents
 #survey <- read_csv(data_file_in)
 ```
@@ -133,6 +132,13 @@ We may want to make the `R_exp` variable ordered.
 ```
 
 This shows us the different survey response values.
+It looks like somebody checked all the levels.
+Let's change that to limited.
+
+```{r}
+survey$R_exp[survey$R_exp == "none, limited, lots, pro"] <- "limited"
+```
+
 
 ```{r}
 survey$R_exp <- ordered(survey$R_exp, levels=c("none",
@@ -142,11 +148,11 @@ survey$R_exp <- ordered(survey$R_exp, levels=c("none",
                                                "pro"))
 ```
 
-## Visualization
+# Visualization
 
 Now, we follow Mike Meyer's advice: "Plot your data!"
 
-### Descriptive plots
+## Descriptive plots
 
 ```{r R-exp-hist, fig.cap="Distribution of prior R experience"}
 R_exp_hist <- survey %>%
@@ -174,7 +180,7 @@ Banjo_hist
 
 ---
 
-Does R experience have any relation to banjo music enthusiasm?
+Does R experience have any relation to banjo music enthusiasm or one's psychological age?
 
 ```{r Banjo-vs-r-exp}
 Banjo_vs_r_exp <- survey %>%
@@ -194,7 +200,7 @@ crisis_plot <- survey %>%
 crisis_plot
 ```
 
-## Data documentation (codebook)
+# Data documentation (codebook)
 
 Every data set should be documented.
 You can generate a template data codebook with some useful summary information using the package `dataMaid`.
@@ -233,14 +239,14 @@ Label   Variable                Class         # unique  Missing  Description
 
 ```
 
-## Analysis
+# Analysis
 
 I could use a document like this to plan out my analysis plan **before** I conduct it.
 If I used simulated data, I could make sure that my workflow will run when I get real (cleaned) data.
 I could even preregister my analysis plan before I conduct it.
 That doesn't preclude later exploratory analyses, but it does hold me and my collaborators accountable for what I predicted in advance.
 
-## Notes
+# Notes
 
 Notice that I sometimes put a label like `Banjo-vs-r-exp` in the brackets `{}`for a given 'chunk' of R code. The main reasons to do this are:
 
