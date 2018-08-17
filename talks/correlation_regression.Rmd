@@ -1,0 +1,376 @@
+---
+title: "Basics of correlation and regression in R"
+author: "Michael Hallquist"
+date: "15 Aug 2018"
+output:
+  html_document:
+    code_folding: show
+    df_print: kable
+    mathjax: default
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    code_folding: show
+    df_print: kable
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+---
+<style type="text/css">
+body{ font-size: 18px; max-width: 1400px; margin: auto; padding: 1em; }
+code.r{ font-size: 21px; }
+pre { font-size: 18px; }
+</style>
+
+```{r setup, include=FALSE}
+if (!require(pacman)) { install.packages("pacman"); library(pacman) }
+p_load(knitr, tidyverse, ggfortify, car, Hmisc, stargazer, apaTables, jtools, emmeans)
+
+knitr::opts_chunk$set(echo = TRUE) #print code by default
+options(digits=3)
+
+data(mtcars)
+```
+
+# Introduction
+
+The overall goal is to give you a very quick introduction to conducting correlation and regression analyses in R.
+
+# Correlation
+
+The Pearson product moment correlation seeks to measure the linear association between two variables, $x$ and $y$ on a standardized scale ranging from $r = -1 -- 1$.
+
+The correlation of x and y is a covariance that has been standardized by the standard deviations of $x$ and $y$. This yields a scale-insensitive measure of the linear association of $x$ and $y$. For much more conceptual detail, see this: https://psu-psychology.github.io/psy-597-SEM/01_correlation_regression/01_Correlation_and_Regression.html.
+
+
+$$r_{XY}= \frac{s_{XY}}{s_{X} s_{Y}}$$
+
+## Correlation matrix
+
+```{r}
+to_correlate <- mtcars %>% dplyr::select(qsec, cyl, disp, hp)
+cor(to_correlate)
+```
+
+## Testing a bivariate association
+
+Recall that the significance of correlations are computed on $n - 2$ degrees of freedom.
+
+The t-test is:
+
+$$
+t = \frac{r \sqrt{n - 2}}{\sqrt{1 - r^2}}
+$$
+
+```{r}
+cor.test(mtcars$qsec, mtcars$cyl)
+```
+
+Note that we can use the `conf.int` argument to `cor.test` to get different levels of confidence.
+
+```{r}
+cor.test(mtcars$qsec, mtcars$cyl, conf.level = 0.9)
+```
+
+## Visualizing the association
+
+```{r}
+ggplot(to_correlate, aes(x=cyl, y=qsec)) + geom_jitter(width=0.1) + stat_smooth(method="lm", se=FALSE)
+```
+
+## Testing the significance of all correlations in the matrix
+
+```{r}
+Hmisc::rcorr(to_correlate %>% as.matrix())
+```
+Notice that we now get a matrix of p-values, too...
+
+## Pretty output
+
+```{r, results="asis"}
+stargazer(cor(to_correlate), type = "html")
+```
+
+```{r}
+#you can use the filename argument to write out the table as a Word doc!
+apaTables::apa.cor.table(to_correlate)
+```
+
+## Keeping the correlations for further analysis
+
+Here, we store all details of the bivariate correlation test as an R object `ctest`.
+```{r}
+ctest <- cor.test(mtcars$qsec, mtcars$cyl)
+```
+
+Let's poke under the hood:
+```{r}
+str(ctest)
+```
+
+So, we can poke around and grab specific things:
+```{r}
+ctest$p.value
+ctest$estimate
+```
+
+And there are useful helper packages, especially `broom`, that will help you work with statistics objects as `data.frame` objects.
+```{r}
+broom::glance(ctest)
+```
+
+## Correlation method
+
+You can use a different correlation method (e.g., Spearman) using the `method` argument:
+
+```{r}
+cor.test(mtcars$qsec, mtcars$cyl, method = "spearman")
+```
+
+```{r}
+cor(to_correlate, method = "spearman")
+```
+
+## Missing data
+
+By default, `cor` will return an `NA` (missing) for every pair in which at least one observation is missing. We can ask for correlations to be estimated on the complete cases for each pair. This is `use="pairwise.complete.obs"`.
+
+Here's the difference (I introduced some missing data to make the point):
+
+First, with 'everything' as the `use` argument (any missing on a variable drops it from the correlation table).
+```{r}
+to_correlate_miss <- to_correlate
+to_correlate_miss$qsec[c(1, 5)] <- NA
+cor(to_correlate_miss) #implicitly use="everything"
+```
+
+Now with pairwise complete calculation:
+```{r}
+cor(to_correlate_miss, use="pairwise.complete.obs")
+```
+
+# Single-predictor (simple) regression
+
+Next, let's turn to 'simple' linear regression (one predictor, one outcome), then scale to multiple regression (many predictors, one outcome). The standard linear regression model is implemented by the `lm` function in R. The `lm` function uses ordinary least squares (OLS) which estimates the parameter by minimizing the squared residuals.
+
+In simple regression, we are interested in a relationship of the form:
+
+$$
+Y = B_0 + B_1 X
+$$
+
+where $Y$ is the dependent variable (criterion) and $X$ is the predictor (covariate). The intercept is represented by $B0$ and the slope for the $X$ predictor by $B1$.
+
+Let's take a look at the simple case of stopping distance (braking) as a function of car speed.
+
+```{r}
+ggplot(cars, aes(x=speed, y=dist)) + 
+  geom_point(color='darkblue', size = 3) + 
+  geom_smooth(method=lm, se=FALSE, fullrange=TRUE, color='black', size=1.2) +
+  labs(x="Speed (mph)", y="Stopping distance (ft)")
+```
+
+When conducting regression, we typically try to capture linear relationships among variables. We can introduce higher-order polynomial terms (e.g., quadratic models) or splines (more flexible shapes), but this beyond the scope here.
+
+Fortunately, this relationship looks quite linear! The faster the car, the longer it takes to brake.
+
+In R regression models, we use the `~` operator to denote 'regressed on'. It's not especially intuitive, but we say the criterion is regressed on the predictor. Here, if we think speed is a key cause of stopping distance, we'd say 'braking distance regressed on speed' or 'speed predicts braking distance.'
+
+In formula terms, this is `dist ~ speed`, which we pass as the first argument to `lm()`.
+
+```{r}
+lm_cars <- lm(dist ~ speed, data=cars)
+summary(lm_cars)
+```
+
+The output contains individual parameter estimates of the model (here, just the intercept and slope), their standard errors, significance tests, and p-values (one degree of freedom). We also get global information such as the sum of squared errors and the coefficient of determination ($R^2$).
+
+## Regression diagnostics
+
+We can also get useful diagnostic plots for free using the `plot()` function:
+
+```{r}
+plot(lm_cars)
+```
+
+The `ggfortify` package also provides an `autoplot` function that gives similar diagnostics within a handy ggplot-based graph.
+
+```{r}
+autoplot(lm_cars)
+```
+
+## Bootstrap estimates and confidence intervals
+
+Using functionality from the `car` and `boot` packges, we can easily get estimates of the regression coefficients and standard errors using nonparametric bootstrapping, which relaxes the normal theory assumption on the standard errors and, therefore, the significance tests. Likewise, the model does not assume normally distributed error.
+
+Nonparametric bootstrapping approximates the sampling distribution for a statistic of interest (e.g., a slope) by resampling the existing data with replacement many times and examining the resulting density.
+
+```{r}
+system.time(lm_cars.boot <- Boot(lm_cars, R=2000))
+summary(lm_cars.boot, high.moments=TRUE)
+```
+
+We can use the object to obtain 95% bootstrapped confidence intervals using the 'bias corrected, accelerated' method (aka bca).
+```{r}
+confint(lm_cars.boot, level=.95, type="bca")
+```
+
+And we can easily compare the bootstrapped and standard OLS models:
+
+```{r}
+hist(lm_cars.boot, legend="separate")
+```
+
+Notice that the `speed` regression coefficient is slightly positively skewed. Additional details are provided in John Fox's useful book "An R Companion to Applied Regression" (2nd edition): https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendix/Appendix-Bootstrapping.pdf.
+
+# Multiple regression
+
+We can easily extend to larger regression models by adding terms to the right side of the formula. For example, in the `mtcars` dataset (car performance statistics from 1974 Motor Trend), we could examine the extent to which the gas mileage (`mpg`) is a function of both gross horsepower (`hp`) and transmission (`am`, where 0 is 'automatic' and 1 is 'manual').
+
+```{r}
+mpg_model <- lm(mpg ~ hp + am, mtcars)
+summary(mpg_model)
+```
+
+It appears that these are both influential predictors. We could examine the relationship graphically.
+
+## visualizing regression data
+
+```{r}
+ggplot(mtcars, aes(x=hp, y=mpg, color=factor(am))) + geom_point() + stat_smooth(method=lm, se=FALSE)
+```
+
+There doesn't appear to be any meaningful interaction between horsepower and transmission type.
+
+## Getting results into a tidy, useful format
+
+Note that the `broom` package is very useful for extracting global and specific statistics from many models in R, including regression models. The introductory vignette provides a number of useful examples: <https://cran.r-project.org/web/packages/broom/vignettes/broom.html>. Here, what if we want to save the global statistics and parameter estimates into data.frame objects?
+
+We can use the `glance` function to get the global model statistics.
+```{r}
+broom::glance(mpg_model)
+```
+
+And the `tidy` function yields the parameter table
+
+```{r}
+broom::tidy(mpg_model)
+```
+
+As can imagine (and saw earlier in the functional programming overview), the ability to extract regression statistics into a tidy data.frame is a boon to scaling your analyses to multiple models and datasets.
+
+## Modeling interactions
+
+We can use the `*` operator in R to ask that both the constituent variables and their interaction(s) are entered into the model. For example:
+
+```{r}
+int_model <- lm(mpg ~ hp*wt + am, mtcars)
+summary(int_model)
+```
+
+This model includes individual effects of horsepower (`hp`) and weight (`wt`), as well as their interation (`hp:wt`). This highlights that the asterisk operator `*` will compute all possible interations among the specified predictors. For example, `a*b*c*d` will generate all effets up through and including the `a x b x c x d` interation. By contrast, if you wish to specify a given interaction manually/directly, use the colon operator (e.g., `a:b`). The downside of the colon operator is that it doesn't guarantee that the corresponding lower-level effects are included, which is usually a sane default position. As a reminder, you should essentially never include an interation without including the lower level effects, because this can misassign the variance.
+
+Note that with weight (`wt`) in the model, as well the horsepower x weight interaction, the automatic/manual transmission distinction is no longer significant (not even close). Let's take a look at this interaction. For a two-way continuous x continuous interation, we typically separate one predictor into low (-1SD), medium (mean), and high (+1SD) levels, and plot separate lines for each.
+
+```{r}
+#handy 2-way interation plotting function from jtools.
+interact_plot(int_model, pred = "hp", modx = "wt")
+```
+
+What do we see? At higher horsepower, gas mileage suffers regardless of the weight of the car. At lower horsepower, car weight makes a big difference (lower weight, higher mpg).
+
+# Contrasts in regression
+
+One of the handiest packages in the R regression universe is `emmeans`, which can provide the 'expected marginal means' (emm), as well as a host of other contrasts and comparisons. In particular, it is very easy to test simple slopes and pairwise differences. Furthermore, the package works with `multcomp` to handle correction for multiple comparisons. See the longer documentation [here](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html).
+
+Let's look at the concentration of leucine in a stuy of pigs who were fed differing levels of protein in the diet (9, 12, 15, and 18%) and different protein sources (fish, soybean, milk).
+
+```{r}
+data(pigs)
+pigs <- pigs %>% mutate(log_conc=log(conc), percent_fac=factor(percent))
+pigs.lm <- lm(log_conc ~ source + percent_fac, data = pigs)
+summary(pigs.lm)
+```
+
+If we wanted to compare the pairwise differences in the effect of protein source while controlling for protein percent (and potentially other variables in the model), we could use the `pairs` function:
+
+```{r}
+pigs.emm.s <- emmeans(pigs.lm, "source")
+pig_pairs <- pairs(pigs.emm.s)
+print(pig_pairs)
+```
+
+Note that you can get a sense of the contrasts being tested by `emmeans` by examining the `@linfct` slot of the object. I've learned *a lot* by examining these contrast matrices and thinking about how to setup a (focal) contrast of interest. Also note that you get p-value adjustment for free (here, Tukey's HSD method).
+
+Contrasts for the predicted mean level of leucine contrast for each protein source, controlling for percentage.
+```{r}
+pigs.emm.s@linfct
+```
+
+What are the pairwise contrasts for the protein sources?
+```{r}
+pig_pairs@linfct
+```
+
+The `emmeans` package also provides useful plots to understand pairwise differences:
+
+```{r}
+plot(pigs.emm.s, comparisons = TRUE)
+```
+
+The blue bars are confidence intervals for the EMMs, and the red arrows are for the comparisons among them. If an arrow from one mean overlaps an arrow from another group, the difference is not significant, based on the adjust setting (which defaults to "tukey"). (Note: Don’t ever use confidence intervals for EMMs to perform comparisons; they can be very misleading.)
+
+We can also get orthogonal polynomial contrasts for free in `emmeans`. For example, is the effect of protein percent linearly related to leucine, or might it be quadratic or cubic?
+
+```{r}
+pigs.emm.p <- emmeans(pigs.lm, "percent_fac")
+ply <- contrast(pigs.emm.p, "poly")
+ply
+coef(ply)
+```
+
+There is a lot more on probing interations here: <https://cran.r-project.org/web/packages/emmeans/vignettes/interactions.html>.
+
+```{r}
+org.int <- lm(cbind(sales1, sales2) ~ price1 * price2 + day + store, data = oranges)
+
+#test the pairwise differences in price1 slopes between varieties.
+emtrends(org.int, pairwise ~ variety, var = "price1", mult.name = "variety")
+```
+
+## Pairwise differences and simple slopes in regression
+
+Returning to the iris dataset (from the parallel R examples), consider this:
+
+```{r}
+fitiris <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
+summary(fitiris)
+interact_plot(fitiris, pred = "Petal.Width", modx = "Species")
+```
+
+In a simple slopes test, we might wish to know whether the slope for `Petal.Length` is non-zero in each species individually. Let's start by getting the estimated marginal means for each species.
+
+
+```{r}
+emmeans(fitiris, ~Species)
+```
+
+And pairwise differences between species:
+
+```{r}
+pairs(emmeans(fitiris, ~Species))
+```
+
+Is the Petal.Width slope non-zero in each Species? The 'infer' argument requests t-tests and p-values for the slopes.
+
+```{r}
+summary(emtrends(model = fitiris, ~Species, var="Petal.Width"), infer=TRUE)
+```
+
+Are the slopes different by Species?
+
+```{r}
+pairs(emtrends(model = fitiris, ~Species, var="Petal.Width"))
+```
+
