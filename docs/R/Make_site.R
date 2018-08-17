@@ -39,11 +39,8 @@ rmarkdown::render(input = "talks/IntroBasicEFA_2018_0815.Rmd")
 # Albohn Talk
 rmarkdown::render(input = "talks/scaling_up_Albohn.Rmd")
 
-<<<<<<< HEAD
-=======
 # Better, but not tested
 # Reduce(function(...) {rmarkdown::render}, list.files("talks/", pattern = ".Rmd$"))
 
->>>>>>> e8b76a6e89d6de580523855a8fa3c2d67676b368
 # Render site last so that updated versions get copied to docs/
 rmarkdown::render_site()
