@@ -50,7 +50,7 @@ The goals of this session are two-fold:
 ## Before We Begin
 Make sure you have the following packages installed if you would like to follow along.
 
-```{r load-it}
+```{r load}
 # Load and/or install
 pacman::p_load(tidyverse, broom, gapminder)
 ```
@@ -64,7 +64,11 @@ anonymous function.
 ```{r}
 hello_world <- function() { print('Hello, world!') }
 hello_world()
+```
 
+Congratulations! Now let's take it up a notch...
+
+```{r}
 ## When on multiple lines, functions run downstream...
 hello_world_name <- function(name){
   message <- paste0('Hello, ',name,'!') # paste0 is paste without any spaces
@@ -88,7 +92,9 @@ take a list as input and supply a list as output.
 
 ```{r}
 list <- lapply(1:10, print)
+```
 
+```{r}
 lapply(list, sqrt)
 ```
 
@@ -98,43 +104,76 @@ functions, and there are type specific `map` functions.
 
 ```{r}
 my_list <- list(letters=letters, numbers=1:26)
-
-# Maybe we want to extract the 3rd element from each part of the list...
-# This doesn't work:
-# lapply(my_list, 3)
-
-## But this does!
-map(my_list, 3)
-
-## And this!
-my_list %>% 
-  map(., 3)
-
-## You'd have to do this in base R
-lapply(my_list, '[[', 3)
-lapply(my_list, mean, na.rm=TRUE)
 ```
 
-## More `map`
+So, maybe we want to extract the 3rd element from each part of the list...
+This won't work:
+
+```{r eval=FALSE}
+lapply(my_list, 3)
+```
+
+    Error in match.fun(FUN) : '3' is not a function, character or symbol
+
+But this does!
 
 ```{r}
-?map
-## Takes a list as input, returns a list
-map(1:10, print)
-
-## Takes a df as input, returns a df
-df <- data.frame(x=1:10,y=11:20,z=letters[1:10])
-map_df(df, mean)
-
-#@ If a condition is met
-map_if(df, is.integer, mean)
-
-## We can pass additional arguments like so:
-?scale
-map(df[1:2], scale, center=FALSE)
-map_df(df[1:2], scale, center=FALSE)
+map(my_list, 3)
 ```
 
+And this!
+
+```{r}
+my_list %>% 
+  map(., 3)
+```
+
+If you wanted to stay in base R, you'd have to do this:
+
+```{r}
+lapply(my_list, '[[', 3)
+```
+
+The `[[` should look familiar as the left half of the `[[]]` from the indexing tutorial.
+
+## More `map`: Variations
+
+```{r, eval=FALSE}
+?map
+```
+
+Base `map` takes a list as input and returns a list:
+
+```{r}
+map(1:10, print)
+```
+
+`map_df` takes a df as input, returns a df
+
+```{r}
+df <- data.frame(x=1:10,y=11:20,z=letters[1:10])
+map_df(df, mean)
+```
+
+`map_if` applies a function if a condition is met, and if not will return the object
+unaltered.
+
+```{r}
+map_if(df, is.integer, mean)
+```
+
+We can pass additional arguments like so:
+
+```{r}
+?scale # Takes three arguments
+
+map_df(df[1:2], scale, center=FALSE)
+
+# Alternatively
+# map(df[1:2], scale, center=FALSE)
+```
+
+## More `map`: `map2`
 `map2` allows for two inputs to be present for a function.
 
 ```{r}
@@ -142,19 +181,27 @@ map2(1:10, 2, function(x,y) {x * y})
 ```
 
 ## Anonymous functions
+One of the benefits of `map` over `*apply` is that we can use short hand,
+or anonymous functions. If we have to explicitly define a function in
+`map` if takes this form:
 
 ```{r}
-## Explicitly defined function
 map2(1:10,2,function(x,y) {x * y})
+```
 
-## Shorthand, or anonymous
+But, we can take a short cut and write an anonymous function in this
+form:
+
+```{r}
 map2(1:10, 2, ~.x * .y)
-
-# map(1:10, function(x) {lm(yvariable~xvariable,data=x)} )
-# map(1:10, ~lm(yvariable~xvariable,data=.x))
 ```
 
 ## A Quick Scaling Up Example
+All of his mapping is very basic and it might be hard to understand the power of
+mapping functions to lists. As a quick example, let's examine a more practical
+solution to a common problem from one of the issues brought up at the beginning
+of this tutorial.
+
 I have a folder of data (looking at you `EPrime`!) and I want to read all of the contents
 into `R`.
 
@@ -181,23 +228,34 @@ head(df[[1]])
 ```
 
 This might be useful for some analyses, say, for example if you want to run analyses
-on the participant level.
+on the participant level, but more often than not we want a 2-dimensional data frame that
+is in tidy data format. To do so, we need to reduce or simplify our nested list of many
+data frames. To do so, we use the verb `reduce`.
+
+`reduce` simplifies list elements by combining common elements via a user-specified
+function. In this case we will use `rbind` so that our data is combined by stacking
+each data frame on top of each other.
+
+```{r}
+df_reduced <- df %>% 
+  reduce(., rbind)
+
+df_reduced[c(1:4,300:304),]
+```
 
 ## Getting data from a folder (start to finish)
 How succinct can we make this process? Fairly short if we assume we already have the
 raw data in a folder.
 
 ```{r scale-up-all, eval=FALSE}
-source('../R/scale_up_utils.R')
-
-# Function to create lots of data in a folder
-my_dir <- lots_of_data()
-
 # The whole thing!
 df <- list.files(my_dir, pattern = "*.csv", full.names = TRUE) %>% 
   map(., read_csv) %>% 
   reduce(., rbind)
 ```
+
+Utilizing pipes and `tidyverse` verbs, we can accomplish a fairly complex task in three lines
+of code.
 
 Make sure to delete the random folder we created so it isn't taking up unnecessary space.
 
@@ -207,20 +265,24 @@ unlink(my_dir, recursive = TRUE)
 ```
 
 # Our Gapminder Scaling Problem
-A large majority of this talk is based on the chapter [`Many Models`](http://r4ds.had.co.nz/many-models.html)
+Let's try scaling something else on an issue that might be a bit more complicated. Here,
+we will use the `gapminder` data set to fit individual linear models to many different
+groups of observations.
+
+A large majority of this section of the tutorial is based on the
+chapter [`Many Models`](http://r4ds.had.co.nz/many-models.html)
 from Hadley Wickham's wonderful book [`R for Data Science`](http://r4ds.had.co.nz/)[@wickham2017r].
 
-## The Gapminder dataset
-This is a data set that lives in a package based on world economic, health, etc.
+## The Gapminder data set
+This is a data set that lives in a package based on world economic, health, etc. data
 collected by the ["Gapminder"](http://www.gapminder.org/data/) Foundation. Gapminder
 is a non-profit Swedish organization aimed at educating consumers with evidenced-based
 facts about the world.
 
 The Gapminder website has many, many [data files](https://www.gapminder.org/data/)
 available for public use, and lots of 
-[cool visualization](https://www.gapminder.org/tools/#$chart-type=bubbles)
-tools to play around with. However, we will
-be most interested in the following:
+[cool visualizations](https://www.gapminder.org/tools/#$chart-type=bubbles)
+to play around with. However, we will be most interested in the following:
 
 ```{r gapminder, echo=FALSE}
 library(kableExtra)
@@ -250,29 +312,31 @@ citation('broom')
 ```
 
 ## Mind the "gap" 
-But, because this data has many types of data (numeric, time, factor), we can begin to ask and look
-at very cool things ("PLOT YOUR DATA").
+Because this data frame has many types of data (numeric, time, groups), we can begin to ask and look
+at very cool things ("PLOT YOUR DATA!").
 
-Is GDP increasing across all countries?
+**Question**: Is GDP increasing across all countries?
+
+Start by plotting the data:
 
 ```{r problem1}
 gapminder %>% 
-  ggplot(., aes(year, gdpPercap, group = country)) +
-  geom_line(alpha = 0.3, size = 2) +
+  ggplot(., aes(year, gdpPercap, group = country)) + 
+  geom_line(alpha = 0.3, size = 2) + 
   theme_bw(base_size = 15)
 ```
 
-Oh, my, something is happening with a few countries. I wonder what continent they
-are on:
+Oh, my. something is happening with a few countries. I wonder what continent the most
+ extreme trends are on:
 
 ```{r problem2}
 gapminder %>% 
-  ggplot(., aes(year, gdpPercap, group = country, colour = continent)) +
-  geom_line(alpha = 0.3, size = 2) +
+  ggplot(., aes(year, gdpPercap, group = country, colour = continent)) + 
+  geom_line(alpha = 0.3, size = 2) + 
   theme_bw(base_size = 15)
 ```
 
-Let's pull out one country and see what we can find the culprit.
+Let's pull out one country and see if we can find the abnormal culprit.
 
 ```{r problem3}
 gapminder %>% 
@@ -280,38 +344,211 @@ gapminder %>%
   distinct(country) # We only need to see it once
 ```
 
-Well, well, well...ok, let's plot just this and begin to model.
+Well, well, well...ok, let's plot just this country and begin to fit just one model.
 
-```{r problem4, fig.width=10}
-# kw <- filter(gapminder, country == "Kuwait")
-kw <- filter(gapminder, continent == "Asia")
+```{r problem4, fig.width=10, echo=FALSE}
+kw <- filter(gapminder, country == "Kuwait")
 
 p1 <- kw %>% 
   ggplot(aes(year, gdpPercap)) + 
-  geom_line() + 
-  ggtitle("Full data        = ")
+  geom_line(size = 2) + 
+  ggtitle("Full data        = ") +
+  theme_bw(base_size = 15)
 
 kw_mod <- lm(gdpPercap ~ year, data = kw)
 p2 <- kw %>% 
   modelr::add_predictions(kw_mod) %>%
   ggplot(aes(year, pred)) + 
-  geom_line() + 
-  ggtitle("Linear trend      + ")
+  geom_line(aes(kw$year, kw$gdpPercap), alpha = .5, colour='red', size = 2) +
+  geom_line(size = 2) + 
+  ggtitle("Linear trend      + ") +
+  theme_bw(base_size = 15)
 
 p3 <- kw %>% 
   modelr::add_residuals(kw_mod) %>% 
   ggplot(aes(year, resid)) + 
-  geom_hline(yintercept = 0, colour = "white", size = 3) + 
-  geom_line() + 
-  ggtitle("Remaining pattern")
+  geom_hline(yintercept = 0, colour = "white", size = 2) + 
+  geom_line(size = 2) + 
+  ggtitle("Remaining pattern") +
+  theme_bw(base_size = 15)
 
 cowplot::plot_grid(p1,p2,p3, align = 'h', nrow = 1)
 ```
 
+Let's compare Kuwait to another country (Canada):
+
+```{r problem5, fig.width=10, echo = FALSE}
+ca <- filter(gapminder, country == "Canada")
+
+p4 <- ca %>% 
+  ggplot(aes(year, gdpPercap)) + 
+  geom_line(size = 2) + 
+  ggtitle("Full data        = ") +
+  theme_bw(base_size = 15)
+
+ca_mod <- lm(gdpPercap ~ year, data =ca)
+p5 <- ca %>% 
+  modelr::add_predictions(ca_mod) %>%
+  ggplot(aes(year, pred)) + 
+  geom_line(aes(ca$year, ca$gdpPercap), alpha = .5, colour = 'red', size = 2) +
+  geom_line(size = 2) + 
+  ggtitle("Linear trend      + ") +
+  theme_bw(base_size = 15)
+
+p6 <- ca %>% 
+  modelr::add_residuals(ca_mod) %>% 
+  ggplot(aes(year, resid)) + 
+  geom_hline(yintercept = 0, colour = "white", size = 3) + 
+  geom_line(size = 2) + 
+  ggtitle("Remaining pattern") +
+  theme_bw(base_size = 15)
+
+cowplot::plot_grid(p4,p5,p6, align = 'h', nrow = 1)
+```
+
+It looks like a linear trend fits Canada's GRP over the years quite well!
 
 ## Starting simple: A single solution
+OK, so how do we fit that linear model to just one country (e.g., Kuwait or Canada)? Well, first we
+need to subset or filter our data by country.
+
+```{r}
+kw <- filter(gapminder, country == 'Kuwait')
+head(kw)
+```
+
+Now we can apply our linear model to just Kuwait's data.
+
+```{r}
+fit1 <- lm(gdpPercap~year, data = kw)
+fit_summary <- summary(fit1); print(fit1)
+```
+
+And we can clean this up a bit with `broom`'s `tidy` function.
+
+```{r}
+clean_summary <- tidy(fit_summary); print(clean_summary)
+```
+
+We can also "augment" our original data frame with some useful additions with
+`broom`'s `augment` function.
+
+```{r}
+fit_augment <- fit1 %>% augment(.)
+head(fit_augment)
+```
+
+```{r}
+fit_augment %>% 
+  ggplot(., aes(year, .fitted)) + 
+  geom_line(size = 2) + 
+  geom_line(aes(fit_augment$year, fit_augment$gdpPercap), size = 2, colour = 'red')
+```
+
+This should look familiar from above. So, it looks like we successfully fitted a model to Kuwait's
+data. But what if we want/need to compute a separate linear model for each country? Well, we have
+a few options:
+
+  1). Copy and paste the above code for each country
+  
+  2). Develop some sort of `for` loop or `apply` script with a custom linear model function
+  
+Well, the first option seems intuitive and logical, but how many countries are there? That will be
+how many times we have to copy and paste our above code.
+
+```{r}
+gapminder %>% 
+  select(., country) %>% 
+  distinct(., country) %>% 
+  tally()
+```
+
+Hm, copy-pasting 142 times seems ridiculous and not a logical solution. How about a `for` loop? I will be
+using `broom`'s `glance` function to provide a single line for each model some summary statistics
+that will be useful for comparing model fit.
+
+```{r}
+countries <- gapminder %>% 
+  select(., country) %>% 
+  distinct(., country)
+
+tidy_fits <- data.frame()
+
+for (x in 1:nrow(countries)) {
+  countryx <- countries[x,]
+  df <- filter(gapminder, country == countryx$country)
+  
+  fitx <- lm(gdpPercap~year, data = df)
+  xtidy <- glance(fitx)
+  xtidy$country <- countryx$country
+  
+  tidy_fits <- rbind(tidy_fits, xtidy)
+}
+
+tidy_fits %>% select(., country, everything()) %>% head(.)
+```
+
+OK...that's acceptable, and it can help us conceptually understand what we need to do in order to
+accomplish our task, but it's clunky and intuitive. Isn't there anything else?
 
 ## The `tidyverse` Scale Up
+Well, we do have a third option:
 
+  3). Some `tidyverse` alternative which is probably easier (spoiler: it is)
+
+### Nested data frames
+You might imagine that using `map` might help us both consolidate our code and make it more
+readable for future reference. Conceptually, we want to do the exact same as the `for`
+loop above: extract grouped data by country, apply a linear model to each country's data,
+and then add the tidied linear model summary to a tidy data frame.
+
+In order to do this within a `tidyverse` framework, we need to *nest* our data frame
+by our grouping variable. A nested data frame is a special data frame that has for
+each observation (row) another data frame with only the observations of split by
+the grouping variable.
+
+```{r}
+by_country <- gapminder %>% 
+  group_by(., country) %>% 
+  nest(.)
+
+head(by_country[[1,2]])
+```
+
+Next, we need to do some setup and create a specialized linear model function
+
+```{r}
+country_model <- function(x) {
+  lm(gdpPercap~year, data = x)
+}
+```
+
+That's it! Just wrapping our linear model in a nice `function`! Now we are ready to apply it to each of
+our nested data frames.
+
+```{r}
+models <- map(by_country$data, country_model)
+```
+
+We can now add to this nested data frame a model column that will contain all of the
+model output for each country.
+
+```{r}
+by_country <- by_country %>% 
+  mutate(model = map(data, country_model))
+
+head(by_country)
+```
+
+Finally, we can get our comparison list by applying `glace` to each country's model and then
+*unnesting* the data.
+
+```{r}
+tidy_fits2 <- by_country %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance)
+
+head(tidy_fits2)
+```
 
 # References
