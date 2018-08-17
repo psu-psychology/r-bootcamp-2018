@@ -65,6 +65,10 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 - Basic [correlation and regression walkthrough](talks/correlation_regression.html) (Michael Hallquist) | [Rmd](talks/correlation_regression.Rmd)
 
+## ANOVA and categorical data
+
+Basic [ANOVA and categorical data walkthrough](talks/anova_categorical.html) (Michael Hallquist) | [Rmd](talks/anova_categorical.Rmd)
+
 *Other resources*
 
 - More about the [aov_ez function](http://singmann.org/anova-in-r-afex-may-be-the-solution-you-are-looking-for/)

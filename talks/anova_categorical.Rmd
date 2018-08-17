@@ -1,0 +1,234 @@
+---
+title: "Basics of ANOVA and categorical data analysis in R"
+author: "Michael Hallquist"
+date: "15 Aug 2018"
+output:
+  html_document:
+    code_folding: show
+    df_print: kable
+    mathjax: default
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    code_folding: show
+    df_print: kable
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+---
+<style type="text/css">
+body{ font-size: 20px; max-width: 1700px; margin: auto; padding: 1em; }
+code.r{ font-size: 22px; }
+pre { font-size: 18px; }
+</style>
+
+```{r setup, include=FALSE}
+if (!require(pacman)) { install.packages("pacman"); library(pacman) }
+p_load(knitr, tidyverse, ggfortify, car, Hmisc, stargazer, apaTables, jtools, emmeans, ez, afex, multcomp,
+       vcd, vcdExtra, GGally, gmodels, xtable)
+
+knitr::opts_chunk$set(echo = TRUE) #print code by default
+options(digits=3)
+data(sk2011.1)
+```
+
+# Introduction
+
+The overall goal is to review ANOVA methods in R, as well as analyses of contingency tables (categorical data).
+
+# ANOVA
+
+## Simple between-subjects designs
+For between-subjects designs, the `aov` function in R gives you most of what you'd need to compute standard ANOVA statistics. But it requires a fairly detailed understanding of sum of squares and typically assumes a balanced design. The `car::Anova` function takes things a bit further by allowing you to specify Type II or III sum of squares.
+
+Consider the Moore 1971 dataset on conformity responses as a function of partner status (high/low) and level on an authoritarianism scale (highm medium, low). This is a between subjects design with 2 factors (2 x 3).
+
+```{r}
+mod <- lm(conformity ~ fcategory*partner.status, data=Moore)
+Anova(mod, type="III")
+```
+
+Even better is the `afex` package, which handles most of the complexity of ANOVA designs.
+
+```{r}
+Moore$id <- 1:nrow(Moore)
+res <- aov_ez(id="id", dv = "conformity", between = c("partner.status", "fcategory"), data=Moore)
+print(res)
+```
+
+More detailed coverage of this example: <https://cran.r-project.org/web/packages/afex/vignettes/afex_anova_example.html>
+
+## User-friendly coverage of all ANOVA-type designs
+
+In general, the `aov_ez` function from the `afex` package is an ideal tool for ANOVA analysis because it computes the expected ANOVA table, as well as effect size (generalized eta squared).
+
+Let's consider the experiment of Singmann and Klauer (2011), where they examined the conditional reasoning of individuals based on instruction type (b/w subs: deductive versus probailistic), inference validity (w/i subs: valid versus invalid problems) and plausibility (plausible versus implausible). In short, this is a 2 x 2 x 2 mixed ANOVA design that can be tested without much difficulty.
+
+```{r}
+str(sk2011.1)
+```
+
+```{r}
+a1 <- aov_ez("id", "response", sk2011.1, between = "instruction", 
+       within = c("inference", "plausibility"))
+
+summary(a1)
+```
+
+Pretty print out of ANOVA results
+
+```{r}
+knitr::kable(nice(a1))
+```
+
+What about the estimated marginal means of the design?
+
+```{r}
+emmeans(a1, ~instruction * inference * plausibility)
+```
+
+What about the 'main effects?'
+
+```{r}
+em1 <- emmeans(a1, ~inference)
+```
+
+And pairwise difference among levels of inference validity? 
+
+```{r}
+pairs(em1)
+```
+
+Note that emmeans plays well with the multcomp package, which provides a broader suite of multiple comparison corrections:
+
+```{r}
+summary(as.glht(pairs(em1)), test=adjusted("free"))
+```
+
+## Plotting results of aov_ez
+
+```{r}
+emmip(a1, instruction ~ inference|plausibility, CIs = TRUE)
+```
+
+The `emmeans` package provides the `emmip` function, which is very useful for plotting the results of an `aov_ez` object.
+
+# Working with categorical data
+
+The `vcd` and `vcdExtra packages are particulary handy for working with categorical data.
+
+```{r}
+data("Arthritis")
+
+# attach(Arthritis)
+# ###
+# Treatment
+# detach(Arthritis)
+
+#table(Arthritis$Treatment, Arthritis$Sex)
+with(Arthritis, table(Treatment, Sex))
+
+tb <- with(Arthritis, table(Treatment, Sex))
+
+tb["Placebo", "Female"]
+
+with(Arthritis, table(Treatment))
+
+#cell proportions
+round(prop.table(tb), 3)
+
+#row proportions
+round(prop.table(tb, 1), 3)
+
+#column proportions
+round(prop.table(tb, 2), 3)
+
+#sum over rows
+margin.table(tb, 1)
+
+#add row margins
+addmargins(tb, 1)
+addmargins(tb, 2)
+addmargins(tb, c(1,2))
+
+#3-way table with formula syntax
+#tb3 <- xtabs(~Treatment + Improved + Sex, Arthritis)
+tb3 <- xtabs(~Treatment + Sex + Improved, Arthritis)
+tb3
+ftable(tb3)
+
+## col ~ row
+structable(Sex + Treatment ~  Improved, Arthritis)
+
+xtable(xtabs(~ Sex + Treatment, Arthritis))
+
+#sum frequencies across sexes
+freqdf <- Arthritis %>% count(Improved, Treatment) %>% ungroup()
+
+#proportions
+Arthritis %>% count(Improved, Treatment) %>% mutate(prop = prop.table(n))
+
+#can obtain frequency tables from dplyr, too!
+Arthritis %>%
+  count(Improved, Treatment) %>%
+  spread(Treatment, n)
+
+Arthritis %>%
+  count(Improved, Treatment, Sex) %>%
+  spread(Treatment, n)
+
+#same as
+xtabs(~Improved + Treatment, Arthritis)
+
+#and can collapse over factors in frequency form
+freqdf %>% count(Improved, wt=n) #tell it to weight the counts by frequency variable n
+freqdf %>% group_by(Improved) %>% dplyr::summarize(freq=sum(n)) #more explicit syntax
+
+freqdf %>% count(Treatment, wt=n)
+
+#2-way chi-square test
+chisq.test(xtabs(~Treatment + Improved, Arthritis))
+
+#association statistics
+assocstats(xtabs(~Treatment + Improved, Arthritis))
+
+#mosaic(structable(Treatment+Improved ~ Sex, Arthritis))
+mosaic(structable(Sex+Treatment~Improved, Arthritis))
+
+ggpairs(dplyr::select(Arthritis, -ID))
+
+
+tv.data<-read.table(system.file("doc","extdata","tv.dat",package="vcdExtra"))
+TV <- xtabs(V5 ~ ., data=tv.data)
+
+dimnames(TV) <- list(Day=c("Monday","Tuesday","Wednesday","Thursday","Friday"),
+                     Time=c("8:00","8:15","8:30","8:45","9:00","9:15","9:30",
+                            "9:45","10:00","10:15","10:30"),
+                     Network=c("ABC","CBS","NBC","Fox","Other"),
+                     State=c("Off","Switch","Persist"))
+
+ggpairs(TV)
+
+
+TV <- TV[,,c("ABC", "CBS", "NBC"),]     # keep only ABC, CBS, NBC
+TV <- TV[,,,"Persist"] #people who keep watching
+structable(TV)
+
+ggpairs(TV)
+
+```
+
+```{r, size="tiny"}
+#more SPSS-like
+CrossTable(TV[,,1],prop.t=FALSE,prop.r=FALSE,prop.c=FALSE)
+
+```
+
+## Logistic regression
+
+We won't cover this here, but check out this nice tutorial: <https://stats.idre.ucla.edu/r/dae/logit-regression/>
+
+## Multinomial regression
+
+Likewise, see this: <https://stats.idre.ucla.edu/r/dae/multinomial-logistic-regression/>
