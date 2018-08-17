@@ -24,14 +24,23 @@ rmarkdown::render(input = "talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd")
 # Vallorani tutorial
 rmarkdown::render(input = "talks/ggplot2_tutorial_vallorani.Rmd")
 
+# Johnson tutorial
+rmarkdown::render(input = "talks/ggplot2_tutorial_vallorani.Rmd")
+
 # Hallquist talks
 rmarkdown::render(input = "parallel_r.Rmd")
+rmarkdown::render(input = "lavaan_tutorial.Rmd")
+rmarkdown::render(input = "correlation_regression.Rmd")
+rmarkdown::render(input = "dplyr_walkthrough_2018.Rmd")
 
 # Ram talk
 rmarkdown::render(input = "talks/IntroBasicEFA_2018_0815.Rmd")
 
 # Albohn Talk
 rmarkdown::render(input = "talks/scaling_up_Albohn.Rmd")
+
+# Better, but not tested
+# Reduce(function(...) {rmarkdown::render}, list.files("talks/", pattern = ".Rmd$"))
 
 # Render site last so that updated versions get copied to docs/
 rmarkdown::render_site()

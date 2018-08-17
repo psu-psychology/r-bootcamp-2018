@@ -1,5 +1,11 @@
 ---
 title: "Before the R Bootcamp"
+output:
+  html_document:
+      toc:  TRUE
+      toc_depth: 4
+      toc_float: TRUE
+      number_section: FALSE
 ---
 
 This document describes the steps you must take to ensure that you are able to use your laptop computer during the 2018 R Bootcamp.
