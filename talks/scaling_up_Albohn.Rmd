@@ -67,7 +67,7 @@ hello_world()
 
 ```
 
-Congraduations! Now let's take it up a notch...
+Congratulations! Now let's take it up a notch...
 
 ```{r}
 ## When on multiple lines, functions run downstream...
@@ -406,7 +406,7 @@ cowplot::plot_grid(p4,p5,p6, align = 'h', nrow = 1)
 It looks like a linear trend fits Canada's GRP over the years quite well!
 
 ## Starting simple: A single solution
-Ok, so how do we fit that linear model to just one country (e.g., Kuwait or Canada)? Well, first we
+OK, so how do we fit that linear model to just one country (e.g., Kuwait or Canada)? Well, first we
 need to subset or filter our data by country.
 
 ```{r}
@@ -442,8 +442,8 @@ fit_augment %>%
   geom_line(aes(fit_augment$year, fit_augment$gdpPercap), size = 2, colour = 'red')
 ```
 
-This should look familar from above. So, it looks like we succesfully fitted a model to Kuwait's
-data. But what if we want/need to compute a seperate linear model for each country? Well, we have
+This should look familiar from above. So, it looks like we successfully fitted a model to Kuwait's
+data. But what if we want/need to compute a separate linear model for each country? Well, we have
 a few options:
 
   1). Copy and paste the above code for each country
@@ -485,8 +485,8 @@ for (x in 1:nrow(countries)) {
 tidy_fits %>% select(., country, everything()) %>% head(.)
 ```
 
-Ok...that's acceptable, and it can help us conceptually understand what we need to do in order to
-accomplish our task, but it's cluncky and unintutitive. Isn't there anything else?
+OK...that's acceptable, and it can help us conceptually understand what we need to do in order to
+accomplish our task, but it's clunky and intuitive. Isn't there anything else?
 
 ## The `tidyverse` Scale Up
 Well, we do have a third option:
@@ -520,7 +520,7 @@ country_model <- function(x) {
 }
 ```
 
-That't it! Just wrapping our linear model in a nice `function`! Now we are ready to apply it to each of
+That's it! Just wrapping our linear model in a nice `function`! Now we are ready to apply it to each of
 our nested data frames.
 
 ```{r}
