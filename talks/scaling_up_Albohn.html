@@ -1503,7 +1503,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Scaling Up with Functions</h1>
 <h4 class="author"><em>Daniel Albohn</em></h4>
-<h4 class="date"><em>2018-08-17 10:50:13</em></h4>
+<h4 class="date"><em>2018-08-17 11:29:19</em></h4>
 
 </div>
 
@@ -1603,6 +1603,7 @@ hello_world_name(&quot;Dan&quot;)</code></pre>
 <pre class="r"><code>my_list &lt;- list(letters = letters, numbers = 1:26)</code></pre>
 <p>So, maybe we want to extract the 3rd element from each part of the list… This won’t work:</p>
 <pre class="r"><code>lapply(my_list, 3)</code></pre>
+<pre><code>Error in match.fun(FUN) : '3' is not a function, character or symbol</code></pre>
 <p>But this does!</p>
 <pre class="r"><code>map(my_list, 3)</code></pre>
 <pre><code>## $letters
@@ -1831,12 +1832,12 @@ length(df)</code></pre>
 <pre><code>## # A tibble: 6 x 4
 ##   subject_nr block  pic      RT
 ##        &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;
-## 1       7599 block1 pic1  132. 
-## 2       7599 block2 pic2  326. 
-## 3       7599 block1 pic3  286. 
-## 4       7599 block2 pic4   89.3
-## 5       7599 block1 pic1  138. 
-## 6       7599 block2 pic2  140.</code></pre>
+## 1       1340 block1 pic1  319. 
+## 2       1340 block2 pic2  201. 
+## 3       1340 block1 pic3  181. 
+## 4       1340 block2 pic4   49.7
+## 5       1340 block1 pic1  109. 
+## 6       1340 block2 pic2  242.</code></pre>
 <p>This might be useful for some analyses, say, for example if you want to run analyses on the participant level, but more often than not we want a 2-dimensional data frame that is in tidy data format. To do so, we need to reduce or simplify our nested list of many data frames. To do so, we use the verb <code>reduce</code>.</p>
 <p><code>reduce</code> simplifies list elements by combining common elements via a user-specified function. In this case we will use <code>rbind</code> so that our data is combined by stacking each data frame on top of each other.</p>
 <pre class="r"><code>df_reduced &lt;- df %&gt;% reduce(., rbind)
@@ -1845,15 +1846,15 @@ df_reduced[c(1:4, 300:304), ]</code></pre>
 <pre><code>## # A tibble: 9 x 4
 ##   subject_nr block  pic      RT
 ##        &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;
-## 1       7599 block1 pic1  132. 
-## 2       7599 block2 pic2  326. 
-## 3       7599 block1 pic3  286. 
-## 4       7599 block2 pic4   89.3
-## 5       4956 block2 pic4  379. 
-## 6       4956 block1 pic1  151. 
-## 7       4956 block2 pic2  137. 
-## 8       4956 block1 pic3   97.8
-## 9       4956 block2 pic4  257.</code></pre>
+## 1       1340 block1 pic1  319. 
+## 2       1340 block2 pic2  201. 
+## 3       1340 block1 pic3  181. 
+## 4       1340 block2 pic4   49.7
+## 5       7654 block2 pic4  220. 
+## 6       7654 block1 pic1  390. 
+## 7       7654 block2 pic2  312. 
+## 8       7654 block1 pic3   62.0
+## 9       7654 block2 pic4  148.</code></pre>
 </div>
 <div id="getting-data-from-a-folder-start-to-finish" class="section level2">
 <h2>Getting data from a folder (start to finish)</h2>
