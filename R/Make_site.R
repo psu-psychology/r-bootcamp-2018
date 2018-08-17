@@ -30,5 +30,8 @@ rmarkdown::render(input = "parallel_r.Rmd")
 # Ram talk
 rmarkdown::render(input = "talks/IntroBasicEFA_2018_0815.Rmd")
 
+# Albohn Talk
+rmarkdown::render(input = "talks/scaling_up_Albohn.Rmd")
+
 # Render site last so that updated versions get copied to docs/
 rmarkdown::render_site()

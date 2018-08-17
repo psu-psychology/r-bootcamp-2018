@@ -39,6 +39,7 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Data visualization
 
+- Conceptual overview of [ggplot2 and graphics output](talks/Hallquist_ggplot2_overview.pptx)
 - Alicia Vallorani [ggplot2 walkthrough](talks/ggplot2_tutorial_vallorani.html)
 
 *Other resources*
@@ -66,8 +67,9 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 *Other resources*
 
-- [More about aov_ez function](http://singmann.org/anova-in-r-afex-may-be-the-solution-you-are-looking-for/)
-- [Post hoc contrasts in ANOVA using the afex package](https://cran.r-project.org/web/packages/afex/vignettes/afex_anova_example.html)
+- More about the [aov_ez function](http://singmann.org/anova-in-r-afex-may-be-the-solution-you-are-looking-for/)
+- Post hoc contrasts in ANOVA using the [afex package](https://cran.r-project.org/web/packages/afex/vignettes/afex_anova_example.html)
+- Probing interactions using the [jtools package](https://cran.r-project.org/web/packages/jtools/vignettes/interactions.html)
 
 ***
 
@@ -81,13 +83,13 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 - Structural equation modeling in [lavaan tutorial](talks/lavaan_tutorial.html) | [zip](zips/hallquist_lavaan.zip) | [Rmd](talks/lavaan_tutorial.Rmd)
 
-***
-
 *Other resources*
 
 - Alison Schreiber We R [lavaan walkthrough](https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan)
 - Michael Hallquist [PSY 597 SEM course in R](https://psu-psychology.github.io/psy-597-SEM/)
 - [lavaan tutorial](http://lavaan.ugent.be/tutorial/index.html)
+
+***
 
 ## Parallel computing and big data
 
