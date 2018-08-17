@@ -48,15 +48,20 @@ This module provides a deliberately slow introduction to R that assumes that you
 - Setting up a Github repo as an R project | [Video](mov/rstudio-project-on-github.mp4)
 - Using Github within RStudio | [Video](mov/edit-save-commit-push.mp4)
 
-***
-
 *Other resources*
 
 - [Wickham R style guide](http://adv-r.had.co.nz/Style.html)
 
+***
+
 ## Correlation and regression in R
 
 - Basic [correlation and regression walkthrough](talks/correlation_regression.html) (Michael Hallquist) | [Rmd](talks/correlation_regression.Rmd)
+
+*Other resources*
+
+- [More about aov_ez function](http://singmann.org/anova-in-r-afex-may-be-the-solution-you-are-looking-for/)
+- [Post hoc contrasts in ANOVA using the afex package](https://cran.r-project.org/web/packages/afex/vignettes/afex_anova_example.html)
 
 ***
 
