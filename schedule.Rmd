@@ -1,5 +1,11 @@
 ---
 title: "2018 R Bootcamp Schedule"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
 ---
 
 <!--## Interested in attending?

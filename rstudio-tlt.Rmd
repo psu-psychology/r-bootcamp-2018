@@ -2,11 +2,16 @@
 title: "Using RStudio Server @ Penn State"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(tufte)
 ```
 
 ## Purpose

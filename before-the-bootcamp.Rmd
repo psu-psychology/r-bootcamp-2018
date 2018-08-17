@@ -1,5 +1,11 @@
 ---
 title: "Before the R Bootcamp"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
 ---
 
 This document describes the steps you must take to ensure that you are able to use your laptop computer during the 2018 R Bootcamp.
