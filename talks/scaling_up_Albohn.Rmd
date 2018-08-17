@@ -64,7 +64,6 @@ anonymous function.
 ```{r}
 hello_world <- function() { print('Hello, world!') }
 hello_world()
-
 ```
 
 Congratulations! Now let's take it up a notch...
@@ -93,7 +92,9 @@ take a list as input and supply a list as output.
 
 ```{r}
 list <- lapply(1:10, print)
+```
 
+```{r}
 lapply(list, sqrt)
 ```
 
@@ -111,6 +112,8 @@ This won't work:
 ```{r eval=FALSE}
 lapply(my_list, 3)
 ```
+
+    Error in match.fun(FUN) : '3' is not a function, character or symbol
 
 But this does!
 
@@ -135,7 +138,7 @@ The `[[` should look familiar as the left half of the `[[]]` from the indexing t
 
 ## More `map`: Variations
 
-```{r}
+```{r, eval=FALSE}
 ?map
 ```
 
@@ -318,8 +321,8 @@ Start by plotting the data:
 
 ```{r problem1}
 gapminder %>% 
-  ggplot(., aes(year, gdpPercap, group = country)) +
-  geom_line(alpha = 0.3, size = 2) +
+  ggplot(., aes(year, gdpPercap, group = country)) + 
+  geom_line(alpha = 0.3, size = 2) + 
   theme_bw(base_size = 15)
 ```
 
@@ -328,8 +331,8 @@ Oh, my. something is happening with a few countries. I wonder what continent the
 
 ```{r problem2}
 gapminder %>% 
-  ggplot(., aes(year, gdpPercap, group = country, colour = continent)) +
-  geom_line(alpha = 0.3, size = 2) +
+  ggplot(., aes(year, gdpPercap, group = country, colour = continent)) + 
+  geom_line(alpha = 0.3, size = 2) + 
   theme_bw(base_size = 15)
 ```
 
@@ -437,8 +440,8 @@ head(fit_augment)
 
 ```{r}
 fit_augment %>% 
-  ggplot(., aes(year, .fitted)) +
-  geom_line(size = 2) +
+  ggplot(., aes(year, .fitted)) + 
+  geom_line(size = 2) + 
   geom_line(aes(fit_augment$year, fit_augment$gdpPercap), size = 2, colour = 'red')
 ```
 
@@ -525,7 +528,6 @@ our nested data frames.
 
 ```{r}
 models <- map(by_country$data, country_model)
-
 ```
 
 We can now add to this nested data frame a model column that will contain all of the
