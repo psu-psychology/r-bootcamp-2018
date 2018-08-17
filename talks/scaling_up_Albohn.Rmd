@@ -1,0 +1,317 @@
+---
+title: "Scaling Up with Functions"
+author: "Daniel Albohn"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
+bibliography: bib/references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      tidy = TRUE,
+                      collapse = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      cache = FALSE)
+```
+
+# Establishing the Problem
+    
+    If you find yourself copy and pasting the same thing more than 3 times
+    you should probably write a function to handle it.
+
+Individuals who work in data science usually find themselves doing repetitive
+tasks and analyses. How can we: 1) Automate to prevent copy-pasting? and
+2) Scale up something (e.g., script, function) that works on a lower level to 
+work at a higher level (e.g, on multiple files or input).
+
+Some examples of common problems that might be answered by "scaling up":
+
+  - Reading multiple data files into your active Environment
+  
+  - Fitting multiple models to multiples observations
+  
+  - Obtaining multiple graphs for each subject
+  
+  - Applying a custom function
+
+# Session Goals
+The goals of this session are two-fold:
+
+  1) Gain a deeper understanding of functions,
+  
+  2) Learn how to apply functions to "Scale it Up"
+
+## Before We Begin
+Make sure you have the following packages installed if you would like to follow along.
+
+```{r load-it}
+# Load and/or install
+pacman::p_load(tidyverse, broom, gapminder)
+```
+
+# Functions
+Functions consist of a `formal` and a `body`, and take the form
+`my_function(formal){body}`. You must always assign a
+function to an object to be able to use it, unless you use an
+anonymous function.
+
+```{r}
+hello_world <- function() { print('Hello, world!') }
+hello_world()
+
+## When on multiple lines, functions run downstream...
+hello_world_name <- function(name){
+  message <- paste0('Hello, ',name,'!') # paste0 is paste without any spaces
+  return(message)
+}
+
+hello_world_name('Dan')
+```
+
+A note about `return()`. If you do not manually specify what should be
+returned from a function, R will assume that it is the result of the last
+line in the function.
+
+If you want to return something from a function that is more than a single
+element (e.g., a data frame), you will need to assign it to a list, for
+example.
+
+# Begin to Scale it Up: `apply` and `map`
+Apply functions are essentially `for` loops simplified. These functions
+take a list as input and supply a list as output.
+
+```{r}
+list <- lapply(1:10, print)
+
+lapply(list, sqrt)
+```
+
+Map functions from the `purrr` package are like apply, but have a few
+advantages. For example, you don't have to always have to write out
+functions, and there are type specific `map` functions.
+
+```{r}
+my_list <- list(letters=letters, numbers=1:26)
+
+# Maybe we want to extract the 3rd element from each part of the list...
+# This doesn't work:
+# lapply(my_list, 3)
+
+## But this does!
+map(my_list, 3)
+
+## And this!
+my_list %>% 
+  map(., 3)
+
+## You'd have to do this in base R
+lapply(my_list, '[[', 3)
+lapply(my_list, mean, na.rm=TRUE)
+```
+
+## More `map`
+
+```{r}
+?map
+## Takes a list as input, returns a list
+map(1:10, print)
+
+## Takes a df as input, returns a df
+df <- data.frame(x=1:10,y=11:20,z=letters[1:10])
+map_df(df, mean)
+
+#@ If a condition is met
+map_if(df, is.integer, mean)
+
+## We can pass additional arguments like so:
+?scale
+map(df[1:2], scale, center=FALSE)
+map_df(df[1:2], scale, center=FALSE)
+```
+
+`map2` allows for two inputs to be present for a function.
+
+```{r}
+map2(1:10, 2, function(x,y) {x * y})
+```
+
+## Anonymous functions
+
+```{r}
+## Explicitly defined function
+map2(1:10,2,function(x,y) {x * y})
+
+## Shorthand, or anonymous
+map2(1:10, 2, ~.x * .y)
+
+# map(1:10, function(x) {lm(yvariable~xvariable,data=x)} )
+# map(1:10, ~lm(yvariable~xvariable,data=.x))
+```
+
+## A Quick Scaling Up Example
+I have a folder of data (looking at you `EPrime`!) and I want to read all of the contents
+into `R`.
+
+```{r scale-up1}
+source('../R/scale_up_utils.R')
+
+# Function to create lots of data in a folder
+my_dir <- lots_of_data()
+
+# List the files in the folder
+file_names <- list.files(my_dir, pattern = "*.csv", full.names = TRUE)
+
+# Read it in
+df <- purrr::map(file_names, readr::read_csv)
+length(df)
+```
+
+What is this black magic? Well, like we saw above, we now have a special
+list with length = 30 and each element is a separate data frame. We can see each
+individual data frame by subsetting our list.
+
+```{r scale-up2}
+head(df[[1]])
+```
+
+This might be useful for some analyses, say, for example if you want to run analyses
+on the participant level.
+
+## Getting data from a folder (start to finish)
+How succinct can we make this process? Fairly short if we assume we already have the
+raw data in a folder.
+
+```{r scale-up-all, eval=FALSE}
+source('../R/scale_up_utils.R')
+
+# Function to create lots of data in a folder
+my_dir <- lots_of_data()
+
+# The whole thing!
+df <- list.files(my_dir, pattern = "*.csv", full.names = TRUE) %>% 
+  map(., read_csv) %>% 
+  reduce(., rbind)
+```
+
+Make sure to delete the random folder we created so it isn't taking up unnecessary space.
+
+```{r clean-up, eval=FALSE}
+# Clean up
+unlink(my_dir, recursive = TRUE)
+```
+
+# Our Gapminder Scaling Problem
+A large majority of this talk is based on the chapter [`Many Models`](http://r4ds.had.co.nz/many-models.html)
+from Hadley Wickham's wonderful book [`R for Data Science`](http://r4ds.had.co.nz/)[@wickham2017r].
+
+## The Gapminder dataset
+This is a data set that lives in a package based on world economic, health, etc.
+collected by the ["Gapminder"](http://www.gapminder.org/data/) Foundation. Gapminder
+is a non-profit Swedish organization aimed at educating consumers with evidenced-based
+facts about the world.
+
+The Gapminder website has many, many [data files](https://www.gapminder.org/data/)
+available for public use, and lots of 
+[cool visualization](https://www.gapminder.org/tools/#$chart-type=bubbles)
+tools to play around with. However, we will
+be most interested in the following:
+
+```{r gapminder, echo=FALSE}
+library(kableExtra)
+classes <- map_df(gapminder::gapminder, class) %>% gather()
+
+gap <- data.frame(Variable = names(gapminder::gapminder),
+                  Class = classes$value,
+                  Description = c("Country", "Continent of Country", "Year data was sampled",
+                                  "Life expectancy at birth in years", "Population",
+                                  "GDP per capita (adjusted)")
+                  )
+knitr::kable(gap, format = 'html') %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                full_width = TRUE,
+                font_size = 15)
+  
+```
+
+## The `broom` package
+This package from David Robinson provides model output from a variety of
+model functions in a tidy format. We will be using `broom` as we develop a
+pipeline and scale up our functions.
+
+```{r cite}
+# You can check citations in R if you can't remember!
+citation('broom')
+```
+
+## Mind the "gap" 
+But, because this data has many types of data (numeric, time, factor), we can begin to ask and look
+at very cool things ("PLOT YOUR DATA").
+
+Is GDP increasing across all countries?
+
+```{r problem1}
+gapminder %>% 
+  ggplot(., aes(year, gdpPercap, group = country)) +
+  geom_line(alpha = 0.3, size = 2) +
+  theme_bw(base_size = 15)
+```
+
+Oh, my, something is happening with a few countries. I wonder what continent they
+are on:
+
+```{r problem2}
+gapminder %>% 
+  ggplot(., aes(year, gdpPercap, group = country, colour = continent)) +
+  geom_line(alpha = 0.3, size = 2) +
+  theme_bw(base_size = 15)
+```
+
+Let's pull out one country and see what we can find the culprit.
+
+```{r problem3}
+gapminder %>% 
+  filter(gdpPercap >= 90000) %>% 
+  distinct(country) # We only need to see it once
+```
+
+Well, well, well...ok, let's plot just this and begin to model.
+
+```{r problem4, fig.width=10}
+# kw <- filter(gapminder, country == "Kuwait")
+kw <- filter(gapminder, continent == "Asia")
+
+p1 <- kw %>% 
+  ggplot(aes(year, gdpPercap)) + 
+  geom_line() + 
+  ggtitle("Full data        = ")
+
+kw_mod <- lm(gdpPercap ~ year, data = kw)
+p2 <- kw %>% 
+  modelr::add_predictions(kw_mod) %>%
+  ggplot(aes(year, pred)) + 
+  geom_line() + 
+  ggtitle("Linear trend      + ")
+
+p3 <- kw %>% 
+  modelr::add_residuals(kw_mod) %>% 
+  ggplot(aes(year, resid)) + 
+  geom_hline(yintercept = 0, colour = "white", size = 3) + 
+  geom_line() + 
+  ggtitle("Remaining pattern")
+
+cowplot::plot_grid(p1,p2,p3, align = 'h', nrow = 1)
+```
+
+
+## Starting simple: A single solution
+
+## The `tidyverse` Scale Up
+
+
+# References
