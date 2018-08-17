@@ -1,4 +1,16 @@
-```{r setup, include=FALSE}
+---
+title: "Joins Tutorial"
+author: "Ben Johnson"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
+---
+
+    ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 if (!require(pacman)) { install.packages("pacman"); library(pacman) }
 p_load(dplyr, readr, png)
