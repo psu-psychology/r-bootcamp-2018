@@ -2,6 +2,12 @@
 title: "Using RStudio Server @ Penn State"
 author: "Rick Gilmore"
 date: "`r Sys.time()`"
+output:
+  html_document:
+      toc:  TRUE
+      toc_depth: 4
+      toc_float: TRUE
+      number_section: FALSE
 ---
 
 ```{r setup, include=FALSE}
