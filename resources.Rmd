@@ -39,6 +39,6 @@ title: "Resources"
 
 ## Books
 
-- Gandrud, C. (2015). Reproducible Research with R and R Studio, Second Edition. CRC Press. https://www.crcpress.com/Reproducible-Research-with-R-and-R-Studio-Second-Edition/Gandrud/p/book/9781498715379.
-- Wickham, H. & Grolemund, G. (2016). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media. http://shop.oreilly.com/product/0636920034407.do.
-- Muenchen, R. (2009). R for SAS and SPSS Users. http://www.springer.com/us/book/9780387094182.
+- Gandrud, C. (2015). *Reproducible Research with R and R Studio, Second Edition*. CRC Press. https://www.crcpress.com/Reproducible-Research-with-R-and-R-Studio-Second-Edition/Gandrud/p/book/9781498715379.
+- Wickham, H. & Grolemund, G. (2016). *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*. O’Reilly Media. http://shop.oreilly.com/product/0636920034407.do.
+- Muenchen, R. (2009). *R for SAS and SPSS Users*. http://www.springer.com/us/book/9780387094182.

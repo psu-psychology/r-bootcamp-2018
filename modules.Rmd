@@ -21,9 +21,9 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## R-eproducible Science
 
-- [R-eproducible Psychological Science](talks/r-eproducible-science.html) | [Download R Markdown](talks/r-eproducible-science.Rmd).
-- [R Markdown example](talks/bootcamp-survey.html) using our own survey data.
-- Complete APA format manuscript based on `papaja` using the survey data, both in the original R Markdown format [Downloadable](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version and the final [PDF](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version.
+- [R-eproducible Psychological Science](talks/r-eproducible-science.html) | [Download Rmd](talks/r-eproducible-science.Rmd).
+- [R Markdown example output](talks/bootcamp-survey.html) using our own survey data | [Download Rmd](talks/bootcamp-survey.Rmd)
+- Complete APA format manuscript based on `papaja` using the survey data, both in the original R Markdown format [Download Rmd](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version and the final [PDF](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version.
 
 ***
 
