@@ -39,6 +39,7 @@ title: "Resources"
 
 ## Books
 
+- Chang, W. (2012). *R Graphics Cookbook: Practical Recipes for Visualizing Data*. O’Reilly Media, Inc. http://shop.oreilly.com/product/0636920023135.do. [Web version](http://www.cookbook-r.com/Graphs/).
 - Gandrud, C. (2015). *Reproducible Research with R and R Studio, Second Edition*. CRC Press. https://www.crcpress.com/Reproducible-Research-with-R-and-R-Studio-Second-Edition/Gandrud/p/book/9781498715379.
 - Wickham, H. & Grolemund, G. (2016). *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*. O’Reilly Media. http://shop.oreilly.com/product/0636920034407.do.
 - Muenchen, R. (2009). *R for SAS and SPSS Users*. http://www.springer.com/us/book/9780387094182.
