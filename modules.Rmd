@@ -19,6 +19,12 @@ This module provides a deliberately slow introduction to R that assumes that you
 - Kelly Black R tutorial: https://www.cyclismo.org/tutorial/R/index.html
 - James LeBreton [R introduction](https://psu-psychology.github.io/r-bootcamp/talks/R-Workshop-James.nb.html) (from R Bootcamp 2017) | [Rmd source](https://github.com/psu-psychology/r-bootcamp/blob/master/docs/talks/R-Workshop-James.Rmd)
 
+## R-eproducible Science
+
+- [R-eproducible Psychological Science](talks/r-eproducible-science.html) | [Download R Markdown](talks/r-eproducible-science.Rmd).
+- [R Markdown example](talks/bootcamp-survey.html) using our own survey data.
+- Complete APA format manuscript based on `papaja` using the survey data, both in the original R Markdown format [Downloadable](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version and the final [PDF](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version.
+
 ***
 
 ## Data wrangling
