@@ -22,6 +22,41 @@ p_load(dplyr, readr, tidyr, knitr, multilevel)
 
 The goal of this document is to provide a basic introduction to using the *tidyr* and *dplyr* packages in R for data tidying and wrangling.
 
+## Before we start: beware namespace collisions!
+
+One of the most irritating problems you may encounter in the tidyverse world is code that previously worked suddenly throws an inexplicable error. For example:
+
+```
+> survey %>% group_by(R_exp) %>% 
+             summarize(m_age=mean(Psych_age_yrs), sd_age=sd(Psych_age_yrs))
+             
+Error in summarize(., m_age = mean(Psych_age_yrs), sd_age = sd(Psych_age_yrs)) : 
+  argument "by" is missing, with no default
+```
+
+By using fairly intuitive verbs such as 'summarize' and 'select', dplyr (and sometimes tidyr) can use the same function names as other packages. For example, `Hmisc` has a `summarize` function that operates. The predecessor to `dplyr` was called `plyr` -- although largely outmoded, it has a few remaining functions that remain very useful. But... these functions operate differently (the syntax is note the same!).
+
+This points to the problem of what are called 'namespace collisions.' That is, when R looks for a function (or any object) in the Global environment, it searches through a 'path'. You can see the nitty gritty using `searchpaths()`. But the TL;DR is that if you -- or any function you call on -- loads another package, that package may override a dplyr function and make your code crash!
+ 
+### What to do?
+
+1. Watch out for warnings about objects being 'masked' when packages are loaded.
+2. Explicitly specify the package where your desired function lives using the double colon operator. Example: `dplyr::summarize`.
+3. Try to load tidyverse packages using `library(tidyverse)`. At least handles collisions within the tidyverse!
+
+Example of output that portends a namespace collision:
+
+```{r}
+library(dplyr)
+library(Hmisc)
+```
+
+
+```{r, echo=FALSE}
+#clean up the mess a bit...
+detach("package:Hmisc", unload=TRUE)
+```
+
 ## tidyr walkthough
 
 The tidyr package provides a small number of functions for reshaping data into a tidy format. Tidy data are defined by:
@@ -128,7 +163,6 @@ Note that `summarize` removes a single level of ungrouping. Here, we only have o
 survey <- read_csv("../data/survey_clean.csv")
 
 survey %>% group_by(R_exp) %>% dplyr::summarize(m_age=mean(Psych_age_yrs), sd_age=sd(Psych_age_yrs))
-
 ```
 
 What if I want to have means and SDs for several continuous variables by R expertise? The `summarize_at` function provides functionality to specify several variables using `vars()` and potentially several summary functions using `funs()`.

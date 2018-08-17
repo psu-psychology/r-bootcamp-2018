@@ -332,12 +332,15 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">R Bootcamp 2018: dplyr and tidyr walkthrough</h1>
 <h4 class="author"><em>Michael Hallquist</em></h4>
-<h4 class="date"><em>2018-08-16 15:55:47</em></h4>
+<h4 class="date"><em>2018-08-16 17:17:43</em></h4>
 
 </div>
 
 <div id="TOC">
 <ul>
+<li><a href="#before-we-start-beware-namespace-collisions">Before we start: beware namespace collisions!</a><ul>
+<li><a href="#what-to-do">What to do?</a></li>
+</ul></li>
 <li><a href="#tidyr-walkthough">tidyr walkthough</a><ul>
 <li><a href="#gather-gather-many-related-columns-into-a-key-value-pair">gather: gather many related columns into a key-value pair</a></li>
 <li><a href="#separate-split-the-values-of-a-variable-at-a-position-in-the-character-string">separate: split the values of a variable at a position in the character string</a></li>
@@ -362,6 +365,40 @@ code.r{ font-size: 20px; }
 pre { font-size: 16px; }
 </style>
 <p>The goal of this document is to provide a basic introduction to using the <em>tidyr</em> and <em>dplyr</em> packages in R for data tidying and wrangling.</p>
+<div id="before-we-start-beware-namespace-collisions" class="section level2">
+<h2>Before we start: beware namespace collisions!</h2>
+<p>One of the most irritating problems you may encounter in the tidyverse world is code that previously worked suddenly throws an inexplicable error. For example:</p>
+<pre><code>&gt; survey %&gt;% group_by(R_exp) %&gt;% 
+             summarize(m_age=mean(Psych_age_yrs), sd_age=sd(Psych_age_yrs))
+             
+Error in summarize(., m_age = mean(Psych_age_yrs), sd_age = sd(Psych_age_yrs)) : 
+  argument &quot;by&quot; is missing, with no default</code></pre>
+<p>By using fairly intuitive verbs such as ‘summarize’ and ‘select’, dplyr (and sometimes tidyr) can use the same function names as other packages. For example, <code>Hmisc</code> has a <code>summarize</code> function that operates. The predecessor to <code>dplyr</code> was called <code>plyr</code> – although largely outmoded, it has a few remaining functions that remain very useful. But… these functions operate differently (the syntax is note the same!).</p>
+<p>This points to the problem of what are called ‘namespace collisions.’ That is, when R looks for a function (or any object) in the Global environment, it searches through a ‘path’. You can see the nitty gritty using <code>searchpaths()</code>. But the TL;DR is that if you – or any function you call on – loads another package, that package may override a dplyr function and make your code crash!</p>
+<div id="what-to-do" class="section level3">
+<h3>What to do?</h3>
+<ol style="list-style-type: decimal">
+<li>Watch out for warnings about objects being ‘masked’ when packages are loaded.</li>
+<li>Explicitly specify the package where your desired function lives using the double colon operator. Example: <code>dplyr::summarize</code>.</li>
+<li>Try to load tidyverse packages using <code>library(tidyverse)</code>. At least handles collisions within the tidyverse!</li>
+</ol>
+<p>Example of output that portends a namespace collision:</p>
+<pre class="r"><code>library(dplyr)
+library(Hmisc)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: Formula</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: 'Hmisc'</code></pre>
+<pre><code>## The following objects are masked from 'package:dplyr':
+## 
+##     src, summarize</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
+## 
+##     format.pval, units</code></pre>
+</div>
+</div>
 <div id="tidyr-walkthough" class="section level2">
 <h2>tidyr walkthough</h2>
 <p>The tidyr package provides a small number of functions for reshaping data into a tidy format. Tidy data are defined by:</p>
@@ -392,93 +429,93 @@ kable(round(df,3))</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">4.802</td>
-<td align="right">4.818</td>
-<td align="right">6.935</td>
-<td align="right">7.970</td>
-<td align="right">5.419</td>
-<td align="right">8.579</td>
+<td align="right">4.996</td>
+<td align="right">6.059</td>
+<td align="right">6.309</td>
+<td align="right">10.365</td>
+<td align="right">5.114</td>
+<td align="right">7.508</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">4.994</td>
-<td align="right">4.767</td>
-<td align="right">7.893</td>
-<td align="right">8.764</td>
-<td align="right">6.405</td>
-<td align="right">5.922</td>
+<td align="right">6.698</td>
+<td align="right">4.916</td>
+<td align="right">7.265</td>
+<td align="right">8.303</td>
+<td align="right">4.159</td>
+<td align="right">8.915</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">4.942</td>
-<td align="right">7.386</td>
-<td align="right">6.253</td>
-<td align="right">9.437</td>
-<td align="right">6.587</td>
-<td align="right">6.605</td>
+<td align="right">5.020</td>
+<td align="right">4.904</td>
+<td align="right">7.449</td>
+<td align="right">8.509</td>
+<td align="right">5.959</td>
+<td align="right">8.178</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">6.134</td>
-<td align="right">7.225</td>
-<td align="right">7.828</td>
-<td align="right">8.769</td>
-<td align="right">4.023</td>
-<td align="right">6.126</td>
+<td align="right">4.025</td>
+<td align="right">7.173</td>
+<td align="right">8.389</td>
+<td align="right">7.935</td>
+<td align="right">4.544</td>
+<td align="right">5.422</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">4.831</td>
-<td align="right">5.669</td>
-<td align="right">7.940</td>
-<td align="right">8.516</td>
-<td align="right">5.733</td>
-<td align="right">7.662</td>
+<td align="right">4.948</td>
+<td align="right">6.981</td>
+<td align="right">5.927</td>
+<td align="right">7.875</td>
+<td align="right">7.347</td>
+<td align="right">6.406</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">4.033</td>
-<td align="right">5.541</td>
-<td align="right">5.848</td>
-<td align="right">8.522</td>
-<td align="right">5.394</td>
-<td align="right">7.956</td>
+<td align="right">5.339</td>
+<td align="right">6.657</td>
+<td align="right">5.801</td>
+<td align="right">9.906</td>
+<td align="right">4.945</td>
+<td align="right">5.850</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">4.578</td>
-<td align="right">6.096</td>
-<td align="right">7.414</td>
-<td align="right">9.660</td>
-<td align="right">5.079</td>
-<td align="right">10.386</td>
+<td align="right">3.028</td>
+<td align="right">5.065</td>
+<td align="right">5.508</td>
+<td align="right">7.790</td>
+<td align="right">6.068</td>
+<td align="right">8.394</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">6.299</td>
-<td align="right">6.942</td>
-<td align="right">5.062</td>
-<td align="right">9.963</td>
-<td align="right">6.324</td>
-<td align="right">9.024</td>
+<td align="right">5.634</td>
+<td align="right">4.936</td>
+<td align="right">7.287</td>
+<td align="right">8.653</td>
+<td align="right">6.430</td>
+<td align="right">5.970</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">4.050</td>
-<td align="right">5.482</td>
-<td align="right">8.294</td>
-<td align="right">7.388</td>
-<td align="right">4.416</td>
-<td align="right">5.786</td>
+<td align="right">4.326</td>
+<td align="right">7.992</td>
+<td align="right">5.686</td>
+<td align="right">7.811</td>
+<td align="right">5.629</td>
+<td align="right">7.833</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">6.364</td>
-<td align="right">6.667</td>
-<td align="right">6.691</td>
-<td align="right">9.191</td>
-<td align="right">6.318</td>
-<td align="right">7.826</td>
+<td align="right">3.194</td>
+<td align="right">6.812</td>
+<td align="right">8.039</td>
+<td align="right">9.157</td>
+<td align="right">6.910</td>
+<td align="right">8.684</td>
 </tr>
 </tbody>
 </table>
@@ -503,243 +540,243 @@ kable(round(df_long, 3))</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7.970</td>
-<td align="right">5.419</td>
-<td align="right">8.579</td>
+<td align="right">10.365</td>
+<td align="right">5.114</td>
+<td align="right">7.508</td>
 <td align="right">1</td>
-<td align="right">4.802</td>
+<td align="right">4.996</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8.764</td>
-<td align="right">6.405</td>
-<td align="right">5.922</td>
+<td align="right">8.303</td>
+<td align="right">4.159</td>
+<td align="right">8.915</td>
 <td align="right">1</td>
-<td align="right">4.994</td>
+<td align="right">6.698</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">9.437</td>
-<td align="right">6.587</td>
-<td align="right">6.605</td>
+<td align="right">8.509</td>
+<td align="right">5.959</td>
+<td align="right">8.178</td>
 <td align="right">1</td>
-<td align="right">4.942</td>
+<td align="right">5.020</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">8.769</td>
-<td align="right">4.023</td>
-<td align="right">6.126</td>
+<td align="right">7.935</td>
+<td align="right">4.544</td>
+<td align="right">5.422</td>
 <td align="right">1</td>
-<td align="right">6.134</td>
+<td align="right">4.025</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">8.516</td>
-<td align="right">5.733</td>
-<td align="right">7.662</td>
+<td align="right">7.875</td>
+<td align="right">7.347</td>
+<td align="right">6.406</td>
 <td align="right">1</td>
-<td align="right">4.831</td>
+<td align="right">4.948</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">8.522</td>
-<td align="right">5.394</td>
-<td align="right">7.956</td>
+<td align="right">9.906</td>
+<td align="right">4.945</td>
+<td align="right">5.850</td>
 <td align="right">1</td>
-<td align="right">4.033</td>
+<td align="right">5.339</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">9.660</td>
-<td align="right">5.079</td>
-<td align="right">10.386</td>
+<td align="right">7.790</td>
+<td align="right">6.068</td>
+<td align="right">8.394</td>
 <td align="right">1</td>
-<td align="right">4.578</td>
+<td align="right">3.028</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">9.963</td>
-<td align="right">6.324</td>
-<td align="right">9.024</td>
+<td align="right">8.653</td>
+<td align="right">6.430</td>
+<td align="right">5.970</td>
 <td align="right">1</td>
-<td align="right">6.299</td>
+<td align="right">5.634</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">7.388</td>
-<td align="right">4.416</td>
-<td align="right">5.786</td>
+<td align="right">7.811</td>
+<td align="right">5.629</td>
+<td align="right">7.833</td>
 <td align="right">1</td>
-<td align="right">4.050</td>
+<td align="right">4.326</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">9.191</td>
-<td align="right">6.318</td>
-<td align="right">7.826</td>
+<td align="right">9.157</td>
+<td align="right">6.910</td>
+<td align="right">8.684</td>
 <td align="right">1</td>
-<td align="right">6.364</td>
+<td align="right">3.194</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7.970</td>
-<td align="right">5.419</td>
-<td align="right">8.579</td>
+<td align="right">10.365</td>
+<td align="right">5.114</td>
+<td align="right">7.508</td>
 <td align="right">2</td>
-<td align="right">4.818</td>
+<td align="right">6.059</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8.764</td>
-<td align="right">6.405</td>
-<td align="right">5.922</td>
+<td align="right">8.303</td>
+<td align="right">4.159</td>
+<td align="right">8.915</td>
 <td align="right">2</td>
-<td align="right">4.767</td>
+<td align="right">4.916</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">9.437</td>
-<td align="right">6.587</td>
-<td align="right">6.605</td>
+<td align="right">8.509</td>
+<td align="right">5.959</td>
+<td align="right">8.178</td>
 <td align="right">2</td>
-<td align="right">7.386</td>
+<td align="right">4.904</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">8.769</td>
-<td align="right">4.023</td>
-<td align="right">6.126</td>
+<td align="right">7.935</td>
+<td align="right">4.544</td>
+<td align="right">5.422</td>
 <td align="right">2</td>
-<td align="right">7.225</td>
+<td align="right">7.173</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">8.516</td>
-<td align="right">5.733</td>
-<td align="right">7.662</td>
+<td align="right">7.875</td>
+<td align="right">7.347</td>
+<td align="right">6.406</td>
 <td align="right">2</td>
-<td align="right">5.669</td>
+<td align="right">6.981</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">8.522</td>
-<td align="right">5.394</td>
-<td align="right">7.956</td>
+<td align="right">9.906</td>
+<td align="right">4.945</td>
+<td align="right">5.850</td>
 <td align="right">2</td>
-<td align="right">5.541</td>
+<td align="right">6.657</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">9.660</td>
-<td align="right">5.079</td>
-<td align="right">10.386</td>
+<td align="right">7.790</td>
+<td align="right">6.068</td>
+<td align="right">8.394</td>
 <td align="right">2</td>
-<td align="right">6.096</td>
+<td align="right">5.065</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">9.963</td>
-<td align="right">6.324</td>
-<td align="right">9.024</td>
+<td align="right">8.653</td>
+<td align="right">6.430</td>
+<td align="right">5.970</td>
 <td align="right">2</td>
-<td align="right">6.942</td>
+<td align="right">4.936</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">7.388</td>
-<td align="right">4.416</td>
-<td align="right">5.786</td>
+<td align="right">7.811</td>
+<td align="right">5.629</td>
+<td align="right">7.833</td>
 <td align="right">2</td>
-<td align="right">5.482</td>
+<td align="right">7.992</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">9.191</td>
-<td align="right">6.318</td>
-<td align="right">7.826</td>
+<td align="right">9.157</td>
+<td align="right">6.910</td>
+<td align="right">8.684</td>
 <td align="right">2</td>
-<td align="right">6.667</td>
+<td align="right">6.812</td>
 </tr>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7.970</td>
-<td align="right">5.419</td>
-<td align="right">8.579</td>
+<td align="right">10.365</td>
+<td align="right">5.114</td>
+<td align="right">7.508</td>
 <td align="right">3</td>
-<td align="right">6.935</td>
+<td align="right">6.309</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">8.764</td>
-<td align="right">6.405</td>
-<td align="right">5.922</td>
+<td align="right">8.303</td>
+<td align="right">4.159</td>
+<td align="right">8.915</td>
 <td align="right">3</td>
-<td align="right">7.893</td>
+<td align="right">7.265</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">9.437</td>
-<td align="right">6.587</td>
-<td align="right">6.605</td>
+<td align="right">8.509</td>
+<td align="right">5.959</td>
+<td align="right">8.178</td>
 <td align="right">3</td>
-<td align="right">6.253</td>
+<td align="right">7.449</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">8.769</td>
-<td align="right">4.023</td>
-<td align="right">6.126</td>
+<td align="right">7.935</td>
+<td align="right">4.544</td>
+<td align="right">5.422</td>
 <td align="right">3</td>
-<td align="right">7.828</td>
+<td align="right">8.389</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">8.516</td>
-<td align="right">5.733</td>
-<td align="right">7.662</td>
+<td align="right">7.875</td>
+<td align="right">7.347</td>
+<td align="right">6.406</td>
 <td align="right">3</td>
-<td align="right">7.940</td>
+<td align="right">5.927</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">8.522</td>
-<td align="right">5.394</td>
-<td align="right">7.956</td>
+<td align="right">9.906</td>
+<td align="right">4.945</td>
+<td align="right">5.850</td>
 <td align="right">3</td>
-<td align="right">5.848</td>
+<td align="right">5.801</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">9.660</td>
-<td align="right">5.079</td>
-<td align="right">10.386</td>
+<td align="right">7.790</td>
+<td align="right">6.068</td>
+<td align="right">8.394</td>
 <td align="right">3</td>
-<td align="right">7.414</td>
+<td align="right">5.508</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">9.963</td>
-<td align="right">6.324</td>
-<td align="right">9.024</td>
+<td align="right">8.653</td>
+<td align="right">6.430</td>
+<td align="right">5.970</td>
 <td align="right">3</td>
-<td align="right">5.062</td>
+<td align="right">7.287</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">7.388</td>
-<td align="right">4.416</td>
-<td align="right">5.786</td>
+<td align="right">7.811</td>
+<td align="right">5.629</td>
+<td align="right">7.833</td>
 <td align="right">3</td>
-<td align="right">8.294</td>
+<td align="right">5.686</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">9.191</td>
-<td align="right">6.318</td>
-<td align="right">7.826</td>
+<td align="right">9.157</td>
+<td align="right">6.910</td>
+<td align="right">8.684</td>
 <td align="right">3</td>
-<td align="right">6.691</td>
+<td align="right">8.039</td>
 </tr>
 </tbody>
 </table>
@@ -753,22 +790,22 @@ kable(round(df_long, 3))</code></pre>
 <pre class="r"><code>df_long &lt;- df_long %&gt;% separate(time, into=c(&quot;measure&quot;, &quot;time&quot;), sep = &quot;_&quot;)
 head(df_long)</code></pre>
 <pre><code>##   subid measure time    value
-## 1     1     sub   w1 4.802435
-## 2     2     sub   w1 4.993804
-## 3     3     sub   w1 4.941536
-## 4     4     sub   w1 6.133898
-## 5     5     sub   w1 4.831249
-## 6     6     sub   w1 4.032601</code></pre>
+## 1     1     sub   w1 4.996427
+## 2     2     sub   w1 6.697868
+## 3     3     sub   w1 5.020329
+## 4     4     sub   w1 4.025493
+## 5     5     sub   w1 4.947536
+## 6     6     sub   w1 5.339156</code></pre>
 <p>Cool, but we see that time has the ‘w’ prefix and isn’t a number. If your analysis uses a numeric (continuous) time representation (e.g., multilevel models), this won’t work. Let’s parse the number out of it.</p>
 <pre class="r"><code>df_long &lt;- df_long %&gt;% mutate(time=parse_number(time))
 head(df_long)</code></pre>
 <pre><code>##   subid measure time    value
-## 1     1     sub    1 4.802435
-## 2     2     sub    1 4.993804
-## 3     3     sub    1 4.941536
-## 4     4     sub    1 6.133898
-## 5     5     sub    1 4.831249
-## 6     6     sub    1 4.032601</code></pre>
+## 1     1     sub    1 4.996427
+## 2     2     sub    1 6.697868
+## 3     3     sub    1 5.020329
+## 4     4     sub    1 4.025493
+## 5     5     sub    1 4.947536
+## 6     6     sub    1 5.339156</code></pre>
 <p>This now qualifies as tidy. But it is not necessarily right for every application. For example, in longitudinal SEM (e.g., latent curve models), time is usually encoded by specific loadings onto intercept and slope factors. This requires a ‘wide’ data format similar to where we started. Let’s use tidyr to demonstrate how to go backwards in our transformation process – long-to-wide.</p>
 </div>
 <div id="spread-convert-a-key-value" class="section level3">
@@ -776,36 +813,36 @@ head(df_long)</code></pre>
 <p>We can imagine an intermediate step in which we have the values of each measure as columns, instead of encoding them with respect to both measure and time.</p>
 <pre class="r"><code>df_long %&gt;% spread(key=measure, value=value)</code></pre>
 <pre><code>##    subid time       anx      sub
-## 1      1    1  7.970491 4.802435
-## 2      1    2  5.419090 4.817845
-## 3      1    3  8.578666 6.934949
-## 4      2    1  8.764485 4.993804
-## 5      2    2  6.405484 4.767422
-## 6      2    3  5.921611 7.893381
-## 7      3    1  9.436552 4.941536
-## 8      3    2  6.586928 7.385680
-## 9      3    3  6.604797 6.253167
-## 10     4    1  8.769286 6.133898
-## 11     4    2  4.023363 7.224700
-## 12     4    3  6.126044 7.828419
-## 13     5    1  8.515978 4.831249
-## 14     5    2  5.732898 5.668545
-## 15     5    3  7.662023 7.939535
-## 16     6    1  8.521946 4.032601
-## 17     6    2  5.394332 5.541476
-## 18     6    3  7.955645 5.848063
-## 19     7    1  9.660363 4.578210
-## 20     7    2  5.079493 6.095804
-## 21     7    3 10.385586 7.413550
-## 22     8    1  9.963296 6.299161
-## 23     8    2  6.323864 6.941792
-## 24     8    3  9.024442 5.061729
-## 25     9    1  7.388480 4.050093
-## 26     9    2  4.415671 5.482253
-## 27     9    3  5.786069 8.294078
-## 28    10    1  9.191065 6.364477
-## 29    10    2  6.317730 6.666998
-## 30    10    3  7.826347 6.690680</code></pre>
+## 1      1    1 10.364675 4.996427
+## 2      1    2  5.114184 6.058939
+## 3      1    3  7.508276 6.309487
+## 4      2    1  8.302660 6.697868
+## 5      2    2  4.159078 4.915542
+## 6      2    3  8.914757 7.265055
+## 7      3    1  8.508655 5.020329
+## 8      3    2  5.959119 4.904201
+## 9      3    3  8.177605 7.449038
+## 10     4    1  7.934653 4.025493
+## 11     4    2  4.544020 7.172905
+## 12     4    3  5.422352 8.389246
+## 13     5    1  7.874984 4.947536
+## 14     5    2  7.347072 6.981448
+## 15     5    3  6.406117 5.927034
+## 16     6    1  9.905707 5.339156
+## 17     6    2  4.944614 6.656634
+## 18     6    3  5.849604 5.800505
+## 19     7    1  7.790225 3.027805
+## 20     7    2  6.067534 5.065189
+## 21     7    3  8.394494 5.508431
+## 22     8    1  8.652568 5.633790
+## 23     8    2  6.430070 4.936402
+## 24     8    3  5.970046 7.286627
+## 25     9    1  7.810794 4.326002
+## 26     9    2  5.628755 7.992176
+## 27     9    3  7.832601 5.686445
+## 28    10    1  9.157237 3.193948
+## 29    10    2  6.910481 6.811611
+## 30    10    3  8.683861 8.038777</code></pre>
 </div>
 <div id="unite-paste-together-values-of-two-variables-usually-as-string" class="section level3">
 <h3>unite: paste together values of two variables (usually as string)</h3>
@@ -813,12 +850,12 @@ head(df_long)</code></pre>
 <pre class="r"><code>df_wide &lt;- df_long %&gt;% unite(col=&quot;vartime&quot;, measure, time)
 head(df_wide)</code></pre>
 <pre><code>##   subid vartime    value
-## 1     1   sub_1 4.802435
-## 2     2   sub_1 4.993804
-## 3     3   sub_1 4.941536
-## 4     4   sub_1 6.133898
-## 5     5   sub_1 4.831249
-## 6     6   sub_1 4.032601</code></pre>
+## 1     1   sub_1 4.996427
+## 2     2   sub_1 6.697868
+## 3     3   sub_1 5.020329
+## 4     4   sub_1 4.025493
+## 5     5   sub_1 4.947536
+## 6     6   sub_1 5.339156</code></pre>
 <p>Looks promising. Let’s go back to spread now that we have a key that encodes all variable (column) information.</p>
 <pre class="r"><code>df_wide &lt;- df_wide %&gt;% spread(key=vartime, value=value)</code></pre>
 <p>We’ve now transformed our long-form dataset back into a wide dataset.</p>
@@ -930,7 +967,207 @@ head(df_wide)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>336</td>
+<td>257</td>
+<td align="right">299</td>
+<td align="left">A</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">14</td>
+<td align="right">2</td>
+<td align="right">27</td>
+<td align="right">4.333333</td>
+<td align="right">5.000000</td>
+<td align="right">4.00</td>
+<td align="right">4.333333</td>
+<td align="right">5.000000</td>
+<td align="right">4.00</td>
+<td align="right">5.000000</td>
+<td align="right">5.000000</td>
+<td align="right">4.00</td>
+<td align="right">1</td>
+<td align="right">4.333333</td>
+<td align="right">5.000000</td>
+<td align="right">4.00</td>
+<td align="right">355</td>
+</tr>
+<tr class="even">
+<td>234</td>
+<td align="right">124</td>
+<td align="left">A</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">14</td>
+<td align="right">2</td>
+<td align="right">23</td>
+<td align="right">2.000000</td>
+<td align="right">3.000000</td>
+<td align="right">4.00</td>
+<td align="right">2.000000</td>
+<td align="right">2.000000</td>
+<td align="right">3.25</td>
+<td align="right">1.666667</td>
+<td align="right">3.000000</td>
+<td align="right">3.50</td>
+<td align="right">2</td>
+<td align="right">1.666667</td>
+<td align="right">3.000000</td>
+<td align="right">3.50</td>
+<td align="right">336</td>
+</tr>
+<tr class="odd">
+<td>341</td>
+<td align="right">404</td>
+<td align="left">A</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">14</td>
+<td align="right">2</td>
+<td align="right">25</td>
+<td align="right">2.333333</td>
+<td align="right">2.666667</td>
+<td align="right">1.25</td>
+<td align="right">3.000000</td>
+<td align="right">4.000000</td>
+<td align="right">1.25</td>
+<td align="right">2.333333</td>
+<td align="right">3.000000</td>
+<td align="right">1.25</td>
+<td align="right">1</td>
+<td align="right">3.000000</td>
+<td align="right">4.000000</td>
+<td align="right">1.25</td>
+<td align="right">478</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td align="right">4</td>
+<td align="left">A</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">16</td>
+<td align="right">2</td>
+<td align="right">39</td>
+<td align="right">3.333333</td>
+<td align="right">3.666667</td>
+<td align="right">1.25</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1.75</td>
+<td align="right">3.333333</td>
+<td align="right">3.666667</td>
+<td align="right">1.50</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">1.75</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td>124</td>
+<td align="right">1022</td>
+<td align="left">A</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">13</td>
+<td align="right">2</td>
+<td align="right">19</td>
+<td align="right">4.000000</td>
+<td align="right">4.000000</td>
+<td align="right">4.00</td>
+<td align="right">3.666667</td>
+<td align="right">3.666667</td>
+<td align="right">3.50</td>
+<td align="right">3.000000</td>
+<td align="right">4.000000</td>
+<td align="right">3.25</td>
+<td align="right">0</td>
+<td align="right">4.000000</td>
+<td align="right">4.000000</td>
+<td align="right">4.00</td>
+<td align="right">177</td>
+</tr>
+<tr class="even">
+<td>213</td>
+<td align="right">3066</td>
+<td align="left">A</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">21</td>
+<td align="right">5</td>
+<td align="right">23</td>
+<td align="right">4.000000</td>
+<td align="right">4.000000</td>
+<td align="right">4.00</td>
+<td align="right">4.000000</td>
+<td align="right">4.333333</td>
+<td align="right">3.25</td>
+<td align="right">4.000000</td>
+<td align="right">4.000000</td>
+<td align="right">3.50</td>
+<td align="right">2</td>
+<td align="right">4.000000</td>
+<td align="right">4.000000</td>
+<td align="right">3.50</td>
+<td align="right">295</td>
+</tr>
+<tr class="odd">
+<td>64</td>
+<td align="right">1022</td>
+<td align="left">A</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">16</td>
+<td align="right">2</td>
+<td align="right">31</td>
+<td align="right">3.333333</td>
+<td align="right">3.666667</td>
+<td align="right">2.75</td>
+<td align="right">3.000000</td>
+<td align="right">3.000000</td>
+<td align="right">3.00</td>
+<td align="right">3.666667</td>
+<td align="right">3.666667</td>
+<td align="right">2.50</td>
+<td align="right">0</td>
+<td align="right">3.333333</td>
+<td align="right">3.666667</td>
+<td align="right">2.75</td>
+<td align="right">120</td>
+</tr>
+<tr class="even">
+<td>202</td>
+<td align="right">4</td>
+<td align="left">A</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">2</td>
+<td align="right">25</td>
+<td align="right">2.000000</td>
+<td align="right">2.666667</td>
+<td align="right">2.25</td>
+<td align="right">1.000000</td>
+<td align="right">1.666667</td>
+<td align="right">1.00</td>
+<td align="right">1.333333</td>
+<td align="right">1.666667</td>
+<td align="right">1.25</td>
+<td align="right">0</td>
+<td align="right">2.000000</td>
+<td align="right">2.666667</td>
+<td align="right">2.25</td>
+<td align="right">282</td>
+</tr>
+<tr class="odd">
+<td>334</td>
 <td align="right">3066</td>
 <td align="left">A</td>
 <td align="right">2</td>
@@ -948,236 +1185,36 @@ head(df_wide)</code></pre>
 <td align="right">2.666667</td>
 <td align="right">3.333333</td>
 <td align="right">3.25</td>
-<td align="right">2</td>
-<td align="right">2.666667</td>
-<td align="right">3.333333</td>
-<td align="right">3.25</td>
+<td align="right">0</td>
+<td align="right">3.000000</td>
+<td align="right">3.666667</td>
+<td align="right">2.75</td>
 <td align="right">470</td>
 </tr>
 <tr class="even">
-<td>84</td>
-<td align="right">124</td>
-<td align="left">A</td>
-<td align="right">2</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">16</td>
-<td align="right">3</td>
-<td align="right">31</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">3.00</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">3.25</td>
-<td align="right">4.666667</td>
-<td align="right">NA</td>
-<td align="right">2.75</td>
-<td align="right">2</td>
-<td align="right">4.666667</td>
-<td align="right">NA</td>
-<td align="right">2.75</td>
-<td align="right">137</td>
-</tr>
-<tr class="odd">
-<td>182</td>
-<td align="right">1022</td>
-<td align="left">A</td>
-<td align="right">4</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">17</td>
-<td align="right">2</td>
-<td align="right">34</td>
-<td align="right">4.000000</td>
-<td align="right">4.666667</td>
-<td align="right">2.50</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">4.00</td>
-<td align="right">3.666667</td>
-<td align="right">4.000000</td>
-<td align="right">3.25</td>
-<td align="right">1</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">4.00</td>
-<td align="right">249</td>
-</tr>
-<tr class="even">
-<td>214</td>
+<td>332</td>
 <td align="right">4042</td>
 <td align="left">A</td>
-<td align="right">4</td>
 <td align="right">1</td>
-<td align="right">2</td>
-<td align="right">17</td>
-<td align="right">4</td>
-<td align="right">36</td>
-<td align="right">4.000000</td>
-<td align="right">4.666667</td>
-<td align="right">3.50</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">4.00</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">4.00</td>
-<td align="right">0</td>
-<td align="right">4.000000</td>
-<td align="right">4.666667</td>
-<td align="right">3.50</td>
-<td align="right">296</td>
-</tr>
-<tr class="odd">
-<td>317</td>
-<td align="right">404</td>
-<td align="left">A</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">14</td>
-<td align="right">2</td>
-<td align="right">22</td>
-<td align="right">1.666667</td>
-<td align="right">2.333333</td>
-<td align="right">1.00</td>
-<td align="right">1.333333</td>
-<td align="right">2.333333</td>
-<td align="right">1.00</td>
-<td align="right">2.333333</td>
-<td align="right">3.333333</td>
-<td align="right">1.00</td>
-<td align="right">1</td>
-<td align="right">1.333333</td>
-<td align="right">2.333333</td>
-<td align="right">1.00</td>
-<td align="right">433</td>
-</tr>
-<tr class="even">
-<td>247</td>
-<td align="right">4</td>
-<td align="left">A</td>
-<td align="right">2</td>
-<td align="right">1</td>
-<td align="right">5</td>
-<td align="right">15</td>
-<td align="right">2</td>
-<td align="right">26</td>
-<td align="right">4.000000</td>
-<td align="right">4.333333</td>
-<td align="right">3.25</td>
-<td align="right">4.000000</td>
-<td align="right">4.333333</td>
-<td align="right">2.50</td>
-<td align="right">4.666667</td>
-<td align="right">4.000000</td>
-<td align="right">3.50</td>
-<td align="right">0</td>
-<td align="right">4.000000</td>
-<td align="right">4.333333</td>
-<td align="right">3.25</td>
-<td align="right">351</td>
-</tr>
-<tr class="odd">
-<td>187</td>
-<td align="right">1022</td>
-<td align="left">A</td>
-<td align="right">2</td>
 <td align="right">1</td>
 <td align="right">2</td>
 <td align="right">13</td>
 <td align="right">2</td>
-<td align="right">19</td>
-<td align="right">2.666667</td>
-<td align="right">5.000000</td>
-<td align="right">2.25</td>
-<td align="right">3.666667</td>
+<td align="right">20</td>
 <td align="right">3.333333</td>
-<td align="right">3.25</td>
-<td align="right">2.666667</td>
 <td align="right">4.333333</td>
-<td align="right">4.00</td>
-<td align="right">0</td>
-<td align="right">2.666667</td>
-<td align="right">5.000000</td>
-<td align="right">2.25</td>
-<td align="right">269</td>
-</tr>
-<tr class="even">
-<td>50</td>
-<td align="right">4</td>
-<td align="left">A</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">3</td>
-<td align="right">13</td>
-<td align="right">2</td>
-<td align="right">21</td>
-<td align="right">2.333333</td>
-<td align="right">4.000000</td>
-<td align="right">4.00</td>
-<td align="right">NA</td>
-<td align="right">2.666667</td>
 <td align="right">3.00</td>
-<td align="right">3.000000</td>
-<td align="right">3.000000</td>
-<td align="right">3.25</td>
-<td align="right">1</td>
-<td align="right">NA</td>
-<td align="right">2.666667</td>
-<td align="right">3.00</td>
-<td align="right">106</td>
-</tr>
-<tr class="odd">
-<td>322</td>
-<td align="right">404</td>
-<td align="left">A</td>
-<td align="right">2</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">16</td>
-<td align="right">4</td>
-<td align="right">36</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">3.25</td>
-<td align="right">4.000000</td>
+<td align="right">3.333333</td>
 <td align="right">3.666667</td>
-<td align="right">2.75</td>
-<td align="right">4.000000</td>
+<td align="right">3.75</td>
 <td align="right">3.666667</td>
-<td align="right">2.75</td>
-<td align="right">0</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">3.25</td>
-<td align="right">454</td>
-</tr>
-<tr class="even">
-<td>356</td>
-<td align="right">1022</td>
-<td align="left">A</td>
+<td align="right">3.666667</td>
+<td align="right">3.50</td>
 <td align="right">1</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">12</td>
-<td align="right">2</td>
-<td align="right">19</td>
-<td align="right">4.333333</td>
-<td align="right">4.666667</td>
-<td align="right">1.75</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">2.00</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">2.25</td>
-<td align="right">1</td>
-<td align="right">4.000000</td>
-<td align="right">4.000000</td>
-<td align="right">2.00</td>
-<td align="right">491</td>
+<td align="right">3.333333</td>
+<td align="right">3.666667</td>
+<td align="right">3.75</td>
+<td align="right">468</td>
 </tr>
 </tbody>
 </table>

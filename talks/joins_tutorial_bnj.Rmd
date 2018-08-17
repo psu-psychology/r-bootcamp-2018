@@ -1,0 +1,180 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if (!require(pacman)) { install.packages("pacman"); library(pacman) }
+p_load(dplyr, readr, png)
+
+```
+## Introduction to joining datasets using dplyr
+
+This document is a minor adaptation of Michael Hallquist's minor adaptation of Jenny Bryan's `dplyr` joins tutorial (with a little help from animations by Garrick Aden-Buie): <http://stat545.com/bit001_dplyr-cheatsheet.html>. The goal is to develop an intuition of the four major types of two-table join operations: inner, left, right, and full.  We'll also get into using joins to identify areas of match or mismatch between two datasets (using semi- and anti-joins).
+
+First, we import the data into data.frame objects. We're generating the data from scratch using character strings. But the join functions below will work with other data types (e.g., numeric data).
+
+```{r}
+
+superheroes <-"
+name,     alignment, gender, publisher
+Magneto,  bad,       male,   Marvel
+Storm,    good,      female, Marvel
+Mystique, bad,       female, Marvel
+Batman,   good,      male,   DC
+Joker,    bad,       male,   DC
+Catwoman, bad,       female, DC
+Hellboy,  good,      male,   Dark Horse Comics
+"
+
+
+superheroes <- read_csv(superheroes, trim_ws = TRUE, skip = 1) #"trim_ws" eliminates extra spaces in dataset; #skip=1 tells R not to read in the first line of data as data (instead leaving it as column names) 
+
+publishers <- "
+publisher, yr_founded
+DC,        1934
+Marvel,    1939
+Image,     1992
+"
+publishers <- read_csv(publishers, trim_ws = TRUE, skip = 1)
+
+superheroes
+publishers
+
+```
+
+## Mutating joins: inner, left, right, full
+
+"Mutating" joins combine variables from two datasets on the basis of one or more keys that match between datasets.  In the case of these datasets, notice they share the "publisher" column.
+
+*NB*: By default, `dplyr` will search for common columns across datsets as the matching
+keys (natural join). If you want to control the process, specify the key using "by".
+
+###inner join
+Require match in both datasets (non-matching rows are dropped)
+
+For those of you who are visual learners, conceptually, imagine the following two simple datasets:
+
+![](../img/original-dfs.png)
+
+An **inner join** combines the two datasets and drops the non-matching rows like so: 
+
+![](../img/inner-join.gif)
+
+Lets try it with our superhero data.
+```{r}
+(ijsp <- inner_join(x=superheroes, y=publishers)) #*NB*: the extra parentheses enclosing the line of code tell R to both save the new dataframe as ijsp AND to print the result simultaneously
+
+```
+
+Same idea, just explicit declaration of key (i.e., "publisher")
+```{r}
+inner_join(superheroes, publishers, by="publisher") #note that we've cut the x=, y= as this isn't necessary to specify
+```
+Notice both Hellboy (from the *superheroes* dataset) and Image comics (from the *publishers* dataset) were dropped. 
+
+
+###left join
+Keep all rows in left-hand 'x' dataset (i.e., superheroes). Add columns from publishers where
+there is a match. Fill in NA for non-matching observations.
+
+![](../img/left-join.gif)
+
+```{r}
+(ljsp <- left_join(superheroes, publishers))
+```
+
+###right join
+Keep all rows in right-hand 'y' dataset (i.e., publishers). Add columns from superheroes where
+there is a match. Fill in NA for non-matching observations.
+
+![](../img/right-join.gif)
+
+```{r}
+(superheroes %>% right_join(publishers)->rjsp) #note the shift to using dplyr piping; just another way to do this code
+```
+
+###full join
+Keep all rows in left-hand 'x' (superheroes) and right-hand 'y' (publishers) datasets. 
+Resulting dataset will have all columns of both datasets, but filling in
+NA for any non-matches on either side (denoted as blank spaces below).
+
+![](../img/full-join.gif)
+
+```{r}
+(superheroes %>% full_join(publishers)->fjsp)
+```
+
+##One-to-many join
+Note that when there are non-unique matches, the join adds all possible combinations.
+This occurs in a one-to-many join.
+
+![](../img/left-join-extra.gif)
+
+Let's say you wanted to see if students' final grades were associated with how many extra credit points they recieved on multiple assignments during a course. 
+
+```{r}
+(extra_credit <- data_frame(x = c("Jeff", "Karla", "Jasmine", "Karla"), z = c(2, 5, 4, 4)))
+(final_grade <- data_frame(x = c("Jeff", "Karla", "Ping"), y = c(70, 80, 92)))
+
+
+final_grade %>% left_join(extra_credit)
+```
+
+##Filtering joins: semi_join and anti_join
+Filtering joins use specific criteria to identify observations (rows) from one table that exist or don't exist in another table.
+
+These joins are typically used for diagnosing mismatch between two overlapping datasets.
+
+###semi_join
+retain observations (rows) in x that match in y
+
+![](../img/semi-join.gif)
+
+Notice that this is different from the left_join shown above as the data from y is *not* kept.
+
+```{r}
+semi_join(superheroes, publishers)
+```
+
+Now, observations in publishers that match in superheroes
+```{r}
+semi_join(publishers, superheroes)
+```
+
+This can be useful if you have a dataset of your data of interest and another dataset that indicates which of your participants/observations you want to remove or filter out. 
+
+###anti_join
+observations in x that are *not* matched in y
+Note that this is similar to `setdiff` in base R
+
+![](../img/anti-join.gif)
+
+Observations in superheroes that don't match in publishers
+```{r}
+anti_join(superheroes, publishers)
+```
+
+Now, observations in publishers that don't match in superheroes
+```{r}
+publishers %>% anti_join(superheroes)
+```
+
+This can be useful if you are trying to identify extra participants/observations that may have snuck into one dataset (x) or been deleted in another (y).
+
+##Joining multiple datasets
+
+Joining can be done repeatedly across multiple datasets.  The following code, for instance, joins datasets two at a time from left to right in the list. The result of a two-table join becomes the 'x' dataset for the next join of a new dataset 'y'.
+
+```{r}
+df1 <- data.frame(id=1:10, x=rnorm(10), y=runif(10))
+df2 <- data.frame(id=1:11, z=rnorm(11), a=runif(11))
+df3 <- data.frame(id=2:10, b=rnorm(9), c=runif(9))
+
+dftemp<-full_join(df1,df2)
+dffinal<-full_join(dftemp,df3)
+
+#alternative way to combine:
+Reduce(function(...) { full_join(...) }, list(df1, df2, df3))
+```
+
+Alternative using pipeline (less extensible)
+```{r}
+(mergedf = df1 %>% full_join(df2) %>% full_join(df3))
+```

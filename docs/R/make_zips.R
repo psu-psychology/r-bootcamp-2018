@@ -11,3 +11,8 @@ hallquist_parallel <- c("talks/parallel_r.html", "talks/parallel_r.Rmd", "img/fe
                         "img/wine_cellar.jpg")
 system(paste("zip zips/hallquist_parallel.zip", paste(hallquist_parallel, collapse=" ")))
 
+johnson_joins <- c("talks/joins_tutorial_bnj.html", "talks/joins_tutorial_bnj.Rmd", "img/anti-join.gif", 
+                   "img/full-join.gif", "img/inner-join.gif", "img/left-join-extra.gif", "img/left-join.gif", 
+                   "img/right-join.gif", "img/semi-join.gif", "img/original-dfs.png")
+system(paste("zip zips/johnson_joins.zip", paste(johnson_joins, collapse=" ")))
+

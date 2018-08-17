@@ -220,7 +220,7 @@ $(document).ready(function () {
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 3.5.1 (2018-07-02)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Sierra 10.12.6
+## Running under: macOS High Sierra 10.13.6
 ## 
 ## Matrix products: default
 ## BLAS: /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
@@ -230,36 +230,51 @@ $(document).ready(function () {
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
 ## 
 ## other attached packages:
-##  [1] tufte_0.4          pander_0.6.2       dataMaid_1.1.2    
-##  [4] forcats_0.3.0      stringr_1.3.1      dplyr_0.7.6       
-##  [7] purrr_0.2.5        readr_1.1.1        tidyr_0.8.1       
-## [10] tibble_1.4.2       ggplot2_3.0.0      tidyverse_1.2.1   
-## [13] googlesheets_0.3.0
+##  [1] tufte_0.4       multcomp_1.4-8  TH.data_1.0-9   MASS_7.3-50    
+##  [5] mvtnorm_1.0-8   xtable_1.8-2    vcdExtra_0.7-1  gnm_1.1-0      
+##  [9] gmodels_2.18.1  GGally_1.4.0    vcd_1.4-4       afex_0.21-2    
+## [13] lme4_1.1-17     Matrix_1.2-14   ez_4.4-0        emmeans_1.2.3  
+## [17] jtools_1.0.0    bindrcpp_0.2.2  car_3.0-0       carData_3.0-1  
+## [21] ggfortify_0.4.5 apaTables_2.0.4 stargazer_5.2.2 forcats_0.3.0  
+## [25] stringr_1.3.1   purrr_0.2.5     readr_1.1.1     tidyr_0.8.1    
+## [29] tibble_1.4.2    tidyverse_1.2.1 knitr_1.20      pacman_0.4.6   
+## [33] Hmisc_4.1-1     ggplot2_3.0.0   Formula_1.2-3   survival_2.42-6
+## [37] lattice_0.20-35 dplyr_0.7.6    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] tinytex_0.6         xfun_0.3            tidyselect_0.2.4   
-##  [4] reshape2_1.4.3      haven_1.1.2         lattice_0.20-35    
-##  [7] colorspace_1.3-2    htmltools_0.3.6     yaml_2.1.19        
-## [10] utf8_1.1.4          rlang_0.2.1         pillar_1.3.0       
-## [13] glue_1.3.0          withr_2.1.2         modelr_0.1.2       
-## [16] readxl_1.1.0        bindrcpp_0.2.2      bindr_0.1.1        
-## [19] plyr_1.8.4          whoami_1.1.2        robustbase_0.93-1.1
-## [22] munsell_0.5.0       gtable_0.2.0        cellranger_1.1.0   
-## [25] rvest_0.3.2         evaluate_0.11       papaja_0.1.0.9709  
-## [28] labeling_0.3        knitr_1.20          curl_3.2           
-## [31] fansi_0.2.3         DEoptimR_1.0-8      highr_0.7          
-## [34] broom_0.5.0         Rcpp_0.12.18        openssl_1.0.1      
-## [37] scales_0.5.0        backports_1.1.2     jsonlite_1.5       
-## [40] gridExtra_2.3       hms_0.4.2           digest_0.6.15      
-## [43] stringi_1.2.4       grid_3.5.1          rprojroot_1.3-2    
-## [46] cli_1.0.0           tools_3.5.1         magrittr_1.5       
-## [49] lazyeval_0.2.1      crayon_1.3.4        pkgconfig_2.0.1    
-## [52] xml2_1.2.0          lubridate_1.7.4     assertthat_0.2.0   
-## [55] rmarkdown_1.10      httr_1.3.1          rstudioapi_0.7     
-## [58] R6_2.2.2            nlme_3.1-137        compiler_3.5.1</code></pre>
+##  [1] minqa_1.2.4         colorspace_1.3-2    rio_0.5.10         
+##  [4] rsconnect_0.8.8     rprojroot_1.3-2     estimability_1.3   
+##  [7] htmlTable_1.12      base64enc_0.1-3     rstudioapi_0.7     
+## [10] fansi_0.2.3         lubridate_1.7.4     xml2_1.2.0         
+## [13] qvcalc_0.9-1        codetools_0.2-15    splines_3.5.1      
+## [16] jsonlite_1.5        nloptr_1.0.4        broom_0.5.0        
+## [19] cluster_2.0.7-1     compiler_3.5.1      httr_1.3.1         
+## [22] backports_1.1.2     assertthat_0.2.0    lazyeval_0.2.1     
+## [25] cli_1.0.0           prettyunits_1.0.2   acepack_1.4.1      
+## [28] htmltools_0.3.6     tools_3.5.1         lmerTest_3.0-1     
+## [31] coda_0.19-1         gtable_0.2.0        glue_1.3.0         
+## [34] reshape2_1.4.3      Rcpp_0.12.18        cellranger_1.1.0   
+## [37] gdata_2.18.0        nlme_3.1-137        lmtest_0.9-36      
+## [40] openxlsx_4.1.0      rvest_0.3.2         gtools_3.8.1       
+## [43] ca_0.70             zoo_1.8-3           scales_0.5.0       
+## [46] hms_0.4.2           parallel_3.5.1      sandwich_2.4-0     
+## [49] RColorBrewer_1.1-2  yaml_2.2.0          curl_3.2           
+## [52] gridExtra_2.3       rpart_4.1-13        reshape_0.8.7      
+## [55] latticeExtra_0.6-28 stringi_1.2.4       checkmate_1.8.5    
+## [58] boot_1.3-20         zip_1.0.0           rlang_0.2.1        
+## [61] pkgconfig_2.0.1     evaluate_0.11       bindr_0.1.1        
+## [64] htmlwidgets_1.2     labeling_0.3        tidyselect_0.2.4   
+## [67] plyr_1.8.4          magrittr_1.5        R6_2.2.2           
+## [70] pillar_1.3.0        haven_1.1.2         foreign_0.8-71     
+## [73] withr_2.1.2         mgcv_1.8-24         abind_1.4-5        
+## [76] nnet_7.3-12         modelr_0.1.2        crayon_1.3.4       
+## [79] utf8_1.1.4          relimp_1.0-5        rmarkdown_1.10     
+## [82] progress_1.2.0      readxl_1.1.0        data.table_1.11.4  
+## [85] digest_0.6.15       numDeriv_2016.8-1   munsell_0.5.0</code></pre>
 
 
 
