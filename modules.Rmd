@@ -19,6 +19,8 @@ This module provides a deliberately slow introduction to R that assumes that you
 - Kelly Black R tutorial: https://www.cyclismo.org/tutorial/R/index.html
 - James LeBreton [R introduction](https://psu-psychology.github.io/r-bootcamp/talks/R-Workshop-James.nb.html) (from R Bootcamp 2017) | [Rmd source](https://github.com/psu-psychology/r-bootcamp/blob/master/docs/talks/R-Workshop-James.Rmd)
 
+***
+
 ## R-eproducible Science
 
 - [R-eproducible Psychological Science](talks/r-eproducible-science.html) (Rick Gilmore)| [Download Rmd](talks/r-eproducible-science.Rmd).
@@ -61,29 +63,35 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ***
 
-## Correlation and regression in R
+## Data Analyses in R
+
+### Correlation and regression in R
 
 - Basic [correlation and regression walkthrough](talks/correlation_regression.html) (Michael Hallquist) | [Rmd](talks/correlation_regression.Rmd)
 
-## ANOVA and categorical data
+*Other resources*
 
-Basic [ANOVA and categorical data walkthrough](talks/anova_categorical.html) (Michael Hallquist) | [Rmd](talks/anova_categorical.Rmd)
+- Probing interactions using the [jtools package](https://cran.r-project.org/web/packages/jtools/vignettes/interactions.html)
+- UCLA [R data analysis examples](https://stats.idre.ucla.edu/other/dae/) (with comparisons to other programs)
+- A more math-oriented overview of [multiple regression in R](https://rpubs.com/aaronsc32/multiple-regression)
+
+### ANOVA and categorical data
+
+- Basic [ANOVA and categorical data walkthrough](talks/anova_categorical.html) (Michael Hallquist) | [Rmd](talks/anova_categorical.Rmd)
 
 *Other resources*
 
 - More about the [aov_ez function](http://singmann.org/anova-in-r-afex-may-be-the-solution-you-are-looking-for/)
 - Post hoc contrasts in ANOVA using the [afex package](https://cran.r-project.org/web/packages/afex/vignettes/afex_anova_example.html)
-- Probing interactions using the [jtools package](https://cran.r-project.org/web/packages/jtools/vignettes/interactions.html)
+- A more math-oriented overview of [Tukey HSD in R](https://rpubs.com/aaronsc32/post-hoc-analysis-tukey)
+- [Multinomial regression](https://stats.idre.ucla.edu/r/dae/multinomial-logistic-regression/) walkthrough
+- [Logistic regression](https://stats.idre.ucla.edu/r/dae/logit-regression/) walkthrough
 
-***
-
-## Exploratory factor analysis
+### Exploratory factor analysis
 
 - [Exploratory factor analysis tutorial](talks/IntroBasicEFA_2018_0815.html) (Nilam Ram) | [zip](zips/ram_efa.zip) | [Slides](talks/RBootcamp_IntroFactorAnalysis_2018_0816.pdf) | [Rmd](talks/IntroBasicEFA_2018_0815.Rmd) | [QuantDev link](https://quantdev.ssri.psu.edu/tutorials/intro-basic-exploratory-factor-analysis)
 
-***
-
-## Structual equation modeling
+### Structural equation modeling
 
 - Structural equation modeling in [lavaan tutorial](talks/lavaan_tutorial.html) | [zip](zips/hallquist_lavaan.zip) | [Rmd](talks/lavaan_tutorial.Rmd)
 

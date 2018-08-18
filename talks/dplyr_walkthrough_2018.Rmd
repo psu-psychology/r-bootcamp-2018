@@ -28,16 +28,16 @@ One of the most irritating problems you may encounter in the tidyverse world is 
 
 ```
 > survey %>% group_by(R_exp) %>% 
-             summarize(m_age=mean(Psych_age_yrs), sd_age=sd(Psych_age_yrs))
-             
+summarize(m_age=mean(Psych_age_yrs), sd_age=sd(Psych_age_yrs))
+
 Error in summarize(., m_age = mean(Psych_age_yrs), sd_age = sd(Psych_age_yrs)) : 
-  argument "by" is missing, with no default
+argument "by" is missing, with no default
 ```
 
 By using fairly intuitive verbs such as 'summarize' and 'select', dplyr (and sometimes tidyr) can use the same function names as other packages. For example, `Hmisc` has a `summarize` function that operates. The predecessor to `dplyr` was called `plyr` -- although largely outmoded, it has a few remaining functions that remain very useful. But... these functions operate differently (the syntax is note the same!).
 
 This points to the problem of what are called 'namespace collisions.' That is, when R looks for a function (or any object) in the Global environment, it searches through a 'path'. You can see the nitty gritty using `searchpaths()`. But the TL;DR is that if you -- or any function you call on -- loads another package, that package may override a dplyr function and make your code crash!
- 
+
 ### What to do?
 
 1. Watch out for warnings about objects being 'masked' when packages are loaded.
@@ -82,7 +82,8 @@ kable(round(df,3))
 This is not especially tidy. We have three columns that represent the same variable on three occasions. It would be cleaner to have a time variable (key) and two variables representing well-being and anxiety.
 
 ```{r}
-  df_long <- df %>% gather(key=time, value=wellbeing, sub_w1, sub_w2, sub_w3)
+df_long <- df %>% gather(key=time, value=wellbeing, sub_w1, sub_w2, sub_w3)
+print(df_long)
 ```
 
 Better, but now our time variable is a mix of variable information and time information. We can retain just the last character as time using mutate from *dplyr* and parse_number from *readr*.
@@ -98,6 +99,7 @@ When you use the subtraction syntax (subtracting a variable), gather assumes tha
 
 ```{r}
 df_long <- df %>% gather(key=time, value=value, -subid)
+print(df_long)
 ```
 
 ### separate: split the values of a variable at a position in the character string
@@ -107,6 +109,7 @@ Now, the time variable has both information about the measure (sub versus anx) a
 ```{r}
 df_long <- df_long %>% separate(time, into=c("measure", "time"), sep = "_")
 head(df_long)
+nrow(df_long)
 ```
 
 Cool, but we see that time has the 'w' prefix and isn't a number. If your analysis uses a numeric (continuous) time representation (e.g., multilevel models), this won't work. Let's parse the number out of it.
@@ -123,7 +126,9 @@ This now qualifies as tidy. But it is not necessarily right for every applicatio
 We can imagine an intermediate step in which we have the values of each measure as columns, instead of encoding them with respect to both measure and time.
 
 ```{r}
-df_long %>% spread(key=measure, value=value)
+print(df_intermediate <- df_long %>% spread(key=measure, value=value))
+df_intermediate %>% nrow()
+
 ```
 
 ### unite: paste together values of two variables (usually as string)
@@ -180,31 +185,41 @@ survey %>% group_by(R_exp) %>% summarize_at(vars(Psych_age_yrs, Sleep_hrs, Banjo
   spread(key=statistic, value=value) %>% arrange(variable, R_exp)
 ```
 
-### Revisiting univbct dataset using dplyr.
+### Examining univbct dataset using dplyr.
 
-Let's now return to the univbct data where we have longitudinal observations of job satisfaction, commitment, and readiness to deploy. Let's enact the core 'verbs' of dplyr.
+Let's examine the univbct data, which contains longitudinal observations of job satisfaction, commitment, and readiness to deploy. From the documentation `?univbct`:
+
+```
+This data set contains the complete data set used in Bliese and Ployhart (2002). The data is longitudinal data converted to univariate (i.e., stacked) form. Data were collected at three time points. A data frame with 22 columns and 1485 observations from 495 individuals.
+```
+
+```{r}
+data(univbct, package="multilevel")
+str(univbct)
+```
+
+We have 1485 observations of military personnel nested within companies, which are nested within batallions: <https://en.wikipedia.org/wiki/Battalion>.
+
+Let's enact the core 'verbs' of dplyr to understand and improve the structure of these data.
 
 ### filter: obtaining observations (rows) based on some criteria
-```{r}
-  data(univbct, package="multilevel")
-```
 
 Filter only men in company A
 
 ```{r}
-  company_A_men <- filter(univbct, COMPANY=="A" & GENDER==1)
-  #print 10 observations at random to check the accuracy of the filter
-  kable(company_A_men %>% sample_n(10))
+company_A_men <- filter(univbct, COMPANY=="A" & GENDER==1)
+#print 10 observations at random to check the accuracy of the filter
+kable(company_A_men %>% sample_n(10))
 ```
 
 What about the number of people in companies A and B?
 ```{r}
-  filter(univbct, COMPANY %in% c("A","B")) %>% nrow()
+filter(univbct, COMPANY %in% c("A","B")) %>% nrow()
 ```
 
 Or counts by company and battalion
 ```{r}
-  univbct %>% group_by(BTN, COMPANY) %>% count()
+univbct %>% group_by(BTN, COMPANY) %>% count()
 ```
 
 
@@ -212,7 +227,9 @@ Or counts by company and battalion
 
 Let's start by keeping only the three core dependent variables over time: jobsat, commit, ready. Keep SUBNUM as well for unique identification.
 ```{r}
-dvs_only <- univbct %>% dplyr::select(SUBNUM, JOBSAT1, JOBSAT2, JOBSAT3, COMMIT1, COMMIT2, COMMIT3, READY1, READY2, READY3)
+dvs_only <- univbct %>% dplyr::select(SUBNUM, JOBSAT1, JOBSAT2, JOBSAT3, 
+                                      COMMIT1, COMMIT2, COMMIT3, 
+                                      READY1, READY2, READY3)
 ```
 
 If you have many variables of a similar name, you might try `starts_with()`. Note in this case that it brings in "READY", too. Note that you can mix different selection mechanisms within select. Look at the cheatsheet.
@@ -246,28 +263,28 @@ names(nojobsat)
 (Row-wise) mean of commit scores over waves. Note how you can used `select()` within a mutate to run a function on a subset of the data.
 
 ```{r}
-  univbct <- univbct %>% mutate(commitmean=rowMeans(dplyr::select(., COMMIT1, COMMIT2, COMMIT3)))
+univbct <- univbct %>% mutate(commitmean=rowMeans(dplyr::select(., COMMIT1, COMMIT2, COMMIT3)))
 ```
 
 Mutate can manipulate several variables in one call. Here, mean center any variable that starts with COMMIT
 and add the suffix _cm for clarity. Also compute the percentile rank for each of these columns, with _pct as suffix. Note the use of the `vars` function here, which acts identically to `select`, but in the context of a summary or mutation operation on specific variables.
 
 ```{r}
-  meancent <- function(x) { x - mean(x, na.rm=TRUE) } #simple worker function to mean center a variable
-  univbct <- univbct %>% mutate_at(vars(starts_with("COMMIT")), funs(cm=meancent, pct=percent_rank))
-  univbct %>% dplyr::select(starts_with("COMMIT")) %>% summarize_all(mean, na.rm=TRUE) %>% gather()
+meancent <- function(x) { x - mean(x, na.rm=TRUE) } #simple worker function to mean center a variable
+univbct <- univbct %>% mutate_at(vars(starts_with("COMMIT")), funs(cm=meancent, pct=percent_rank))
+univbct %>% dplyr::select(starts_with("COMMIT")) %>% summarize_all(mean, na.rm=TRUE) %>% gather()
 ```
 
 ### arrange: reorder observations in specific order
 
 Order data by ascending battalion, company, then subnum
 ```{r}
-  univbct <- univbct %>% arrange(BTN, COMPANY, SUBNUM)
+univbct <- univbct %>% arrange(BTN, COMPANY, SUBNUM)
 ```
 
 Descending sort: descending battalion, ascending company, ascending subnum
 ```{r}
-  univbct <- univbct %>% arrange(desc(BTN), COMPANY, SUBNUM)
+univbct <- univbct %>% arrange(desc(BTN), COMPANY, SUBNUM)
 ```
 
 ### A more realistic example: preparation for multilevel analysis
@@ -280,20 +297,22 @@ For reshaping to work smoothly, we need a unique identifier for each row. Also, 
 
 Take a look:
 ```{r}
-  univbct %>% dplyr::select(SUBNUM, starts_with("JOBSAT"), JSAT) %>% head(n=20)
+univbct %>% dplyr::select(SUBNUM, starts_with("JOBSAT"), JSAT) %>% head(n=20)
 ```
 
 We first need to eliminate this insanity. Group by subject number and retain only the first row (i.e., keep the wide version).
 
 ```{r}
-  univbct <- univbct %>% group_by(SUBNUM) %>% filter(row_number() == 1) %>% 
+univbct <- univbct %>% group_by(SUBNUM) %>% filter(row_number() == 1) %>% 
   dplyr::select(-JSAT, -COMMIT, -READY) %>% ungroup()
 ```
 
 First, let's get the data into a conventional format (long) for MLM (e.g., using `lmer`)
 ```{r}
-  #use -1 as argument to separate to split at the last character
-  forMLM <- univbct %>% dplyr::select(SUBNUM, JOBSAT1, JOBSAT2, JOBSAT3, COMMIT1, COMMIT2, COMMIT3, READY1, READY2, READY3) %>% 
+#use -1 as argument to separate to split at the last character
+forMLM <- univbct %>% dplyr::select(SUBNUM, JOBSAT1, JOBSAT2, JOBSAT3, 
+                                    COMMIT1, COMMIT2, COMMIT3, 
+                                    READY1, READY2, READY3) %>% 
   gather(key="key", value="value", -SUBNUM) %>% 
   separate(col="key", into=c("variable", "occasion"), -1) %>%
   spread(key=variable, value=value) %>% mutate(occasion=as.numeric(occasion))
@@ -301,9 +320,9 @@ First, let's get the data into a conventional format (long) for MLM (e.g., using
 
 Now, let's perform the centering described above. You could do this in one pipeline -- I just separated things here for conceptual clarity.
 ```{r}
-  forMLM <- forMLM %>% group_by(SUBNUM) %>% 
+forMLM <- forMLM %>% group_by(SUBNUM) %>% 
   mutate_at(vars(COMMIT, JOBSAT, READY), funs(wicent=meancent, pmean=mean)) %>%
   ungroup()
 
-  head(forMLM)
+head(forMLM)
 ```

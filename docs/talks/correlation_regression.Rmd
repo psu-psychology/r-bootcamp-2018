@@ -18,7 +18,7 @@ output:
     toc_depth: 4
 ---
 <style type="text/css">
-body{ font-size: 18px; max-width: 1400px; margin: auto; padding: 1em; }
+body{ font-size: 18px; max-width: 1500px; margin: auto; padding: 1em; }
 code.r{ font-size: 21px; }
 pre { font-size: 18px; }
 </style>
@@ -235,7 +235,7 @@ summary(mpg_model)
 
 It appears that these are both influential predictors. We could examine the relationship graphically.
 
-## visualizing regression data
+## Visualizing regression data
 
 ```{r}
 ggplot(mtcars, aes(x=hp, y=mpg, color=factor(am))) + geom_point() + stat_smooth(method=lm, se=FALSE)
@@ -282,28 +282,53 @@ What do we see? At higher horsepower, gas mileage suffers regardless of the weig
 
 # Contrasts in regression
 
-One of the handiest packages in the R regression universe is `emmeans`, which can provide the 'expected marginal means' (emm), as well as a host of other contrasts and comparisons. In particular, it is very easy to test simple slopes and pairwise differences. Furthermore, the package works with `multcomp` to handle correction for multiple comparisons. See the longer documentation [here](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html).
+(Some of the code and text here has been adapted from Russell Lenth's excellent `emmeans` documentation: <https://cran.r-project.org/web/packages/emmeans/>)
 
-Let's look at the concentration of leucine in a stuy of pigs who were fed differing levels of protein in the diet (9, 12, 15, and 18%) and different protein sources (fish, soybean, milk).
+One of the handiest packages in the R regression universe is `emmeans`, which can provide the 'expected marginal means' (em means), as well as a host of other contrasts and comparisons. In particular, it is very easy to test simple slopes and pairwise differences. Furthermore, the package works with `multcomp` to handle correction for multiple comparisons. See the longer documentation [here](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html).
+
+Let's look at the concentration of leucine in a study of pigs who were fed differing levels of protein in the diet (9, 12, 15, and 18%) and different protein sources (fish, soybean, milk). The concentration has a long positive tail, so here we log transform it to normalize things somewhat.
 
 ```{r}
-data(pigs)
+data(pigs, package="emmeans")
 pigs <- pigs %>% mutate(log_conc=log(conc), percent_fac=factor(percent))
 pigs.lm <- lm(log_conc ~ source + percent_fac, data = pigs)
 summary(pigs.lm)
 ```
 
-If we wanted to compare the pairwise differences in the effect of protein source while controlling for protein percent (and potentially other variables in the model), we could use the `pairs` function:
+This output is hard to look at because there are many dummy codes and we have to infer the reference condition for each factor (usually alphabetical). Also, we do not have an intuitive sense of the expected means in each condition because they depend on the sum of the intercept and the specific dummy code for the condition interest, averaging over the other factor.
+
+We can obtain the expected means for each condition.
+
+## Expected means for protein source
 
 ```{r}
 pigs.emm.s <- emmeans(pigs.lm, "source")
+print(pigs.emm.s)
+```
+
+## Expected means for protein level
+```{r}
+pigs.emm.p <- emmeans(pigs.lm, "percent_fac")
+print(pigs.emm.p)
+```
+
+## Means in each cell of the factorial design
+```{r}
+print(emmeans(pigs.lm, ~source*percent_fac))
+```
+
+## Pairwise comparisons among protein sources
+
+If we wanted to compare the pairwise differences in the effect of protein source on leucine concentration while controlling for protein percentage (and potentially other variables we add to the model), we could use the `pairs` function:
+
+```{r}
 pig_pairs <- pairs(pigs.emm.s)
 print(pig_pairs)
 ```
 
 Note that you can get a sense of the contrasts being tested by `emmeans` by examining the `@linfct` slot of the object. I've learned *a lot* by examining these contrast matrices and thinking about how to setup a (focal) contrast of interest. Also note that you get p-value adjustment for free (here, Tukey's HSD method).
 
-Contrasts for the predicted mean level of leucine contrast for each protein source, controlling for percentage.
+Contrasts for the predicted mean level of leucine contrast for each protein source, controlling for protein percentage.
 ```{r}
 pigs.emm.s@linfct
 ```
@@ -321,36 +346,23 @@ plot(pigs.emm.s, comparisons = TRUE)
 
 The blue bars are confidence intervals for the EMMs, and the red arrows are for the comparisons among them. If an arrow from one mean overlaps an arrow from another group, the difference is not significant, based on the adjust setting (which defaults to "tukey"). (Note: Don’t ever use confidence intervals for EMMs to perform comparisons; they can be very misleading.)
 
-We can also get orthogonal polynomial contrasts for free in `emmeans`. For example, is the effect of protein percent linearly related to leucine, or might it be quadratic or cubic?
-
-```{r}
-pigs.emm.p <- emmeans(pigs.lm, "percent_fac")
-ply <- contrast(pigs.emm.p, "poly")
-ply
-coef(ply)
-```
-
-There is a lot more on probing interations here: <https://cran.r-project.org/web/packages/emmeans/vignettes/interactions.html>.
-
-```{r}
-org.int <- lm(cbind(sales1, sales2) ~ price1 * price2 + day + store, data = oranges)
-
-#test the pairwise differences in price1 slopes between varieties.
-emtrends(org.int, pairwise ~ variety, var = "price1", mult.name = "variety")
-```
-
 ## Pairwise differences and simple slopes in regression
 
-Returning to the iris dataset (from the parallel R examples), consider this:
+Returning to the iris dataset (from the parallel R examples), consider a model in which we examine the association between petal length and width across species. Here, we regress petal length on petal width, species (three levels), and their interaction.
 
 ```{r}
 fitiris <- lm(Petal.Length ~ Petal.Width * Species, data = iris)
 summary(fitiris)
+car::Anova(fitiris, type="III") #overall effects of predictors in the model
+```
+
+Note that this yields a categorical (species) x continuous (petal width) interaction. The output from `car::Anova` indicates that the interaction is significant, but we need more detailed guidance on how the slope for petal width is moderated by species. We can visualize the interaction as follows:
+
+```{r}
 interact_plot(fitiris, pred = "Petal.Width", modx = "Species")
 ```
 
-In a simple slopes test, we might wish to know whether the slope for `Petal.Length` is non-zero in each species individually. Let's start by getting the estimated marginal means for each species.
-
+In a simple slopes test, we might wish to know whether the slope for `Petal.Width` is non-zero in each species individually. Let's start by getting the estimated marginal means for each species.
 
 ```{r}
 emmeans(fitiris, ~Species)
@@ -362,15 +374,41 @@ And pairwise differences between species:
 pairs(emmeans(fitiris, ~Species))
 ```
 
-Is the Petal.Width slope non-zero in each Species? The 'infer' argument requests t-tests and p-values for the slopes.
+Transitioning to petal width, because we are interested its linear effect (slope), we use the `emtrends` function to estimate the slope in each species individually. In terms of simple slopes, we test whether the Petal.Width slope is non-zero in each Species. The `infer` argument in the summary of `emtrends` requests t-tests and p-values for the slopes.
 
 ```{r}
 summary(emtrends(model = fitiris, ~Species, var="Petal.Width"), infer=TRUE)
 ```
 
-Are the slopes different by Species?
+Finally, we could examine pairwise differences between slopes among species.
 
 ```{r}
 pairs(emtrends(model = fitiris, ~Species, var="Petal.Width"))
 ```
 
+## A few other emmeans features
+
+
+In the pigs dataset, we have treated protein percentage as a fact (9, 12, 15, or 18 percent). If we keep this representation (as opposed to entering percentage as continuous), we can easily get orthogonal polynomial contrasts in `emmeans`. For example, is the effect of protein percent linearly related to leucine, or might it be quadratic or cubic?
+
+```{r}
+pigs.emm.p <- emmeans(pigs.lm, "percent_fac")
+ply <- contrast(pigs.emm.p, "poly")
+ply
+coef(ply) #show the contrast coefficients
+```
+
+There is a lot more on probing interations here: <https://cran.r-project.org/web/packages/emmeans/vignettes/interactions.html>.
+
+Finally, we can examine effects in multivariate regression models (i.e., multiple DVs). Here, we can examine the sales of two varieties of oranges as a function of their prices, the day, and store. Sales for both oranges are modeled at once (`sales1` and `sales2`) to get a sense of price interdependence.
+
+```{r}
+org.int <- lm(cbind(sales1, sales2) ~ price1 * price2 + day + store, data = oranges)
+summary(org.int)
+```
+
+Using `emmeans`, we can test the difference in sales of the two orange varieties as a function of the price of the first type (`price1`).
+```{r}
+#test the pairwise differences in price1 slopes between varieties.
+emtrends(org.int, pairwise ~ variety, var = "price1", mult.name = "variety")
+```

@@ -37,8 +37,8 @@ We'll use the data drawn from it to show how one can use R and R Markdown to cre
 
 | [Slow-R Track](talks/slow-r.html), 104 Keller |  | Fast-R Track, 104 Rackley |
 |----------------------------------------------------------|-|----------------------------------------------------------|
-| 1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) |  | 1:00 pm - 2:00 pm • Introduction to structural equation modeling in lavaan (Michael Hallquist)               |
-| 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore)| | 02:00 pm - 3:00 pm • [Parallel computing](talks/parallel_r.html), batch processing, and big data in R (Michael Hallquist)                |
+| 1:00 pm - 1:45 pm • Data indexing and subsetting (Rick Gilmore) |  | 1:00 pm - 2:00 pm • Introduction to [structural equation modeling in lavaan](modules.html#structual_equation_modeling) (Michael Hallquist)               |
+| 1:45 pm - 3:00 pm • Packages, scripts, & functions (Rick Gilmore)| | 02:00 pm - 3:00 pm • [Parallel computing](modules.html#parallel_computing_and_big_data), batch processing, and big data in R (Michael Hallquist)                |
 | 03:00 - 03:15 pm • Break                  |  | 03:00 pm - 03:15pm • Break                 |
 
 | Plenary, 104 Keller                                     |
@@ -52,7 +52,7 @@ We'll use the data drawn from it to show how one can use R and R Markdown to cre
 | Plenary                                               |
 |-------------------------------------------------------|
 | 09:00 am • Welcome back and Q&A |
-| 09:15 am • Data wrangling & pipelines (primarily tidyverse)
+| 09:15 am • [Data wrangling & pipelines](modules.html#data_wrangling) (primarily tidyverse)
 | 10:30 am • Break |
 | 10:45 am • [Data visualization](talks/ggplot2_tutorial_vallorani.html) (primarily ggplot2) |
 | 12:00 pm • Lunch (pizza & drinks thanks to [SLEIC](http://imaging.psu.edu)), Moore Building Lobby 
