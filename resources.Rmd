@@ -2,10 +2,10 @@
 title: "Resources"
 output:
   html_document:
-      toc:  TRUE
-      toc_depth: 4
-      toc_float: TRUE
-      number_section: FALSE
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
 ---
 
 ## Penn State resources

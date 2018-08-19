@@ -4,15 +4,14 @@ author: "Rick Gilmore"
 date: "`r Sys.time()`"
 output:
   html_document:
-      toc:  TRUE
-      toc_depth: 4
-      toc_float: TRUE
-      number_section: FALSE
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(tufte)
 ```
 
 ## Purpose
