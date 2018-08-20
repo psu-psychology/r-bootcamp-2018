@@ -31,6 +31,7 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Data wrangling
 
+- [Tidy data conceptual overview](talks/Hallquist_Data_Wrangling_2018.pptx) (Michael Hallquist)
 - [tidyr and dplyr walkthrough](talks/dplyr_walkthrough_2018.html) (Michael Hallquist) | [Rmd](talks/dplyr_walkthrough_2018.Rmd)
 
 ### Joining datasets
