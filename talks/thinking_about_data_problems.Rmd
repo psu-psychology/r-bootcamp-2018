@@ -1,0 +1,558 @@
+---
+title: "Core skills to solve data problems algorithmically"
+author: "Michael Hallquist"
+date: "15 Aug 2018"
+output:
+  html_document:
+    code_folding: show
+    df_print: kable
+    number_sections: no
+    theme: spacelab
+    toc: yes
+  pdf_document:
+    code_folding: show
+    df_print: kable
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+---
+<style type="text/css">
+body{ font-size: 20px; max-width: 1400px; margin: auto; padding: 1em; }
+code.r{ font-size: 24px; }
+pre { font-size: 20px; }
+</style>
+
+```{r setup, include=FALSE}
+if (!require(pacman)) { install.packages("pacman"); library(pacman) }
+p_load(knitr, tidyverse)
+
+knitr::opts_chunk$set(echo = TRUE) #print code by default
+options(digits=3) 
+```
+
+```{r, echo=FALSE}
+#prep mot files
+working_dir <- tempdir() #where all of the motion files will be stored for reading
+untar("../data/mot_example.tar.gz", exdir=tempdir(), compressed="gz")
+```
+
+Variable definitions that control algorithmic decisions below. These are placed here to draw our attention them -- if we wish to change our decisions throughout the pipeline, these can be adjusted, rather than having to hunt them down below.
+
+```{r}
+#parameters that control our algorithmic decisions about what constitutes bad head motion
+#we put these here to draw our attention to 
+fd_spike_mm <- 0.3 #movement greater than this threshold (in mm) is considered a movement spike
+p_spikes_cutoff <- 0.2 #if there are more than this proportion of spikes (based on fd_spike_mm), exclude the subject
+fd_max_mm <- 10 #any movement greater than this amount should lead the subject to be excluded
+```
+
+# Introduction
+
+One of the most important skills you learn along the data science path is not specific to R, but is crucial to solving data problems. People have called this different things such as "thinking algorithmically", "thinking like an engineer", or "solving problems like a computer programmer." If you're not an expert on algorithms and are neither a computer scientist nor an engineer, you might ask "what does this really mean?" The answer is hard to convey conceptually, but instead depends heavily on the experiences you accrue as you solve data problems.
+
+My goal here is to convey some of the lessons I've learned over the past 10 years and give you an approximate framework for solving data management and analysis problems that extend beyond the basics of the tidyverse.
+
+# Motivating example: diagnosing and making decisions about head movement in fMRI
+
+I know most of you aren't in the neuroimaging world, and my goal isn't to confuse you with all of the details (as people like to say, "it's complicated"). And the example is not intended to pitch to the imaging crowd, but instead to demonstrate a real-world data problem that has parallels to many other data types (behavior during experiments, self-reports distributed across files and folders, etc.).
+
+With regard to fMRI, I'll simply convey that head movement during a scan is a huge bugaboo because it fundamentally corrupts the signal. To wit:
+
+![](../img/fmri_movement.png){width=50%}
+
+There are different ways to mitigate the problem, but suffice it to say that we need to a) know how bad it is, b) detect and potentially motion 'spikes' from analyses, and c) consider whether to discard someone altogether if the motion is bad enough. We quantify head movement in fMRI by looking at how much the brain moves from image to image (over time). A common metric is called 'framewise displacement' (FD), which is approximation of how much the head moved in any way/direction, measured in millimeters. So that's what we'll be working on...
+
+# Key steps in thinking about a data problem
+
+We'll focus here on data problems that have multiple, often repetitive, steps. This problem will also involve tracking down and reading files from many different directories, where the directories are organized by subject (plus additional subdirectories).
+
+1. Define the scope: what are the necessary inputs, including files, variables, and calculations
+2. Get to know the structure of the data: how wonky is it? Do you need to collect files? Does it need to be tidied?
+3. Articulate the desired outputs: how would you know if this problem were solved?
+4. Define the importance of the problem and the level of your investment: how mission critical is this?
+5. Prototype the process: get this working for one test case.
+6. Validate the outputs of your prototype: do the programmatic processes and calculations match your hand checks?
+7. Scale it up: run this process on all examples/iterations
+8. Make the process self-healing: expect problems and handle failures gracefully
+9. Validate the global outputs: how will you know that the overall process has succeeded?
+
+# 1. Define the scope
+
+The FD metric is written to a .txt file in every subject's processed data directory. It lives the motion_info folder.
+
+It looks like this:
+
+```
+MMClock/
+└── MR_Proc
+    ├── 10637_20140304
+    │   └── mni_aroma_minimal_fsl
+    │       └── rest1
+    │           └── motion_info
+    │               └── fd.txt
+    ├── 10638_20140507
+    │   └── mni_aroma_minimal_fsl
+    │       └── rest1
+    │           └── motion_info
+    │               └── fd.txt
+    ├── 10662_20140415
+    │   └── mni_aroma_minimal_fsl
+    │       └── rest1
+    │           └── motion_info
+    │               └── fd.txt
+```
+
+This is a very structured format, though somewhat complicated. So long as your folder and file structure is systematically organized (e.g., keeping the use of upper and lower case letters the same), this sort of task is easily handled through programming.
+
+## Scope: what data/files do we need?
+
+We want all of these fd.txt files to be read into R so that we can diagnose FD problems for each subject. This means we need to loop over these in some way, read each of them, and compute motion metrics for each subject.
+
+## Scope: what computations are needed?
+
+Our motion metrics: 
+
+1. Average FD (mm) -- how much were they typically moving?
+2. Max FD (mm) -- what was the worst jump?
+3. Proportion of FD values > 0.3mm -- spikes generate problems
+
+# 2. What's the structure of the data?
+
+Let's look at one FD file:
+
+```{r}
+#location of an example file to play with
+single_file <- file.path(working_dir, "mot_example", "MMClock", "MR_Proc", "10637_20140304", 
+                            "mni_aroma_minimal_fsl", "rest1", "motion_info", "fd.txt")
+
+fd1 <- read.table(single_file)
+str(fd1)
+head(fd1)
+```
+
+Here is a quick visual check on what the file contains (head movement over time).
+
+```{r}
+fd1$time <- 1:nrow(fd1)
+ggplot(fd1, aes(x=time, y=V1)) + geom_line()
+```
+
+We really just need `$V1` for each dataset since it's one vector (one estimate per timepoint). In future, we probably just need the 300 values as a vector -- it doesn't even merit a data.frame at this stage.
+
+```{r}
+fdvec <- fd1$V1
+```
+
+## Tracking down files
+
+How do we find all of these files? There are many ways, but `list.files()` is pretty handy:
+
+```{r}
+fd_files <- list.files(path=file.path(working_dir, "mot_example"), pattern = "fd.txt", recursive = TRUE)
+head(fd_files)
+length(fd_files)
+```
+
+# 3. Articulate the desired outputs and define success
+
+As noted above, we want to get some summary statistics about FD for each subject such as the mean and max. 
+
+In terms of the success of this project, we also want to flag anyone who should be excluded from analysis altogether (data beyond repair). This is a conceptual choice in data analysis -- how to handle outliers, including data removal or downweighting.
+
+For my purposes, I consider a subject irreparable if:
+
+1. Max FD > `r fd_max_mm`mm -- any huge movement
+2. p(FD > `r fd_spike_mm`mm) > `r round(p_spikes_cutoff*100)`% -- subject is moving regularly throughout the scan
+
+Either of these could lead my connectivity estimates to be corrupt and untrustworthy. Hence the reason for exclusion.
+
+The algorithm would be successful if we 1) got the summary statistics of interest, and 2) removed or flagged subjects who are irreparable for either reason above.
+
+# 4. Define the importance of the problem and the level of your investment: how mission critical is this?
+
+It's useful to calibrate your effort on a coding challenge in proportion to its conceptual or methodological importance.
+
+If you'll never need to do this again, a 'one-off' solution may be worthwhile, and you might try to keep your effort on the order of minutes, if possible. If you anticipate needing to this same operation regularly throughout your career, it may be a time to use functions, comment your code extensively, validate it carefully, and so on.
+
+In the ideal case, functions should be iron clad (resistant to errors) and well-validated. This is why R packages are great -- their creators are usually statisticians, methodologists, and/or people who have formal training in computer science. They have usually written their functions to yield very reliable, well-validated input. Thus, when possible, *use existing R functions* rather than writing custom code. There is a handy package called "sos" that can help you find functions that may be relevant to your case. The example below could be pasted into your R console if you want to try a search for functions having to do with ARIMA models:
+
+```{r, eval=FALSE}
+p_load(sos)
+findFn("arima")
+```
+
+Writing your own functions can be fun, but it can also take considerable time as you're learning! Likewise, functions that have many steps take longer to write. When possible, try to write compact functions that have very specific actions, rather than writing long functions that have many steps. The larger the function becomes, the greater the possibility that it will need to be adapted when needed on a similar, but not identical, project.
+
+If this problem is absolutely crucial -- like you might need to retract paper if it's wrong -- slow down and make sure you check the results in detail for one case/example, as well as the global outputs (e.g., the overall distribution).
+
+Here, keeping high-motion subjects accidentally could easily be seen as a critical flaw in review, or later after publication (slight risk of retraction...), so I want to be careful! Likewise, head motion is a general problem in fMRI data, so since I have many fMRI projects, it would be nice to have friendly code that works well. This will make implementing best practices simple on future projects.
+
+# 5. Prototype the process: get this working for one test case.
+
+So, how do we do implement the proposed head motion statistics? Let's start with one person... We already read in data above, let's look at it a bit.
+
+```{r}
+nrow(fd1)
+ggplot(fd1, aes(x=V1)) + geom_histogram(bins=12)
+```
+
+## get the mean
+```{r}
+(mfd <- mean(fdvec))
+```
+
+## get the max
+```{r}
+(maxfd <- max(fdvec))
+```
+
+## how many FD values are > `r fd_spike_mm`mm?
+
+```{r}
+(nspikes <- sum(fdvec >= fd_spike_mm))
+(pspikes <- nspikes/length(fdvec))
+```
+
+## Is the subject 'irreparable' by my criteria?
+
+```{r}
+(bad_subj <- pspikes >= p_spikes_cutoff || maxfd >= fd_max_mm)
+```
+
+This subject is bad on the basis of too many small head movements -- `r round(pspikes*100)`% are above the threshold I set.
+
+How do we put this together in a single result? A list or data.frame is the easiest.
+
+```{r}
+(metrics <- data.frame(mfd=mfd, maxfd=maxfd, pspikes=pspikes, bad_subj=bad_subj))
+```
+
+# 6. Validate the outputs of your prototype: do the programmatic processes and calculations match your hand checks?
+
+Take a look at the data again:
+
+```{r}
+ggplot(fd1, aes(x=time, y=V1, color=V1 >= fd_spike_mm)) + geom_line(aes(color=NULL), color="black") + geom_point()
+```
+
+```{r}
+ggplot(fd1, aes(x=1, fill=V1 >= fd_spike_mm)) + geom_bar()
+```
+
+These are quick, but effective, ways that support the output of the prototype
+
+# 7. Scale it up: run this process on all examples/iterations
+
+Here's the 'bad' way to do this even though it is in the right spirit.
+
+```{r}
+all_fd <- data.frame()
+
+for (f in fd_files) {
+  thisperson <- read.table(file.path(working_dir, "mot_example", f))
+  all_fd <- rbind(all_fd, thisperson)
+}
+
+head(all_fd)
+str(all_fd)
+```
+
+Problems include:
+
+1. No way to identify subjects
+2. We are building up an object by agglomerating one file at at time (lots of memory overhead)
+3. We really shouldn't start computing motion metrics because we don't know who is who.
+
+Perhaps this approach is a bit better? We could start with an empty `data.frame` and build up statistics one row at a time.
+
+```{r}
+all_fd <- data.frame()
+
+for (f in fd_files) {
+  thisperson <- read.table(file.path(working_dir, "mot_example", f))$V1
+  
+  #compute a one-row data.frame for this subject
+  mmetric <- data.frame(file=f, mfd=mean(thisperson), maxfd=max(thisperson), 
+                        pspikes=sum(thisperson > fd_spike_mm)/length(thisperson),
+                        bad_subj=max(thisperson) > fd_max_mm || 
+                          sum(thisperson > fd_spike_mm)/length(thisperson) > p_spikes_cutoff)
+  
+  #add this subject's statistics to the overall data.frame
+  all_fd <- rbind(all_fd, mmetric)
+}
+
+head(all_fd)
+str(all_fd)
+```
+
+There are a few problems here. 
+
+First, building up a large data.frame by repetitively rbinding means that there is a lot of processing time spent on memory management -- the `all_fd` object has to be reallocated on every iteration. We could handle this problem more elegantly using an `lapply` + `dplyr::bind_rows` approach. Like so:
+
+```{r}
+all_fd <- dplyr::bind_rows(lapply(fd_files, function(f) {
+  thisperson <- read.table(file.path(working_dir, "mot_example", f))$V1
+  
+  #compute a one-row data.frame for this subject
+  mmetric <- data.frame(file=f, mfd=mean(thisperson), maxfd=max(thisperson), 
+                        pspikes=sum(thisperson > fd_spike_mm)/length(thisperson),
+                        bad_subj=max(thisperson) > fd_max_mm || 
+                          sum(thisperson > fd_spike_mm)/length(thisperson) > p_spikes_cutoff,
+                        stringsAsFactors = FALSE) #store file as character string to quiet bind_rows
+  
+}))
+
+head(all_fd)
+```
+
+Note that `bind_rows` from `dplyr` does a row-wise concatentation of all elements in a list -- here, the single-row data.frame objects for each subject.
+
+Second, although we now have a record of subject identity because we've tacked on the filename to the resulting `data.frame`, this is organized in terms of the file path, not by identifying variables such as subject ID or scan date. We could extract the ID more elegantly using regular expressions, though this has its own learning curve:
+
+```{r}
+#tack on ID column based on file naming
+all_fd$ID <- sub(".*/MR_Proc/([^/]+)/mni.*", "\\1", all_fd$file)
+head(all_fd)
+
+#rearrange columns in a friendly order. Put ID first, then file, then all the rest
+all_fd <- all_fd %>% select(ID, file, everything())
+str(all_fd)
+```
+
+Third, this approach assumes that all FD files are relevant to the task at hand. However, keep step 9 in mind: validate the global outputs. If we are interested in checking the motion statistics on the whole sample and also want to know who should be included or excluded from analysis, the approach of reading all files may mislead us. For example, if we wish to report group statistics such as mean FD in the paper, we need to ensure that all files are in the set of subjects to be analyzed.
+
+## Using the participant info to guide us
+
+That is, one problem with looping over files is that we may catch subjects we don't want (for other exclusion criteria) or we may be missing a file for someone whose data we expect to be present. For this reason, it's usually best in these kinds of batch operations to have a basic records file that keeps track of expected participants. Furthermore, this file should include information about any other exclusion criteria that should be accounted for at this step. For example, we may exclude someone after the fMRI scan if they fell asleep during the experimental task, or if their performance was remarkably poor.
+
+Here, let's read in a participant info file to guide us on whose `fd.txt` files are relevant to our group analysis. Note the `FMRI_Exclude` column. Furthermore, this is a study where the data were collected in two parallel substudies, which are organized into different top-level folders: `MMClock` and `SPECC`. So, we need to do a bit of dplyr-based data wrangling to get the expected structure setup.
+
+```{r}
+groupdir <- file.path(working_dir, "mot_example")
+mr_subdir <- "mni_aroma_minimal_fsl/rest1" #this is where we expect the processed fMRI data for each subject
+expect_mr_file <- "rnawuktm_rest1.nii.gz" #this is the expected file name of the fMRI data
+
+#read in and process data
+specc_info <- read.csv(file.path("..", "data", "SPECC_Participant_Info.csv"), stringsAsFactors=FALSE) %>%
+  filter(HasRest==1 & FMRI_Exclude==0) %>%
+  mutate(ScanDate = as.Date(ScanDate, format="%m/%d/%y"), Luna_ID=as.character(Luna_ID)) %>%
+  #If LunaMRI is 1, then data are in the MMClock substudy
+  #  Convert ScanDate Date, then reformat YYYYMMDD to match the folder naming structure of MMClock
+  #If LunaMRI is 0, use the SPECC folder and reformat data as DDMONYR to match folder naming structure.
+  mutate(mr_dir=if_else(LunaMRI==1,
+    paste0(groupdir, "/MMClock/MR_Proc/", Luna_ID, "_", format((as.Date(ScanDate, format="%Y-%m-%d")), "%Y%m%d")),
+    paste0(groupdir, "/SPECC/MR_Proc/", tolower(SPECC_ID), "_", tolower(format((as.Date(ScanDate, format="%Y-%m-%d")), "%d%b%Y")))),
+    mr_file=file.path(mr_dir, mr_subdir, expect_mr_file), 
+    fd_file=file.path(mr_dir, mr_subdir, "motion_info", "fd.txt"), 
+    mr_exists=file.exists(mr_file), 
+    file_id=if_else(LunaMRI==1, Luna_ID, SPECC_ID))
+
+str(specc_info)
+```
+
+Here are the first 10 expected FD files based on the subject information file:
+```{r}
+#just using sub here to trim off the working_dir from fd file paths to make it easier to see in the output
+head(sub(working_dir, "", specc_info$fd_file, fixed=TRUE), n=10)
+```
+
+Note that I trimmed off the first part of the path to make it easier to see on the screen.
+
+## Writing a worker function
+
+Now that we have the FD files we expect to read from relevant subjects, it would be useful to write a short function to compute relevant FD statistics. This essentially does what we were doing in the loop above, but lets us have a predictable piece of code that takes a file, the relevant decision thresholds (e.g., how much movement is 'too much') and gives predictable outputs.
+
+Importantly, as we will see in step 8 (self-healing code), functions also give us much finer control over how to handle unexpected or missing inputs (e.g., FD files that don't match the typical format).
+
+Let's write a very simple function, then test it on our example file. This essentially goes back to step 6 for a moment (develop a working prototype), but with the goal of having a portable function that will help with scaling.
+
+```{r}
+#simplest worker function to get statistics for one file
+#note that the default arguments here may not match the thresholds in the overall pipeline
+
+fd_stats <- function(fd_file, fd_spike=0.5, max_prop_spikes=.1, max_spike=5) {
+  fd <- read.table(fd_file)$V1 #vector of FD values
+  n_spikes=sum(fd >= fd_spike) #number of spikes above the threshold
+  p_spikes <- n_spikes/length(fd) #spikes as a proportion of total volumes
+  bad_fd <- p_spikes > max_prop_spikes || any(fd > max_spike) #decisions above subject exclusion
+
+  ret <- data.frame(mean_fd=mean(fd), max_fd=max(fd), nvol=length(fd),
+    prop_spikes=p_spikes, bad_fd=bad_fd) #note that map_dfr from purrr (below) would accept a list, too
+
+  return(ret)
+}
+```
+
+Okay, here's the output of our function for the test file:
+
+```{r}
+#test this on a single case
+fd_stats(single_file)
+```
+
+Ack! Why doesn't this match our hand calculations above for spike proportion? Note that in the function call above, we only provided `single_file` as the argument to `fd_stats`. But the default arguments for the function are:
+
+```fd_stats <- function(fd_file, fd_spike=0.5, max_prop_spikes=.1, max_spike=5) {```
+
+Thus, the default is to treat FD >= 0.5mm as a spike, whereas we chose `r fd_spike_mm`. There are similar mismatches between the defaults for max FD and proportion of spikes. This highlights that it is important to know the default arguments, if any, for a function. And if we should always require the user to specify every input to a function explicitly, it may be better not to use default arguments at all.
+
+Here's how we correct this small oversight here. We pass forward the thresholds set at the top of this document so that the decisions/calculations match our choices above.
+
+```{r}
+fd_stats(single_file, fd_spike = fd_spike_mm, max_prop_spikes = p_spikes_cutoff, max_spike=fd_max_mm)
+```
+
+Finally, we can use the `map` functions from the `purrr` package to scale up this sort of calculation rather easily. In particular, look at the `map_dfr` function, which iterates over rows (that's the `r` in the name) of a data.frame (that's the `df` in the name) and applies a function to each row.
+
+Remember from the `dplyr` [walkthrough](talks/dplyr_walkthrough_2018.html) that `.` in a `dplyr` pipeline refers to the current dataset.
+
+Let's add motion information as additional columns to our participant info data.frame using `purr::map` approach
+```{r}
+specc_info <- specc_info %>%
+  bind_cols(map_dfr(.$fd_file, fd_stats, fd_spike=fd_spike_mm, max_prop_spikes=p_spikes_cutoff, max_spike=fd_max_mm))
+
+#If you wanted the group fd data.frame alone
+#vv <- map_dfr(specc_info$fd_file, fd_stats, fd_spike=0.5, max_prop_spikes=.20, max_spike=fd_max_mm)
+
+#just print the motion-relevant parts
+head(specc_info %>% select(NUM_ID, mean_fd, max_fd, nvol, prop_spikes, bad_fd))
+```
+
+# 8. Make the process self-healing: expect problems and handle failures gracefully
+
+This is great, but what if the function encounters problems with the file that it cannot handle effectively? For example, what if the file does not exist? Or what if it has many columns instead of one? Or what if we expect there to be 300 volumes, but only 200 are found?
+
+All of these failure conditions may require a different treatment. But minimally, we (the user) want to know about them. If you write a function, start by validating the inputs. If one argument is a file, does it exist? Is an argument missing and no default value makes sense? Check out `warning` and `message` to provide feedback to the user of your function (which is probabl you!) for messages that do not stop the execution of the code (i.e., they won't crash). Check out `stopifnot` and `stop` to throw errors if the function shouldn't proceed at all until the user fixes the problem.
+
+Let's examine the case of a file that is expected to be present, but is not. I've messed up the file structure a bit here, and we'll just try to re-run our code above to get the motion stats.
+
+```{r, include=FALSE}
+#just messing up a file here for a moment
+to_messup <- file.path(working_dir, "mot_example/MMClock/MR_Proc/11366_20150425/mni_aroma_minimal_fsl/rest1/motion_info/fd.txt")
+
+invisible(file.rename(to_messup, sub("fd.txt", "fd_messup.txt", to_messup, fixed=TRUE)))
+```
+
+```{r, error=TRUE}
+vv <- map_dfr(specc_info$fd_file, fd_stats, fd_spike=fd_spike_mm, max_prop_spikes=p_spikes_cutoff, max_spike=fd_max_mm)
+```
+
+In this case, R gives us a reasonably sane, somewhat intuitive output. In other cases, you may get very odd errors that don't make much sense at first glance. Regardless, validating the inputs to your function can cut down on unexpected, strange errors.
+
+## Defining expected inputs and what to do about failures
+
+Part of making code self-healing is to ask yourself:
+
+1. What does the code need to do its work? (i.e., what are the inputs?)
+2. What should the code do if an input is not what is expected?
+3. Should an unexpected condition stop the overall execution of a pipeline, or be handled gracefully with a warning?
+
+The third question is not a leading one. Rather, there are occasions when an entire pipeline should fail if one input is wrong because proceeding would invalidate other steps in the pipeline or give misleading results. In other cases, the failure of one step or iteration in a pipeline should not halt the broader process.
+
+Here, if an FD file does not exist for a subject, I would lean toward telling the user about it, but not halting the broader pipeline. To make that work, the function should:
+
+1. Check whether the file exists.
+2. If it doesn't, tell the user about the problem.
+3. Return NA values for motion metrics so that the function behaves predictably.
+
+With respect to the third item, one principle of function programming is that the output structure should always be the same so that the user of a function knows what to expect. If we are supposed to return a one-row data.frame with motion metrics, we should still do so in the case of handling problems with warnings -- that is non-fatal failure conditions. If the function does not behave predictably in its outputs (e.g., returning NULL instead of a data.frame), then it will be prone to failures in a broader pipeline.
+
+Here is the amendment to our function to handle a missing FD file:
+
+```{r}
+#worker function to get statistics for one file
+fd_stats <- function(fd_file, fd_spike=0.5, max_prop_spikes=.1, max_spike=5) {
+  if (!file.exists(fd_file)) { #this code is new
+    warning("Could not read FD file: ", fd_file, ". Returning NAs.")
+    return(data.frame(mean_fd=NA, max_fd=NA, nvol=NA, prop_spikes=NA, bad_fd=NA))
+  }
+
+  #this code is the same
+  fd <- read.table(fd_file)$V1 #vector of FDs
+  n_spikes=sum(fd >= fd_spike)
+  p_spikes <- n_spikes/length(fd)
+  bad_fd <- p_spikes > max_prop_spikes || any(fd > max_spike)
+
+  ret <- data.frame(mean_fd=mean(fd), max_fd=max(fd), nvol=length(fd),
+    prop_spikes=p_spikes, bad_fd=bad_fd)
+
+  return(ret)
+}
+
+```
+
+And here is how it handles the case of the missing file in the context of the broader pipeline:
+
+```{r}
+vv <- map_dfr(specc_info$fd_file, fd_stats, fd_spike=fd_spike_mm, max_prop_spikes=p_spikes_cutoff, max_spike=fd_max_mm)
+print(vv)
+```
+
+Note the NAs on row 87. This is what we expect (and want) -- a graceful failure, with NAs propagated for that subject.
+
+## More flexible error trapping using tryCatch
+
+For more general error handling in R, particularly in functions, check out the `tryCatch` function. This function tries to evaluate a given R expression, but allows you to catch and handle any arbitrary error. For example, let's try to evaluate whether `yy` is greater than 2. But `yy` is not defined anywhere in this document -- that is, it doesn't exist. If you just try `yy > 2`, you will get a fatal error. What if in this circumstance (undefined variable), we instead want to print the error, but return `NA`?
+
+```{r}
+#this will generate an error if uncommented because yy is not defined anywhere in this document
+#is_yy_big <- yy > 2
+
+is_yy_big <- tryCatch(yy > 2, error=function(err) { print(err); return(NA )})
+print(is_yy_big)
+
+```
+
+Now that we're done with the section on handling failures gracefully, I'm going to put the missing fd.txt file back into place for the final step of global metrics.
+
+```{r, include=FALSE}
+#undo our file mess up
+invisible(file.rename(sub("fd.txt", "fd_messup.txt", to_messup, fixed=TRUE), to_messup))
+```
+
+# 9. Validate the global outputs: how will you know that the overall process has succeeded?
+
+Finally, now that our pipeline works, we should step out to the overall sample/global level. From step 3 above (defining success), we said that our pipeline should:
+
+1. generate motion statistics in the form of max and mean FD, as well as proportion of spikes
+2. identify good versus bad subjects according to rational FD exclusion criteria.
+
+So, did we achieve this goal? Here is the mean FD for those included versus excluded.
+
+```{r}
+specc_info %>% group_by(bad_fd) %>% dplyr::summarize(group_mean=mean(mean_fd))
+```
+
+Here is the number of people excluded versus included based on FD:
+
+```{r}
+table(specc_info$bad_fd)
+```
+
+Here is the histogram of mean FD, colored by inclusion:
+
+```{r}
+specc_info %>% ggplot(aes(x=mean_fd, fill=bad_fd)) + geom_histogram(bins=8) +
+  ggtitle("Histogram of mean FD by exclusion/inclusion")
+```
+
+And the histogram for max FD
+
+```{r}
+specc_info %>% ggplot(aes(x=max_fd, fill=bad_fd)) + geom_histogram(bins=8) +
+  ggtitle("Histogram of max FD by exclusion/inclusion")
+```
+
+
+Finally, filter down to the good data:
+
+```{r}
+specc_info <- specc_info %>% filter(!bad_fd)
+```
+
+This would yield a data.frame for further analysis.
+
+```{r, include=FALSE}
+#cleanup motion files from your hard drive
+unlink(file.path(working_dir, "mot_example"), recursive = TRUE)
+```

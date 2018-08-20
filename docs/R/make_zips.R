@@ -16,3 +16,6 @@ johnson_joins <- c("talks/joins_tutorial_bnj.html", "talks/joins_tutorial_bnj.Rm
                    "img/right-join.gif", "img/semi-join.gif", "img/original-dfs.png")
 system(paste("zip zips/johnson_joins.zip", paste(johnson_joins, collapse=" ")))
 
+hallquist_algorithmic <- c("talks/thinking_about_data_problems.html", "talks/thinking_about_data_problems.Rmd", 
+                           "data/mot_example.tar.gz", "data/SPECC_Participant_Info.csv")
+system(paste("zip zips/hallquist_algorithmic.zip", paste(hallquist_algorithmic, collapse=" ")))

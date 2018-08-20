@@ -37,6 +37,9 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 - dplyr [joins tutorial](talks/joins_tutorial_bnj.html) (Ben Johnson) | [zip](zips/johnson_joins.zip) | [Rmd](talks/joins_tutorial_bnj.Rmd)
 
+*Other resources*
+- Methods to compute [row-wise statistics in dplyr](https://github.com/jennybc/row-oriented-workflows/blob/master/ex09_row-summaries.md)
+
 ***
 
 ## Data visualization
@@ -53,6 +56,8 @@ This module provides a deliberately slow introduction to R that assumes that you
 ***
 
 ## Best practices in R programming
+
+- [Solving data problems algorithmically](talks/thinking_about_data_problems.html) (Michael Hallquist) | [zip](zips/hallquist_algorithmic.zip)
 
 - Setting up a Github repo as an R project | [Video](mov/rstudio-project-on-github.mp4)
 - Using Github within RStudio | [Video](mov/edit-save-commit-push.mp4)
@@ -100,6 +105,17 @@ This module provides a deliberately slow introduction to R that assumes that you
 - Alison Schreiber We R [lavaan walkthrough](https://quantdev.ssri.psu.edu/tutorials/structural-equation-modeling-r-using-lavaan)
 - Michael Hallquist [PSY 597 SEM course in R](https://psu-psychology.github.io/psy-597-SEM/)
 - [lavaan tutorial](http://lavaan.ugent.be/tutorial/index.html)
+
+***
+
+## Core programming skills in R
+
+- Michael
+- Dan
+
+*Other Resources*
+
+- [Making Multi-Argument Functions & Data Frames Purrr](https://amber.rbind.io/blog/2018/03/26/purrr_iterations/)
 
 ***
 
