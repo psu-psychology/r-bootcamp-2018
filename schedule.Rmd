@@ -2,7 +2,7 @@
 title: "2018 R Bootcamp Schedule"
 output:
   html_document:
-    toc:  TRUE
+    toc:  FALSE
     toc_depth: 2
     toc_float: TRUE
     number_section: FALSE
