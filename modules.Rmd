@@ -24,7 +24,9 @@ This module provides a deliberately slow introduction to R that assumes that you
 ## R-eproducible Science
 
 - [R-eproducible Psychological Science](talks/r-eproducible-science.html) (Rick Gilmore)| [Download Rmd](talks/r-eproducible-science.Rmd).
+
 - [R Markdown example output](talks/bootcamp-survey.html) using our own survey data | [Download Rmd](talks/bootcamp-survey.Rmd)
+
 - Complete APA format manuscript based on `papaja` using the survey data, both in the original R Markdown format [Download Rmd](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version and the final [PDF](talks/gilmore-hallquist-bootcamp-2018-papaja.Rmd) version.
 
 ***
@@ -32,6 +34,7 @@ This module provides a deliberately slow introduction to R that assumes that you
 ## Data wrangling
 
 - [Tidy data conceptual overview](talks/Hallquist_Data_Wrangling_2018.pptx) (Michael Hallquist)
+
 - [tidyr and dplyr walkthrough](talks/dplyr_walkthrough_2018.html) (Michael Hallquist) | [Rmd](talks/dplyr_walkthrough_2018.Rmd)
 
 ### Joining datasets
@@ -46,6 +49,7 @@ This module provides a deliberately slow introduction to R that assumes that you
 ## Data visualization
 
 - Conceptual overview of [ggplot2 and graphics output](talks/Hallquist_ggplot2_overview.pptx)
+
 - Alicia Vallorani [ggplot2 walkthrough](talks/ggplot2_tutorial_vallorani.html)
 
 *Other resources*
@@ -58,9 +62,8 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Best practices in R programming
 
-- [Solving data problems algorithmically](talks/thinking_about_data_problems.html) (Michael Hallquist) | [zip](zips/hallquist_algorithmic.zip)
-
 - Setting up a Github repo as an R project | [Video](mov/rstudio-project-on-github.mp4)
+
 - Using Github within RStudio | [Video](mov/edit-save-commit-push.mp4)
 
 *Other resources*
@@ -111,8 +114,9 @@ This module provides a deliberately slow introduction to R that assumes that you
 
 ## Core programming skills in R
 
-- Michael
-- Dan
+- [Solving data problems algorithmically](talks/thinking_about_data_problems.html) (Michael Hallquist) | [zip](zips/hallquist_algorithmic.zip)
+
+- [Scaling up with functions](talks/scaling_up_Albohn.html) (Dan Albohn) | [Rmd](talks/scaling_up_Albohn.Rmd)
 
 *Other Resources*
 
@@ -123,7 +127,9 @@ This module provides a deliberately slow introduction to R that assumes that you
 ## Parallel computing and big data
 
 - Michael Hallquist [introduction to parallel R](talks/parallel_r.html) | [zip](zips/hallquist_parallel.zip) | [Rmd](talks/parallel_r.Rmd)
+
 - [Example of parallel computation](R/clock_MEG_lmer.R.txt) on large neuroimaging dataset using foreach package | [Download](R/clock_MEG_lmer.R)
+
 - Example of [setting a progress bar in a parallel foreach loop](https://gist.github.com/michaelhallquist/530035827ba46d16900b9f5b0169fb45) | [Download the whole script](R/fitVoxelwiseARMA.R) (for context)
 
 *Other parallel computing resources*
