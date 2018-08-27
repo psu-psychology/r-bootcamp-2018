@@ -1,3 +1,6 @@
 id	text	page	type	choices	choiceNames	reverse	placeholder	min	max	disabled	checkType	width	height	inline	randomize
 NA	Thank you for your participation!	1	h3	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	This survey was built using Shiny for R!	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you would like to know more about Shiny, and the things you can do with it, feel free to visit one of the links below!"	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"<p><a href=""https://shiny.rstudio.com/tutorial/"" target=""_blank"">Rstudio Shiny Tutorial</a>, <a href=""https://d-bohn.github.io/tutorials/hello_shiny.html"" target=""_blank"">My First Shiny App</a></p>"	1	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
 NA	You may now close this window	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
