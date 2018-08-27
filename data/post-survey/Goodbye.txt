@@ -1,0 +1,3 @@
+id	text	page	type	choices	choiceNames	reverse	placeholder	min	max	disabled	checkType	width	height	inline	randomize
+NA	Thank you for your participation!	1	h3	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	You may now close this window	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0

@@ -1,0 +1,49 @@
+id	text	page	type	choices	choiceNames	reverse	placeholder	min	max	disabled	checkType	width	height	inline	randomize
+NA	Survey	1	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+title	What is your title?	1	textInput	NA	NA	NA	"e.g., Faculty, Grad, etc."	NA	NA	1	nchar	500px	NA	NA	0
+area	What is your area?	1	textInput	NA	NA	NA	"e.g., Clinical, HDFS, etc."	NA	NA	1	nchar	500px	NA	NA	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/schedule.html"">See the Bootcamp schedule here!</a></p>"	1	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+tracks	What Days/track(s) did you attend? 	1	checkboxGroupInput	"1,2,3"	"Day 1 (Slow-R),Day 1 (Fast-R),Day 2"	NA	NA	NA	NA	1	is.null	500px	NA	0	0
+NA	Slow-R Survey	2	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you attended the Slow-R track, please answer the following questions."	2	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you did not attend the Slow-R track, please skip to the next page."	2	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/talks/slow-r.html"">Remind yourself about the Slow-R tutorial here!</a></p>"	2	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+slowr1_intro	"How would you rate the introduction to R, Rstudio, and data types? (1 - not informative, 7 = very informative)"	2	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+slowr1_diff	"Overall, how difficult was the material in the above session?"	2	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+slowr2_index	"How would you rate the session on data indexing and subsetting? (1 - not informative, 7 = very informative)"	2	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+slowr2_diff	"Overall, how difficult was the material in the above session?"	2	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+slowr3_funcs	"How would you rate the session on packages, scripts, and functions? (1 - not informative, 7 = very informative)"	2	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+slow3_diff	"Overall, how difficult was the material in the above session?"	2	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	Fast-R Survey	3	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you attended the Fast-R track, please answer the following questions."	3	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you did not attend the Fast-R track, please skip to the next page."	3	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/talks/IntroBasicEFA_2018_0815.html"">Remind yourself about the Exploratory Factor Analyisis tutorial here!</a></p>"	3	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+fastr1_ef	"How would you rate the session on exploratory factor analysis? (1 - not informative, 7 = very informative)"	3	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+fastr1_diff	"Overall, how difficult was the material in the above session?"	3	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/modules.html#structual_equation_modeling"">See the Structural Equation Modeling tutorial here!</a></p>"	3	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+fastr2_sem	"How would you rate the session on structural equation modelling? (1 - not informative, 7 = very informative)"	3	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+fastr2_diff	"Overall, how difficult was the material in the above session?"	3	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/modules.html#parallel_computing_and_big_data"">Remind yourself about the Parallel Computing tutorial here!</a></p>"	3	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+fastr3_pc	"How would you rate the session on parallel computing, batch processing, and big data in R? (1 - not informative, 7 = very informative)"	3	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+slow3_diff	"Overall, how difficult was the material in the above session?"	3	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	R-eproducible Science with R	4	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you attended the reproducible science with R session, please answer the following questions."	4	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you did not attend this session, please skip to the next page."	4	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/talks/r-eproducible-science.html"">Remind yourself about the Reproducible Science in R tutorial here!</a></p>"	4	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+rer_rate	"How would you rate the session on reporducible science with R? (1 - not informative, 7 = very informative)"	4	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+rer_diff	"Overall, how difficult was the material in the above session?"	4	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	Day Two Survey	5	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you attended the Day 2 lectures, please answer the following questions."	5	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	If you did not attend the Day 2 lectures please skip to the next page.	5	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/modules.html#data_wrangling"">Remind yourself about the Data Wrangling and Pipelines tutorial here!</a></p>"	5	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+day2_1_dwrangling	"How would you rate the session on data wrangling and pipelines? (1 - not informative, 7 = very informative)"	5	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+day2_1_diff	"Overall, how difficult was the material in the above session?"	5	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/talks/ggplot2_tutorial_vallorani.html"">Remind yourself about the Data Visualization tutorial here!</a></p>"	5	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+day2_2_vis	"How would you rate the session on data visualization? (1 - not informative, 7 = very informative)"	5	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+day2_2_diff	"Overall, how difficult was the material in the above session?"	5	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/modules.html#core_programming_skills_in_r"">Remind yourself about the Core Programming Skills tutorial here!</a></p>"	5	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+day2_3_core	"How would you rate the session on core programming skills in R? (1 - not informative, 7 = very informative)"	5	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+day2_3_diff	"Overall, how difficult was the material in the above session?"	5	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0
+NA	"<p><a href=""https://psu-psychology.github.io/r-bootcamp-2018/modules.html#data_analyses_in_r"">Remind yourself about the Basic Data Analyses tutorial here!</a></p>"	5	HTML	NA	NA	NA	NA	NA	NA	0	NA	NA	NA	NA	0
+day2_4_analyses	"How would you rate the session on basic data analyses in R? (1 - not informative, 7 = very informative)"	5	sliderInput	1	NA	NA	NA	1	7	0	NA	500px	NA	NA	0
+day2_4_diff	"Overall, how difficult was the material in the above session?"	5	selectInput	"1,2,3,4"	"Too easy/familiar, Just right (good pace and level of difficulty), A bit fast (wished things were slower or explained more), Too difficult (not useful because it was too fast and/or there was too much material)"	NA	NA	NA	NA	0	NA	500px	NA	0	0

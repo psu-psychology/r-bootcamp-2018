@@ -1,0 +1,9 @@
+id	text	page	type	choices	choiceNames	reverse	placeholder	min	max	disabled	checkType	width	height	inline	randomize
+NA	Follow up Survey for Penn State Psychology 2018 R Bootcamp	1	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	Your responses will be anonymous and will not be published.	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	You will be asked several questions. Please answer as truthfully as possible.	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	"If you did not attend or go to a session, please skip that question."	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	Survey	2	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	You will be asked several questions. Please answer as truthfully as possible.	2	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	If you want to proceed with the task please indicate your consent by clicking the checkbox below.	2	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+checkConsent	I consent to participate.	2	checkboxInput	NA	NA	NA	NA	NA	NA	1	isTRUE	500px	NA	NA	0

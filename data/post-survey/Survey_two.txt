@@ -1,0 +1,6 @@
+id	text	page	type	choices	choiceNames	reverse	placeholder	min	max	disabled	checkType	width	height	inline	randomize
+NA	Final Feedback	1	h2	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	Are there any topics that were not covered that you would have liked to learn about?	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+other_topics	Other topics for the future:	1	textAreaInput	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+NA	Do you have any other or additional feedback to help improve R bootcamp?	1	p	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
+other_feedback	Other feedback:	1	textAreaInput	NA	NA	NA	NA	NA	NA	0	NA	500px	NA	NA	0
